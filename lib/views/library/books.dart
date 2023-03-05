@@ -1,3 +1,4 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hadithpro/database/hadith_database.dart';
 import 'package:hadithpro/models/hadith.dart';
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> {
     "Imam  an-Nasa\'i",
     "Imam Abu Dawud",
     "Imam at-Tirmidhi",
-    "Imam  Ibn Majah",
+    "Imam Ibn Majah",
     "Imam Malik"
   ];
   List<String> shortNamesList = ["B", "M", "N", "D", "T", "M", "M"];
@@ -64,31 +65,49 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
+        elevation: 0,
         title: Text('Hadith List'),
       ),
-      body: ListView.builder(
-          itemCount: _hadithList.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                leading: RoundedItem(
-                  color: colorNamesList[index],
-                  shortName: shortNamesList[index],
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0),
+          ),
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        child: ListView.builder(
+            itemCount: _hadithList.length,
+            itemBuilder: (context, index) {
+              return Card(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                elevation: 0,
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  leading: RoundedItem(
+                    textColor: Theme.of(context).colorScheme.onPrimary,
+                    itemColor: colorNamesList[index],
+                    shortName: shortNamesList[index],
+                  ),
+                  title: Text(
+                    longNamesList[index],
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+                  ),
+                  subtitle: Text("by " + authorNamesList[index]),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Chapters(
+                            booknumber: _hadithList[index].booknumber)));
+                  },
                 ),
-                title: Text(
-                  longNamesList[index],
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
-                ),
-                subtitle: Text("by " + authorNamesList[index]),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          Chapters(booknumber: _hadithList[index].booknumber)));
-                },
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 }
