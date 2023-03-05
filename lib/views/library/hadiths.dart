@@ -1,89 +1,113 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../database/hadith_database.dart';
 import '../../models/hadith.dart';
 import '../../widgets/roundedItem.dart';
 
 class Hadiths extends StatefulWidget {
-  final int? booknumber;
-  final int? chapternumber;
+  final String bookname;
+  final int chapternumber;
 
   @override
   State<Hadiths> createState() => _HadithsState();
 
-  const Hadiths(
-      {Key? key, required this.booknumber, required this.chapternumber})
+  const Hadiths({Key? key, required this.bookname, required this.chapternumber})
       : super(key: key);
 }
 
 class _HadithsState extends State<Hadiths> {
-  List<Hadith> _hadithList = [];
+  late Future<HadithsList> _hadithsList;
+  late Future<HadithsList> _hadithsListArabic;
 
   @override
   void initState() {
     super.initState();
-    _initHadithList();
-  }
-
-  Future<void> _initHadithList() async {
-    final hadithList = await HadithDatabase.instance
-        .getHadithList(widget.booknumber, widget.chapternumber);
-
-    setState(() {
-      _hadithList = hadithList;
-    });
+    _hadithsListArabic =
+        loadJson('assets/json/' "ara-" + widget.bookname + ".min.json");
+    _hadithsList =
+        loadJson('assets/json/' "eng-" + widget.bookname + ".min.json");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      appBar: AppBar(
-        elevation: 0,
-        title: Text("Chapter ${widget.chapternumber}"),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-          ),
-          color: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        appBar: AppBar(
+          elevation: 0,
+          title: Text("Chapter ${widget.chapternumber}"),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Card(
-              elevation: 0,
-              color: Theme.of(context).colorScheme.secondary,
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0)),
-              child: ListTile(
-                leading: RoundedItem(
-                  shortName: "${widget.chapternumber}/1",
-                  textColor: Theme.of(context).colorScheme.onPrimary,
-                  itemColor: Theme.of(context).colorScheme.primary,
-                ),
-                title: const Text("CHAPTER 1: Revelation"),
-                subtitle: const Text("by Unknown"),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                physics: const ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: _hadithList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _buildHadithCard(_hadithList[index]);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+        body: FutureBuilder<HadithsList>(
+            future: _hadithsList,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final hadithsOfSection = snapshot.data!.hadiths
+                    .where((hadith) =>
+                        hadith.reference.hadith == widget.chapternumber)
+                    .toList();
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
+                    ),
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Card(
+                        elevation: 0,
+                        color: Theme.of(context).colorScheme.secondary,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        child: ListTile(
+                          leading: RoundedItem(
+                            shortName: "${widget.chapternumber}/1",
+                            textColor: Theme.of(context).colorScheme.onPrimary,
+                            itemColor: Theme.of(context).colorScheme.primary,
+                          ),
+                          title: const Text("CHAPTER 1: Revelation"),
+                          subtitle: const Text("by Unknown"),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          physics: const ScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: hadithsOfSection.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _buildHadithCard(hadithsOfSection[index]);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
+              } else {
+                return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0),
+                      ),
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                    ),
+                    child: const ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30.0),
+                          topRight: Radius.circular(30.0),
+                        ),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        )));
+              }
+            }));
   }
 
   Widget _buildHadithCard(Hadith hadith) {
@@ -98,7 +122,7 @@ class _HadithsState extends State<Hadiths> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RoundedItem(
-              shortName: hadith.reference_hadith.toString(),
+              shortName: hadith.reference.book.toString(),
               textColor: Theme.of(context).colorScheme.onSurfaceVariant,
               itemColor: Theme.of(context).colorScheme.surfaceVariant,
             ),
@@ -106,7 +130,7 @@ class _HadithsState extends State<Hadiths> {
               height: 8,
             ),
             Text(
-              hadith.text_ara.toString(),
+              "ARABIC HADITH",
               softWrap: true,
               maxLines: null,
               textDirection: TextDirection.rtl,
@@ -117,7 +141,7 @@ class _HadithsState extends State<Hadiths> {
             ),
             const SizedBox(height: 8),
             Text(
-              hadith.text_eng.toString(),
+              hadith.text,
               softWrap: true,
               maxLines: null,
               textDirection: TextDirection.ltr,

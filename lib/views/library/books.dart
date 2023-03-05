@@ -1,12 +1,9 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:hadithpro/database/hadith_database.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/theme/theme_constants.dart';
 import 'package:hadithpro/widgets/bookitem.dart';
 import 'package:hadithpro/widgets/roundedItem.dart';
-
-import '../../database/hadith_database.dart';
 import '../../models/hadith.dart';
 import 'chapters.dart';
 
@@ -18,7 +15,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Hadith> _hadithList = [];
+  List<String> fileNamesList = [
+    "bukhari",
+    "muslim",
+    "nasai",
+    "abudawud",
+    "tirmidhi",
+    "ibnmajah",
+    "malik"
+  ];
+
   List<String> longNamesList = [
     "Sahih Bukhari",
     "Sahih Muslim",
@@ -55,11 +61,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _initHadithList() async {
-    final hadithList = await HadithDatabase.instance.getBookList();
-
-    setState(() {
-      if (mounted) _hadithList = hadithList;
-    });
+    setState(() {});
   }
 
   @override
@@ -79,7 +81,7 @@ class _HomeState extends State<Home> {
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
         child: ListView.builder(
-            itemCount: _hadithList.length,
+            itemCount: 7,
             itemBuilder: (context, index) {
               return Card(
                 color: Theme.of(context).scaffoldBackgroundColor,
@@ -101,8 +103,8 @@ class _HomeState extends State<Home> {
                   subtitle: Text("by " + authorNamesList[index]),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Chapters(
-                            booknumber: _hadithList[index].booknumber)));
+                        builder: (context) =>
+                            Chapters(bookname: fileNamesList[index])));
                   },
                 ),
               );

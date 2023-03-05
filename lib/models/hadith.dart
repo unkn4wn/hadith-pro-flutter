@@ -1,63 +1,101 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
+
 class Hadith {
-  final int? id;
-  final int? booknumber;
-  final double? hadithnumber;
-  final double? arabicnumber;
-  final String? text_ara;
-  final String? text_ben;
-  final String? text_eng;
-  final String? text_ind;
-  final String? text_tur;
-  final String? text_urd;
-  final int? reference_book;
-  final int? reference_hadith;
+  final dynamic hadithNumber;
+  final dynamic arabicNumber;
+  final String text;
+  final List<Grade> grades;
+  final Reference reference;
 
   Hadith({
-    required this.id,
-    required this.booknumber,
-    required this.hadithnumber,
-    required this.arabicnumber,
-    required this.text_ara,
-    required this.text_ben,
-    required this.text_eng,
-    required this.text_ind,
-    required this.text_tur,
-    required this.text_urd,
-    required this.reference_book,
-    required this.reference_hadith,
+    required this.hadithNumber,
+    required this.arabicNumber,
+    required this.text,
+    required this.grades,
+    required this.reference,
   });
 
-  factory Hadith.fromMap(Map<String, dynamic> map) {
+  factory Hadith.fromJson(Map<String, dynamic> json) {
+    final List<Grade> grades = [];
+    for (final gradeJson in json['grades']) {
+      grades.add(Grade.fromJson(gradeJson));
+    }
     return Hadith(
-      id: map['_id'],
-      booknumber: map['booknumber'],
-      hadithnumber: map['hadithnumber'],
-      arabicnumber: map['arabicnumber'],
-      text_ara: map['text_ara'],
-      text_ben: map['text_ben'],
-      text_eng: map['text_eng'],
-      text_ind: map['text_ind'],
-      text_tur: map['text_tur'],
-      text_urd: map['text_urd'],
-      reference_book: map['reference_book'],
-      reference_hadith: map['reference_hadith'],
+      hadithNumber: json['hadithnumber'],
+      arabicNumber: json['arabicnumber'],
+      text: json['text'],
+      grades: grades,
+      reference: Reference.fromJson(json['reference']),
     );
   }
+}
 
-  Map<String, dynamic> toMap() {
-    return {
-      '_id': id,
-      'booknumber': booknumber,
-      'hadithnumber': hadithnumber,
-      'arabicnumber': arabicnumber,
-      'text_ara': text_ara,
-      'text_ben': text_ben,
-      'text_eng': text_eng,
-      'text_ind': text_ind,
-      'text_tur': text_tur,
-      'text_urd': text_urd,
-      'reference_book': reference_book,
-      'reference_hadith': reference_hadith,
-    };
+class Grade {
+  final String name;
+  final String grade;
+
+  Grade({required this.name, required this.grade});
+
+  factory Grade.fromJson(Map<String, dynamic> json) {
+    return Grade(
+      name: json['name'],
+      grade: json['grade'],
+    );
   }
+}
+
+class Reference {
+  final int book;
+  final int hadith;
+
+  Reference({required this.book, required this.hadith});
+
+  factory Reference.fromJson(Map<String, dynamic> json) {
+    return Reference(
+      book: json['book'],
+      hadith: json['hadith'],
+    );
+  }
+}
+
+class HadithsList {
+  final Map<String, String> sections;
+  final List<Hadith> hadiths;
+
+  HadithsList({required this.sections, required this.hadiths});
+
+  factory HadithsList.fromJson(Map<String, dynamic> json) {
+    final Map<String, String> sections =
+        Map<String, String>.from(json['metadata']['sections']);
+    final List<Hadith> hadiths = [];
+    for (final hadithJson in json['hadiths']) {
+      hadiths.add(Hadith.fromJson(hadithJson));
+    }
+    return HadithsList(
+      sections: sections,
+      hadiths: hadiths,
+    );
+  }
+}
+
+// To load a JSON file:
+Future<HadithsList> loadJson(String assetPath) async {
+  final jsonString = await rootBundle.loadString(assetPath);
+  final jsonMap = json.decode(jsonString);
+  return HadithsList.fromJson(jsonMap);
+}
+
+Future<Map<String, HadithsList>> loadJson2(
+    String assetPath, String assetPath2) async {
+  final jsonString = await rootBundle.loadString(assetPath);
+  final jsonString2 = await rootBundle.loadString(assetPath2);
+
+  final jsonMap = json.decode(jsonString);
+  final jsonMap2 = json.decode(jsonString2);
+  return {
+    'fileA': HadithsList.fromJson(jsonMap),
+    'fileB': HadithsList.fromJson(jsonMap2),
+  };
 }
