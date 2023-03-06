@@ -1,10 +1,5 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:hadithpro/models/hadith.dart';
-import 'package:hadithpro/theme/theme_constants.dart';
-import 'package:hadithpro/widgets/bookitem.dart';
 import 'package:hadithpro/widgets/roundedItem.dart';
-import '../../models/hadith.dart';
 import 'chapters.dart';
 
 class Home extends StatefulWidget {

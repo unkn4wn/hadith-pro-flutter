@@ -1,4 +1,3 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hadithpro/views/bookmarks.dart';
 import 'package:hadithpro/views/library/books.dart';
@@ -13,19 +12,6 @@ void main() => runApp(MyApp()); // initiate MyApp as  StatelessWidget
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
-  FlexSchemeColor customThemeLight = FlexSchemeColor(
-    primary: Color(0xFF50A89B),
-    primaryContainer: Color(0xFFF3EBE0),
-    secondary: Colors.black,
-  );
-
-  FlexSchemeColor customThemeDark = FlexSchemeColor(
-    primary: Color(0xFF4C796E),
-    primaryContainer: Color(0xFFF1EBE1),
-    secondary: Colors.red,
-    secondaryContainer: Color(0xFFF6FAF9),
-  );
 
   @override
   Widget build(BuildContext context) {
