@@ -3,13 +3,6 @@ import 'package:hadithpro/widgets/roundedItem.dart';
 import 'chapters.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
-
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   List<String> fileNamesList = [
     "bukhari",
     "muslim",
@@ -19,7 +12,6 @@ class _HomeState extends State<Home> {
     "ibnmajah",
     "malik"
   ];
-
   List<String> longNamesList = [
     "Sahih Bukhari",
     "Sahih Muslim",
@@ -29,6 +21,13 @@ class _HomeState extends State<Home> {
     "Sunan Ibn Majah",
     "Muwatta Malik"
   ];
+  Home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   List<String> authorNamesList = [
     "Imam al-Bukhari",
     "Imam Muslim",
@@ -66,6 +65,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         elevation: 0,
         title: Text('Hadith List'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -92,14 +92,13 @@ class _HomeState extends State<Home> {
                     shortName: shortNamesList[index],
                   ),
                   title: Text(
-                    longNamesList[index],
+                    Home().longNamesList[index],
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
                   ),
                   subtitle: Text("by " + authorNamesList[index]),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            Chapters(bookname: fileNamesList[index])));
+                        builder: (context) => Chapters(bookname: index)));
                   },
                 ),
               );

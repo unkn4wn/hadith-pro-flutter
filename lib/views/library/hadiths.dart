@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:hadithpro/widgets/hadithtext.dart';
 
 import '../../models/hadith.dart';
 import '../../widgets/roundedItem.dart';
+import 'books.dart';
 
 class Hadiths extends StatefulWidget {
-  final String bookname;
+  final int bookname;
   final int chapternumber;
 
   @override
   State<Hadiths> createState() => _HadithsState();
 
-  const Hadiths({Key? key, required this.bookname, required this.chapternumber})
+  Hadiths({Key? key, required this.bookname, required this.chapternumber})
       : super(key: key);
 }
 
@@ -22,10 +23,12 @@ class _HadithsState extends State<Hadiths> {
   @override
   void initState() {
     super.initState();
-    _hadithsListArabic =
-        loadJson('assets/json/' "ara-" + widget.bookname + ".min.json");
-    _hadithsList =
-        loadJson('assets/json/' "eng-" + widget.bookname + ".min.json");
+    _hadithsListArabic = loadJson('assets/json/' "ara-" +
+        Home().fileNamesList[widget.bookname] +
+        ".min.json");
+    _hadithsList = loadJson('assets/json/' "eng-" +
+        Home().fileNamesList[widget.bookname] +
+        ".min.json");
   }
 
   @override
@@ -34,15 +37,20 @@ class _HadithsState extends State<Hadiths> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         appBar: AppBar(
           elevation: 0,
-          title: Text("Chapter ${widget.chapternumber}"),
+          title: Text(Home().longNamesList[widget.bookname]),
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
-        body: FutureBuilder<HadithsList>(
-            future: _hadithsList,
+        body: FutureBuilder<List<HadithsList>>(
+            future: Future.wait([_hadithsList, _hadithsListArabic]),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final hadithsOfSection = snapshot.data!.hadiths
+                final hadithsOfSection =
+                    snapshot.data![0].hadiths.where((hadith) {
+                  return hadith.reference.book == widget.chapternumber;
+                }).toList();
+                final hadithsOfSectionArabic = snapshot.data![1].hadiths
                     .where((hadith) =>
-                        hadith.reference.hadith == widget.chapternumber)
+                        hadith.reference.book == widget.chapternumber)
                     .toList();
                 return Container(
                   decoration: BoxDecoration(
@@ -68,7 +76,7 @@ class _HadithsState extends State<Hadiths> {
                             textColor: Theme.of(context).colorScheme.onPrimary,
                             itemColor: Theme.of(context).colorScheme.primary,
                           ),
-                          title: const Text("CHAPTER 1: Revelation"),
+                          title: Text("Chapter ${widget.chapternumber}"),
                           subtitle: const Text("by Unknown"),
                         ),
                       ),
@@ -78,7 +86,9 @@ class _HadithsState extends State<Hadiths> {
                           shrinkWrap: true,
                           itemCount: hadithsOfSection.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return _buildHadithCard(hadithsOfSection[index]);
+                            return _buildHadithCard(
+                                hadithsOfSectionArabic[index],
+                                hadithsOfSection[index]);
                           },
                         ),
                       ),
@@ -110,7 +120,7 @@ class _HadithsState extends State<Hadiths> {
             }));
   }
 
-  Widget _buildHadithCard(Hadith hadith) {
+  Widget _buildHadithCard(Hadith hadithArabic, Hadith hadith) {
     return Card(
       elevation: 0,
       color: Theme.of(context).colorScheme.surface,
@@ -122,45 +132,90 @@ class _HadithsState extends State<Hadiths> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RoundedItem(
-              shortName: hadith.reference.book.toString(),
+              shortName: hadith.reference.hadith.toString(),
               textColor: Theme.of(context).colorScheme.onSurfaceVariant,
               itemColor: Theme.of(context).colorScheme.surfaceVariant,
             ),
             const SizedBox(
               height: 8,
             ),
-            Text(
-              "ARABIC HADITH",
-              softWrap: true,
-              maxLines: null,
-              textDirection: TextDirection.rtl,
-              textAlign: TextAlign.right,
-              style: const TextStyle(
-                fontSize: 17,
-              ),
+            HadithText(
+              hadithText: hadithArabic,
+              TextDirection: TextDirection.rtl,
+              fontFamily: 'Uthman',
+              FontWeight: FontWeight.normal,
             ),
             const SizedBox(height: 8),
-            Text(
-              hadith.text,
-              softWrap: true,
-              maxLines: null,
-              textDirection: TextDirection.ltr,
-              textAlign: TextAlign.start,
-              style: GoogleFonts.notoKufiArabic(
-                textStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  height: 1.5,
-                ),
-              ),
+            HadithText(
+              hadithText: hadith,
+              TextDirection: TextDirection.ltr,
+              fontFamily: 'Uthman',
+              FontWeight: FontWeight.bold,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
             Divider(
               color: Colors.black,
+              height: 0,
             ),
-            const SizedBox(height: 8),
+            _buildExpandable(context, hadith),
+            Divider(
+              color: Colors.black,
+              height: 0,
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Expanded(
+                  child: Text("Reference"),
+                ),
+                const VerticalDivider(width: 1.0),
+                Expanded(
+                  child: Text(
+                      "${Home().longNamesList[widget.bookname]} ${hadith.arabicNumber}"),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Expanded(
+                  child: Text("In-book reference"),
+                ),
+                const VerticalDivider(width: 1.0),
+                Expanded(
+                  child: Text(
+                      "Book ${hadith.reference.book}, Hadith ${hadith.reference.hadith}"),
+                ),
+              ],
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildExpandable(BuildContext context, Hadith hadith) {
+    return Container(
+      child: ExpansionTile(
+          title: Text("Grades"),
+          tilePadding: EdgeInsets.zero,
+          children: List.generate(hadith.grades.length, (index) {
+            return Card(
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                trailing: Text(hadith.grades[index].grade),
+                tileColor: hadith.grades[index].grade.contains("Sahih") ||
+                        hadith.grades[index].grade.contains("Hassan")
+                    ? Colors.green
+                    : Colors.red,
+                visualDensity: VisualDensity(vertical: -4),
+                title: Text(hadith.grades[index].name),
+              ),
+            );
+          })),
     );
   }
 }
