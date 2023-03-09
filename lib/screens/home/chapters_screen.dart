@@ -58,38 +58,43 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                 child: ListView.builder(
                   itemCount: sectionsMeta.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      elevation: 0,
-                      child: ListTile(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                    if (sectionsMeta.values.elementAt(index).isNotEmpty) {
+                      return Card(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        elevation: 0,
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          leading: RoundedItem(
+                            textColor:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            itemColor:
+                                Theme.of(context).colorScheme.surfaceVariant,
+                            shortName: sectionsMeta.keys.elementAt(index),
+                            size: 45,
+                          ),
+                          title: Text(sectionsMeta.values.elementAt(index)),
+                          subtitle: Text("by Unknown"),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return HadithsScreen(
+                                    bookNumber: widget.bookname,
+                                    chapterNumber: int.parse(
+                                        sectionsMeta.keys.elementAt(index)),
+                                    chapterLength: sectionsMeta.length - 1,
+                                  );
+                                },
+                              ),
+                            );
+                          },
                         ),
-                        leading: RoundedItem(
-                          textColor:
-                              Theme.of(context).colorScheme.onSurfaceVariant,
-                          itemColor:
-                              Theme.of(context).colorScheme.surfaceVariant,
-                          shortName: sectionsMeta.keys.elementAt(index),
-                          size: 45,
-                        ),
-                        title: Text(sectionsMeta.values.elementAt(index)),
-                        subtitle: Text("by Unknown"),
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return HadithsScreen(
-                                  booknumber: widget.bookname,
-                                  chapternumber: int.parse(
-                                      sectionsMeta.keys.elementAt(index)),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    );
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
                   },
                 ),
               ),

@@ -70,31 +70,35 @@ class HadithItem extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            HadithText(
-              hadithText: hadithArabic,
-              TextDirection: TextDirection.rtl,
-              TextStyle: TextStyle(
-                fontFamily: 'Uthman',
-                fontWeight: FontWeight.normal,
-                fontSize:
-                    SharedPreferencesHelper.getDouble("textSizeArabic", 20.0),
-              ),
-            ),
+            SharedPreferencesHelper.getBool("displayArabic", true)
+                ? HadithText(
+                    hadithText: hadithArabic,
+                    TextDirection: TextDirection.rtl,
+                    TextStyle: TextStyle(
+                      fontFamily: 'Uthman',
+                      fontWeight: FontWeight.normal,
+                      fontSize: SharedPreferencesHelper.getDouble(
+                          "textSizeArabic", 20.0),
+                    ),
+                  )
+                : SizedBox.shrink(),
             const SizedBox(height: 8),
-            HadithText(
-              hadithText: hadithTranslation,
-              TextDirection: TextDirection.ltr,
-              TextStyle: TextStyle(
-                fontFamily: SharedPreferencesHelper.getString(
-                            "hadithLanguage", "eng") ==
-                        ("eng")
-                    ? "Uthman"
-                    : 'poppins-bold',
-                fontWeight: FontWeight.bold,
-                fontSize: SharedPreferencesHelper.getDouble(
-                    "textSizeTranslation", 20.0),
-              ),
-            ),
+            SharedPreferencesHelper.getBool("displayTranslation", true)
+                ? HadithText(
+                    hadithText: hadithTranslation,
+                    TextDirection: TextDirection.ltr,
+                    TextStyle: TextStyle(
+                      fontFamily: SharedPreferencesHelper.getString(
+                                  "hadithLanguage", "eng") ==
+                              ("eng")
+                          ? "Uthman"
+                          : 'poppins-bold',
+                      fontWeight: FontWeight.bold,
+                      fontSize: SharedPreferencesHelper.getDouble(
+                          "textSizeTranslation", 20.0),
+                    ),
+                  )
+                : SizedBox.shrink(),
             const SizedBox(height: 4),
             const Divider(
               color: Colors.black,
