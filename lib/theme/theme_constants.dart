@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-const colorPrimary = Color(0xFF50A89B);
+const colorPrimary = Color(0xFF609D92);
 const colorOnPrimary = Colors.white;
-const colorSecondary = Color(0xFFF3EBE0);
-const colorOnSecondary = Colors.black;
-const colorBackground = Color(0xFFF5F6F8);
+const colorSecondary = Color(0xFF609D92);
+const colorOnSecondary = Colors.white;
+const colorTertiary = Color(0xFFF3EBE0);
+const colorOnTertiary = Colors.black;
+const colorBackground = Color(0xFFF7F8FA);
 const colorOnBackground = Colors.black;
 const colorSurface = Colors.white;
 const colorOnSurface = Colors.black;
@@ -13,13 +15,15 @@ const colorOnSurfaceVariant = Colors.black;
 const colorError = Colors.white;
 const colorOnError = Colors.white;
 
-const colorPrimaryDark = Color(0xFF50A89B);
+const colorPrimaryDark = Color(0xFF457064);
 const colorOnPrimaryDark = Colors.white;
-const colorSecondaryDark = Color(0xFFE7CCA9);
-const colorOnSecondaryDark = Colors.black;
-const colorBackgroundDark = Color(0xFF161616);
+const colorSecondaryDark = Color(0xFF457064);
+const colorOnSecondaryDark = Colors.white;
+const colorTertiaryDark = Color(0xFFDEC7A3);
+const colorOnTertiaryDark = Color(0xFF413F47);
+const colorBackgroundDark = Color(0xFF121416);
 const colorOnBackgroundDark = Colors.white;
-const colorSurfaceDark = Colors.black;
+const colorSurfaceDark = Color(0xFF232527);
 const colorOnSurfaceDark = Colors.white;
 const colorSurfaceVariantDark = Color(0x0f0f0f0f);
 const colorOnSurfaceVariantDark = Colors.white;
@@ -30,6 +34,8 @@ const colorSchemeLight = ColorScheme.light(
   onPrimary: colorOnPrimary,
   secondary: colorSecondary,
   onSecondary: colorOnSecondary,
+  tertiary: colorTertiary,
+  onTertiary: colorOnTertiary,
   background: colorBackground,
   onBackground: colorOnBackground,
   surface: colorSurface,
@@ -45,6 +51,8 @@ const colorSchemeDark = ColorScheme.dark(
   onPrimary: colorOnPrimaryDark,
   secondary: colorSecondaryDark,
   onSecondary: colorOnSecondaryDark,
+  tertiary: colorTertiaryDark,
+  onTertiary: colorOnTertiaryDark,
   background: colorBackgroundDark,
   onBackground: colorOnBackgroundDark,
   surface: colorSurfaceDark,

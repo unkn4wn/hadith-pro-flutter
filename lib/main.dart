@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:hadithpro/views/bookmarks.dart';
-import 'package:hadithpro/views/library/books.dart';
-import 'package:hadithpro/views/search/search.dart';
-import 'package:hadithpro/views/settings.dart';
+import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
+import 'package:hadithpro/screens/bookmarks/bookmarks_screen.dart';
+import 'package:hadithpro/screens/home/books_screen.dart';
+import 'package:hadithpro/screens/search/search_screen.dart';
+import 'package:hadithpro/screens/settings/settings_screen.dart';
 import 'package:hadithpro/theme/theme_constants.dart';
-import 'package:hadithpro/theme/theme_manager.dart';
 
-ThemeManager _themeManager = ThemeManager();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesHelper.init();
 
-void main() => runApp(MyApp()); // initiate MyApp as  StatelessWidget
+  final isFirstStart = SharedPreferencesHelper.getBool('isFirstStart', true);
+
+  if (isFirstStart) {
+    await SharedPreferencesHelper.setFirstStart();
+    print("FIRST START");
+  }
+
+  runApp(MyApp());
+} // initiate MyApp as  StatelessWidget
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -30,17 +40,19 @@ class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<MainPage> createState() {
+    return _MainPageState();
+  }
 }
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    Search(),
-    Bookmarks(),
-    Settings()
+  final List<Widget> _widgetOptions = <Widget>[
+    BooksScreen(),
+    SearchScreen(),
+    BookmarksScreen(),
+    SettingsScreen()
   ];
 
   void _onItemTapped(int index) {

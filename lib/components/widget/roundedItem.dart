@@ -4,11 +4,13 @@ class RoundedItem extends StatelessWidget {
   final Color textColor;
   final Color itemColor;
   final String shortName;
+  final double size;
   const RoundedItem(
       {Key? key,
       required this.textColor,
       required this.itemColor,
-      required this.shortName})
+      required this.shortName,
+      required this.size})
       : super(key: key);
 
   @override
@@ -16,8 +18,8 @@ class RoundedItem extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: itemColor),
-      height: 50,
-      width: 50,
+      height: size,
+      width: size,
       child: Center(
         child: Text(
           shortName,

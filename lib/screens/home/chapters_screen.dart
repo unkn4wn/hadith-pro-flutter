@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:hadithpro/widgets/roundedItem.dart';
+import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
+import 'package:hadithpro/models/hadith.dart';
+import 'package:hadithpro/screens/home/hadiths_screen.dart';
+import 'package:hadithpro/components/widget/roundedItem.dart';
+import 'books_screen.dart';
 
-import '../../models/hadith.dart';
-import 'books.dart';
-import 'hadiths.dart';
-
-class Chapters extends StatefulWidget {
+class ChaptersScreen extends StatefulWidget {
   final int bookname;
-  const Chapters({Key? key, required this.bookname}) : super(key: key);
+  const ChaptersScreen({Key? key, required this.bookname}) : super(key: key);
 
   @override
-  State<Chapters> createState() => _ChaptersState();
+  State<ChaptersScreen> createState() => _ChaptersScreenState();
 }
 
-class _ChaptersState extends State<Chapters> {
+class _ChaptersScreenState extends State<ChaptersScreen> {
   late Future<HadithsList> _hadithsList;
   late final int bookname;
 
@@ -21,8 +21,10 @@ class _ChaptersState extends State<Chapters> {
   void initState() {
     super.initState();
     bookname = widget.bookname;
-    _hadithsList = loadJson('assets/json/' "eng-" +
-        Home().fileNamesList[widget.bookname] +
+    _hadithsList = loadJson('assets/json/' +
+        SharedPreferencesHelper.getString("hadithLanguage", "eng") +
+        "-" +
+        BooksScreen().fileNamesList[widget.bookname] +
         ".min.json");
   }
 
@@ -69,6 +71,7 @@ class _ChaptersState extends State<Chapters> {
                           itemColor:
                               Theme.of(context).colorScheme.surfaceVariant,
                           shortName: sectionsMeta.keys.elementAt(index),
+                          size: 45,
                         ),
                         title: Text(sectionsMeta.values.elementAt(index)),
                         subtitle: Text("by Unknown"),
@@ -76,8 +79,8 @@ class _ChaptersState extends State<Chapters> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return Hadiths(
-                                  bookname: widget.bookname,
+                                return HadithsScreen(
+                                  booknumber: widget.bookname,
                                   chapternumber: int.parse(
                                       sectionsMeta.keys.elementAt(index)),
                                 );
@@ -92,8 +95,17 @@ class _ChaptersState extends State<Chapters> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Center(
-              child: Text('${snapshot.error}'),
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0),
+                ),
+                color: Theme.of(context).scaffoldBackgroundColor,
+              ),
+              child: Center(
+                child: Text('This book is not available in this language'),
+              ),
             );
           } else {
             return Container(

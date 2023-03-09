@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hadithpro/widgets/roundedItem.dart';
-import 'chapters.dart';
+import 'package:hadithpro/components/widget/roundedItem.dart';
+import 'chapters_screen.dart';
 
-class Home extends StatefulWidget {
+class BooksScreen extends StatefulWidget {
   List<String> fileNamesList = [
     "bukhari",
     "muslim",
@@ -21,13 +21,13 @@ class Home extends StatefulWidget {
     "Sunan Ibn Majah",
     "Muwatta Malik"
   ];
-  Home({Key? key}) : super(key: key);
+  BooksScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _BooksScreenState createState() => _BooksScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _BooksScreenState extends State<BooksScreen> {
   List<String> authorNamesList = [
     "Imam al-Bukhari",
     "Imam Muslim",
@@ -90,15 +90,16 @@ class _HomeState extends State<Home> {
                     textColor: Theme.of(context).colorScheme.onPrimary,
                     itemColor: colorNamesList[index],
                     shortName: shortNamesList[index],
+                    size: 45,
                   ),
                   title: Text(
-                    Home().longNamesList[index],
+                    BooksScreen().longNamesList[index],
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
                   ),
                   subtitle: Text("by " + authorNamesList[index]),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Chapters(bookname: index)));
+                        builder: (context) => ChaptersScreen(bookname: index)));
                   },
                 ),
               );
