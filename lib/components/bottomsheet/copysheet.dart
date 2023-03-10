@@ -95,7 +95,44 @@ class CopySheet {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     title: Text("Copy Both"),
-                    onTap: () {
+                    onTap: () async {
+                      String grades = "";
+                      hadithTranslation.grades.forEach((element) {
+                        grades += element.name + ": " + element.grade;
+                        if (hadithTranslation.grades.last != element) {
+                          grades +=
+                              "\n"; // Add new line except for the last element
+                        }
+                      });
+                      String reference = BooksScreen()
+                              .longNamesList[hadithTranslation.reference.book] +
+                          " " +
+                          hadithTranslation.arabicNumber.toString();
+                      String inBookReference = "Book " +
+                          hadithTranslation.reference.book.toString() +
+                          ", " +
+                          "Hadith " +
+                          hadithTranslation.reference.hadith.toString();
+                      String playStoreLink =
+                          "https://play.google.com/store/apps/details?id=com.islamicproapps.hadithpro";
+
+                      await Clipboard.setData(ClipboardData(
+                          text: hadithTranslation.text +
+                              "\n\n" +
+                              hadithArabic.text +
+                              "\n\n" +
+                              "Grades:" +
+                              "\n" +
+                              grades +
+                              "\n" +
+                              "Reference: " +
+                              reference +
+                              "\n" +
+                              "In-book reference: " +
+                              inBookReference +
+                              "\n\n" +
+                              playStoreLink));
+
                       Navigator.pop(context);
                     },
                   ),
