@@ -156,7 +156,7 @@ class HadithItem extends StatelessWidget {
                 ),
                 trailing: Text(hadith.grades[index].grade),
                 tileColor: hadith.grades[index].grade.contains("Sahih") ||
-                        hadith.grades[index].grade.contains("Hassan")
+                        hadith.grades[index].grade.contains("Hasan")
                     ? Colors.green
                     : Colors.red,
                 visualDensity: VisualDensity(vertical: -4),
