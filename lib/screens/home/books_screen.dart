@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hadithpro/components/widget/roundedItem.dart';
 import 'chapters_screen.dart';
 
@@ -61,50 +62,38 @@ class _BooksScreenState extends State<BooksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        elevation: 0,
         title: Text('Hadith List'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-          ),
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
-        child: ListView.builder(
-            itemCount: 7,
-            itemBuilder: (context, index) {
-              return Card(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                elevation: 0,
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  leading: RoundedItem(
-                    textColor: Theme.of(context).colorScheme.onPrimary,
-                    itemColor: colorNamesList[index],
-                    shortName: shortNamesList[index],
-                    size: 45,
-                  ),
-                  title: Text(
-                    BooksScreen().longNamesList[index],
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
-                  ),
-                  subtitle: Text("by " + authorNamesList[index]),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ChaptersScreen(bookname: index)));
-                  },
+      body: ListView.builder(
+          itemCount: 7,
+          itemBuilder: (context, index) {
+            return Card(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              elevation: 0,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-              );
-            }),
-      ),
+                leading: RoundedItem(
+                  textColor: Theme.of(context).colorScheme.onPrimary,
+                  itemColor: colorNamesList[index],
+                  shortName: shortNamesList[index],
+                  size: 45,
+                ),
+                title: Text(
+                  BooksScreen().longNamesList[index],
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+                ),
+                subtitle: Text("by " + authorNamesList[index]),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ChaptersScreen(bookname: index)));
+                },
+              ),
+            );
+          }),
     );
   }
 }

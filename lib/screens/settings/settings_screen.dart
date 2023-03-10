@@ -50,154 +50,114 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        elevation: 0,
         title: Text('Settings'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: 30,
           ),
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              height: 30,
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              "Language",
+              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "Language",
-                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+          ),
+          Card(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
               ),
-            ),
-            Card(
-              color: Theme.of(context).colorScheme.surface,
-              elevation: 0,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                title: Text(
-                  "Hadith language",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios),
-                subtitle: Text(hadithLanguage),
-                onTap: () {
-                  setState(() {
-                    _showBottomSheetLanguage();
-                  });
-                },
+              title: Text(
+                "Hadith language",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
+              trailing: Icon(Icons.arrow_forward_ios),
+              subtitle: Text(hadithLanguage),
+              onTap: () {
+                setState(() {
+                  _showBottomSheetLanguage();
+                });
+              },
             ),
-            SizedBox(
-              height: 5,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              "Appearance",
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "Appearance",
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Card(
-              color: Theme.of(context).colorScheme.surface,
-              elevation: 0,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
+          ),
+          Card(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: SwitchListTile(
                 title: Text(
                   "Display Arabic Text",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                trailing: Checkbox(
-                    value:
-                        SharedPreferencesHelper.getBool("displayArabic", true),
-                    onChanged: (bool? value) {
-                      setState(() {
-                        SharedPreferencesHelper.setBool(
-                            "displayArabic", value!);
-                      });
-                    }),
-              ),
-            ),
-            Card(
-              color: Theme.of(context).colorScheme.surface,
-              elevation: 0,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
+                value: SharedPreferencesHelper.getBool("displayArabic", true),
+                onChanged: (bool? value) {
+                  setState(() {
+                    SharedPreferencesHelper.setBool("displayArabic", value!);
+                  });
+                }),
+          ),
+          Card(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: SwitchListTile(
+                value:
+                    SharedPreferencesHelper.getBool("displayTranslation", true),
                 title: Text(
                   "Display Translation Text",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                trailing: Checkbox(
-                    value: SharedPreferencesHelper.getBool(
-                        "displayTranslation", true),
-                    onChanged: (bool? value) {
-                      setState(() {
-                        SharedPreferencesHelper.setBool(
-                            "displayTranslation", value!);
-                      });
-                    }),
-              ),
-            ),
-            Card(
-              color: Theme.of(context).colorScheme.surface,
-              elevation: 0,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                title: Text(
-                  "Arabic Text Size",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                subtitle: Text(sliderArabicSize.toString()),
-                onTap: () {
+                onChanged: (bool? value) {
                   setState(() {
-                    _showBottomSheetArabic();
+                    SharedPreferencesHelper.setBool(
+                        "displayTranslation", value!);
                   });
-                },
+                }),
+          ),
+          Card(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: ListTile(
+              title: Text(
+                "Arabic Text Size",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              subtitle: Text(sliderArabicSize.toString()),
+              onTap: () {
+                setState(() {
+                  _showBottomSheetArabic();
+                });
+              },
             ),
-            Card(
-              color: Theme.of(context).colorScheme.surface,
-              elevation: 0,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                title: Text(
-                  "Translation Text Size",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                subtitle: Text(sliderTranslationSize.toString()),
-                onTap: () {
-                  setState(() {
-                    _showBottomSheetTranslation();
-                  });
-                },
+          ),
+          Card(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: ListTile(
+              title: Text(
+                "Translation Text Size",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              subtitle: Text(sliderTranslationSize.toString()),
+              onTap: () {
+                setState(() {
+                  _showBottomSheetTranslation();
+                });
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -206,11 +166,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showModalBottomSheet(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
-          side: BorderSide(
-              color: Theme.of(context).colorScheme.surface,
-              strokeAlign: BorderSide.strokeAlignOutside,
-              width: 3.0)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+      ),
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
@@ -241,7 +198,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         color: shortLanguageList[index].contains(
                                 SharedPreferencesHelper.getString(
                                     "hadithLanguage", "eng"))
-                            ? Theme.of(context).colorScheme.primary
+                            ? Theme.of(context).colorScheme.tertiaryContainer
                             : Theme.of(context).colorScheme.surface,
                         elevation: 0,
                         margin:
@@ -329,7 +286,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(30.0))),
-      elevation: 20,
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(

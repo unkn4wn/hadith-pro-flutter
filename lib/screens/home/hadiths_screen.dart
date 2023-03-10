@@ -9,6 +9,7 @@ import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 class HadithsScreen extends StatefulWidget {
   final int bookNumber;
   final int chapterNumber;
+  final String chapterName;
   final int chapterLength;
 
   @override
@@ -18,6 +19,7 @@ class HadithsScreen extends StatefulWidget {
       {Key? key,
       required this.bookNumber,
       required this.chapterNumber,
+      required this.chapterName,
       required this.chapterLength})
       : super(key: key);
 }
@@ -44,11 +46,8 @@ class _HadithsScreenState extends State<HadithsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        elevation: 0,
         title: Text(BooksScreen().longNamesList[widget.bookNumber]),
-        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: FutureBuilder<List<HadithsList>>(
         future: Future.wait([_hadithsList, _hadithsListArabic]),
@@ -61,70 +60,54 @@ class _HadithsScreenState extends State<HadithsScreen> {
                 .where(
                     (hadith) => hadith.reference.book == widget.chapterNumber)
                 .toList();
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Card(
+                  surfaceTintColor:
+                      Theme.of(context).colorScheme.tertiaryContainer,
+                  elevation: 3,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0)),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.my_library_books,
+                      size: 40,
+                    ),
+                    title: Text(
+                      "Chapter ${widget.chapterName}",
+                      style: TextStyle(
+                        color:
+                            Theme.of(context).colorScheme.onTertiaryContainer,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
-                color: Theme.of(context).scaffoldBackgroundColor,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Card(
-                    elevation: 0,
-                    color: Theme.of(context).colorScheme.tertiary,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    child: ListTile(
-                      leading: RoundedItem(
-                        shortName:
-                            "${widget.chapterNumber}/${widget.chapterLength}",
-                        textColor: Theme.of(context).colorScheme.onPrimary,
-                        itemColor: Theme.of(context).colorScheme.primary,
-                        size: 50,
-                      ),
-                      title: Text(
-                        "Chapter ${widget.chapterNumber}",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onTertiary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        "by Unknown",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onTertiary,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: DraggableScrollbar.arrows(
-                      alwaysVisibleScrollThumb: false,
-                      backgroundColor: Colors.grey.shade800,
-                      padding: EdgeInsets.only(right: 4.0),
+                Expanded(
+                  child: DraggableScrollbar.arrows(
+                    alwaysVisibleScrollThumb: false,
+                    backgroundColor: Colors.grey.shade800,
+                    padding: EdgeInsets.only(right: 4.0),
+                    controller: controller,
+                    child: ListView.builder(
                       controller: controller,
-                      child: ListView.builder(
-                        controller: controller,
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: hadithsOfSection.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return HadithItem(
-                            bookNumber: widget.bookNumber,
-                            hadithArabic: hadithsOfSectionArabic[index],
-                            hadithTranslation: hadithsOfSection[index],
-                          );
-                        },
-                      ),
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: hadithsOfSection.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return HadithItem(
+                          bookNumber: widget.bookNumber,
+                          hadithArabic: hadithsOfSectionArabic[index],
+                          hadithTranslation: hadithsOfSection[index],
+                        );
+                      },
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           } else if (snapshot.hasError) {
             return Center(

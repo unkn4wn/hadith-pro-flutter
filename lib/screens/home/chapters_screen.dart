@@ -31,107 +31,69 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      appBar: AppBar(
-        elevation: 0,
-        title: Text("Book ${widget.bookname}"),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
-      body: FutureBuilder<HadithsList>(
-        future: _hadithsList,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final sectionsMeta = snapshot.data!.sections;
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-                color: Theme.of(context).scaffoldBackgroundColor,
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-                child: ListView.builder(
-                  itemCount: sectionsMeta.length,
-                  itemBuilder: (context, index) {
-                    if (sectionsMeta.values.elementAt(index).isNotEmpty) {
-                      return Card(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        elevation: 0,
-                        child: ListTile(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          leading: RoundedItem(
-                            textColor:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            itemColor:
-                                Theme.of(context).colorScheme.surfaceVariant,
-                            shortName: sectionsMeta.keys.elementAt(index),
-                            size: 45,
-                          ),
-                          title: Text(sectionsMeta.values.elementAt(index)),
-                          subtitle: Text("by Unknown"),
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return HadithsScreen(
-                                    bookNumber: widget.bookname,
-                                    chapterNumber: int.parse(
-                                        sectionsMeta.keys.elementAt(index)),
-                                    chapterLength: sectionsMeta.length - 1,
-                                  );
-                                },
-                              ),
-                            );
-                          },
+        appBar: AppBar(
+          title: Text("Book ${widget.bookname}"),
+        ),
+        body: FutureBuilder<HadithsList>(
+          future: _hadithsList,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final sectionsMeta = snapshot.data!.sections;
+              return ListView.builder(
+                itemCount: sectionsMeta.length,
+                itemBuilder: (context, index) {
+                  if (sectionsMeta.values.elementAt(index).isNotEmpty) {
+                    return Card(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      elevation: 0,
+                      child: ListTile(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
-                      );
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                  },
-                ),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-                color: Theme.of(context).scaffoldBackgroundColor,
-              ),
-              child: Center(
+                        leading: RoundedItem(
+                          textColor:
+                              Theme.of(context).colorScheme.onSurfaceVariant,
+                          itemColor:
+                              Theme.of(context).colorScheme.surfaceVariant,
+                          shortName: sectionsMeta.keys.elementAt(index),
+                          size: 45,
+                        ),
+                        title: Text(sectionsMeta.values.elementAt(index)),
+                        subtitle: Text("by Unknown"),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return HadithsScreen(
+                                  bookNumber: widget.bookname,
+                                  chapterNumber: int.parse(
+                                      sectionsMeta.keys.elementAt(index)),
+                                  chapterName: sectionsMeta.values
+                                      .elementAt(index)
+                                      .toString(),
+                                  chapterLength: sectionsMeta.length - 1,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              );
+            } else if (snapshot.hasError) {
+              return const Center(
                 child: Text('This book is not available in this language'),
-              ),
-            );
-          } else {
-            return Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30.0),
-                    topRight: Radius.circular(30.0),
-                  ),
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
-                child: const ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      topRight: Radius.circular(30.0),
-                    ),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    )));
-          }
-        },
-      ),
-    );
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ));
   }
 }

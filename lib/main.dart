@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/screens/bookmarks/bookmarks_screen.dart';
@@ -25,13 +26,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Bottom Nac',
-      themeMode: ThemeMode.system,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      home: MainPage(),
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        ColorScheme lightColorScheme;
+        ColorScheme darkColorScheme;
+
+        if (lightDynamic != null && darkDynamic != null) {
+          lightColorScheme = lightDynamic.harmonized()..copyWith();
+          lightColorScheme =
+              lightColorScheme.copyWith(secondary: Color(0xFF609D92));
+          darkColorScheme = darkDynamic.harmonized()..copyWith();
+          darkColorScheme =
+              darkColorScheme.copyWith(secondary: Color(0xFF609D92));
+        } else {
+          lightColorScheme = lightTheme.colorScheme;
+          darkColorScheme = darkTheme.colorScheme;
+        }
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Bottom Nac',
+          themeMode: ThemeMode.system,
+          theme:
+              ThemeData.from(colorScheme: lightColorScheme, useMaterial3: true),
+          darkTheme:
+              ThemeData.from(colorScheme: darkColorScheme, useMaterial3: true)
+                  .copyWith(
+            brightness: Brightness.dark,
+          ),
+          home: MainPage(),
+        );
+      },
     );
   }
 }
@@ -46,7 +70,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  int currentPageIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
     BooksScreen(),
@@ -57,7 +81,7 @@ class _MainPageState extends State<MainPage> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      currentPageIndex = index;
     });
   }
 
@@ -65,34 +89,36 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.elementAt(currentPageIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        selectedIndex: currentPageIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
             icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: '',
+            label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search_outlined),
-            activeIcon: Icon(Icons.search_sharp),
-            label: '',
+          NavigationDestination(
+            icon: Icon(Icons.search),
+            label: 'Search',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
+            selectedIcon: Icon(Icons.bookmark),
             icon: Icon(Icons.bookmark_border),
-            activeIcon: Icon(Icons.bookmark),
-            label: '',
+            label: 'Saved',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
+            selectedIcon: Icon(Icons.settings),
             icon: Icon(Icons.settings_outlined),
-            activeIcon: Icon(Icons.settings),
-            label: '',
+            label: 'Settings',
           ),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
       ),
     );
   }

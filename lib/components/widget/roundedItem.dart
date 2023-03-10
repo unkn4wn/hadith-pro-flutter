@@ -16,16 +16,17 @@ class RoundedItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: itemColor),
       height: size,
       width: size,
-      child: Center(
-        child: Text(
-          shortName,
-          style: TextStyle(
-            fontSize: 22,
-            color: textColor,
+      child: Card(
+        color: itemColor,
+        elevation: 2,
+        child: Center(
+          child: Text(
+            shortName,
+            style: TextStyle(
+              fontSize: 22,
+            ),
           ),
         ),
       ),
