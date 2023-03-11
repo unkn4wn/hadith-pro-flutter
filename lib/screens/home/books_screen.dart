@@ -63,24 +63,23 @@ class _BooksScreenState extends State<BooksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hadith List'),
+        title: Text('Books'),
       ),
       body: ListView.builder(
-          itemCount: 7,
-          itemBuilder: (context, index) {
-            return Card(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              elevation: 0,
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: ListTile(
+        itemCount: 7,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                leading: RoundedItem(
-                  textColor: Theme.of(context).colorScheme.onPrimary,
-                  itemColor: colorNamesList[index],
-                  shortName: shortNamesList[index],
-                  size: 45,
+                leading: Container(
+                  child: Icon(
+                    Icons.book,
+                    size: 40,
+                    color: colorNamesList[index],
+                  ),
                 ),
                 title: Text(
                   BooksScreen().longNamesList[index],
@@ -89,11 +88,18 @@ class _BooksScreenState extends State<BooksScreen> {
                 subtitle: Text("by " + authorNamesList[index]),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ChaptersScreen(bookname: index)));
+                      builder: (context) => ChaptersScreen(bookNumber: index)));
                 },
               ),
-            );
-          }),
+              Divider(
+                indent: 20.0,
+                endIndent: 20.0,
+                height: 0,
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

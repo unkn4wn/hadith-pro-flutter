@@ -46,9 +46,6 @@ class _HadithsScreenState extends State<HadithsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(BooksScreen().longNamesList[widget.bookNumber]),
-      ),
       body: FutureBuilder<List<HadithsList>>(
         future: Future.wait([_hadithsList, _hadithsListArabic]),
         builder: (context, snapshot) {
@@ -60,51 +57,35 @@ class _HadithsScreenState extends State<HadithsScreen> {
                 .where(
                     (hadith) => hadith.reference.book == widget.chapterNumber)
                 .toList();
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Card(
-                  surfaceTintColor:
-                      Theme.of(context).colorScheme.tertiaryContainer,
-                  elevation: 3,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0)),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.my_library_books,
-                      size: 40,
-                    ),
-                    title: Text(
-                      "Chapter ${widget.chapterName}",
-                      style: TextStyle(
-                        color:
-                            Theme.of(context).colorScheme.onTertiaryContainer,
-                        fontWeight: FontWeight.bold,
-                      ),
+            return CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar.medium(
+                  title: Text("Chapter " + widget.chapterNumber.toString()),
+                ),
+                SliverToBoxAdapter(
+                  child: Card(
+                    elevation: 4,
+                    surfaceTintColor: Theme.of(context).colorScheme.tertiary,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(widget.chapterName),
                     ),
                   ),
                 ),
-                Expanded(
-                  child: DraggableScrollbar.arrows(
-                    alwaysVisibleScrollThumb: false,
-                    backgroundColor: Colors.grey.shade800,
-                    padding: EdgeInsets.only(right: 4.0),
-                    controller: controller,
-                    child: ListView.builder(
-                      controller: controller,
-                      physics: const ScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: hadithsOfSection.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return HadithItem(
-                          bookNumber: widget.bookNumber,
-                          hadithArabic: hadithsOfSectionArabic[index],
-                          hadithTranslation: hadithsOfSection[index],
-                        );
-                      },
-                    ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return HadithItem(
+                        bookNumber: widget.bookNumber,
+                        hadithArabic: hadithsOfSectionArabic[index],
+                        hadithTranslation: hadithsOfSection[index],
+                      );
+                    },
+                    childCount: hadithsOfSection.length,
                   ),
                 ),
               ],

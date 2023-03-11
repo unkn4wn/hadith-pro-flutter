@@ -132,15 +132,13 @@ const darkColorScheme = ColorScheme(
 );
 
 ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
-    colorScheme: lightColorScheme,
+    colorScheme: colorSchemeLight,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: colorBackground,
       selectedItemColor: colorPrimary,
     ));
 
 ThemeData darkTheme = ThemeData(
-    useMaterial3: true,
     colorScheme: darkColorScheme,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: colorBackgroundDark,

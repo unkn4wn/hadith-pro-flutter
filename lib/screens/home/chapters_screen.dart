@@ -6,8 +6,8 @@ import 'package:hadithpro/components/widget/roundedItem.dart';
 import 'books_screen.dart';
 
 class ChaptersScreen extends StatefulWidget {
-  final int bookname;
-  const ChaptersScreen({Key? key, required this.bookname}) : super(key: key);
+  final int bookNumber;
+  const ChaptersScreen({Key? key, required this.bookNumber}) : super(key: key);
 
   @override
   State<ChaptersScreen> createState() => _ChaptersScreenState();
@@ -20,11 +20,11 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
   @override
   void initState() {
     super.initState();
-    bookname = widget.bookname;
+    bookname = widget.bookNumber;
     _hadithsList = loadJson('assets/json/' +
         SharedPreferencesHelper.getString("hadithLanguage", "eng") +
         "-" +
-        BooksScreen().fileNamesList[widget.bookname] +
+        BooksScreen().fileNamesList[widget.bookNumber] +
         ".min.json");
   }
 
@@ -32,7 +32,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Book ${widget.bookname}"),
+          title: Text(BooksScreen().longNamesList[widget.bookNumber]),
         ),
         body: FutureBuilder<HadithsList>(
           future: _hadithsList,
@@ -43,41 +43,50 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                 itemCount: sectionsMeta.length,
                 itemBuilder: (context, index) {
                   if (sectionsMeta.values.elementAt(index).isNotEmpty) {
-                    return Card(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      elevation: 0,
-                      child: ListTile(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        leading: RoundedItem(
-                          textColor:
-                              Theme.of(context).colorScheme.onSurfaceVariant,
-                          itemColor:
-                              Theme.of(context).colorScheme.surfaceVariant,
-                          shortName: sectionsMeta.keys.elementAt(index),
-                          size: 45,
-                        ),
-                        title: Text(sectionsMeta.values.elementAt(index)),
-                        subtitle: Text("by Unknown"),
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return HadithsScreen(
-                                  bookNumber: widget.bookname,
-                                  chapterNumber: int.parse(
-                                      sectionsMeta.keys.elementAt(index)),
-                                  chapterName: sectionsMeta.values
-                                      .elementAt(index)
-                                      .toString(),
-                                  chapterLength: sectionsMeta.length - 1,
-                                );
-                              },
+                    return Column(
+                      children: [
+                        ListTile(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          leading: Container(
+                            height: 45,
+                            width: 45,
+                            child: Card(
+                              child: Center(
+                                child: Text(
+                                  sectionsMeta.keys.elementAt(index),
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                          title: Text(sectionsMeta.values.elementAt(index)),
+                          subtitle: Text("by Unknown"),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return HadithsScreen(
+                                    bookNumber: widget.bookNumber,
+                                    chapterNumber: int.parse(
+                                        sectionsMeta.keys.elementAt(index)),
+                                    chapterName: sectionsMeta.values
+                                        .elementAt(index)
+                                        .toString(),
+                                    chapterLength: sectionsMeta.length - 1,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        Divider(
+                          indent: 20.0,
+                          endIndent: 20.0,
+                          height: 0,
+                        ),
+                      ],
                     );
                   } else {
                     return const SizedBox.shrink();

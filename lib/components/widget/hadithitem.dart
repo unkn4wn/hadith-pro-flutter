@@ -30,11 +30,17 @@ class HadithItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                RoundedItem(
-                  shortName: hadithTranslation.reference.hadith.toString(),
-                  textColor: Theme.of(context).colorScheme.onSurfaceVariant,
-                  itemColor: Theme.of(context).colorScheme.surfaceVariant,
-                  size: 40,
+                Container(
+                  height: 45,
+                  width: 45,
+                  child: Card(
+                    child: Center(
+                      child: Text(
+                        hadithTranslation.reference.hadith.toString(),
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
                 ),
                 Spacer(),
                 Row(
@@ -154,15 +160,22 @@ class HadithItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 trailing: Text(hadith.grades[index].grade),
-                tileColor: hadith.grades[index].grade.contains("Sahih") ||
-                        hadith.grades[index].grade.contains("Hasan")
-                    ? Colors.green
-                    : Colors.red,
+                tileColor: _getTileColor(hadith.grades[index].grade),
                 visualDensity: VisualDensity(vertical: -4),
                 title: Text(hadith.grades[index].name),
               ),
             );
           })),
     );
+  }
+
+  Color _getTileColor(String grade) {
+    if (grade.contains("Sahih")) {
+      return Colors.green.shade700;
+    } else if (grade.contains("Hasan")) {
+      return Colors.green.shade400;
+    } else {
+      return Colors.red.shade400;
+    }
   }
 }

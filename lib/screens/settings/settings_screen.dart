@@ -60,7 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             height: 30,
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
+            margin: EdgeInsets.only(left: 20, right: 20, top: 10),
             child: Text(
               "Language",
               style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
@@ -89,14 +89,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             height: 5,
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
+            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
             child: Text(
               "Appearance",
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
           ),
           Card(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: SwitchListTile(
                 title: Text(
                   "Display Arabic Text",
