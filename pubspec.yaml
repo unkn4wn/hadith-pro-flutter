@@ -83,6 +83,11 @@ flutter:
         - asset: fonts/uthman.otf
         - asset: fonts/uthmanbold.otf
           weight: 700
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Bold.ttf
+          weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

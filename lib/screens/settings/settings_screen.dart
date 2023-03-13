@@ -164,7 +164,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _showBottomSheetLanguage() {
     showModalBottomSheet(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
       ),
@@ -198,7 +197,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         color: shortLanguageList[index].contains(
                                 SharedPreferencesHelper.getString(
                                     "hadithLanguage", "eng"))
-                            ? Theme.of(context).colorScheme.tertiaryContainer
+                            ? Theme.of(context).colorScheme.primary
                             : Theme.of(context).colorScheme.surface,
                         elevation: 0,
                         margin:
@@ -209,7 +208,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           title: Text(
                             longLanguageList[index],
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: shortLanguageList[index].contains(
+                                      SharedPreferencesHelper.getString(
+                                          "hadithLanguage", "eng"))
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onSurface,
+                            ),
                           ),
                           onTap: () {
                             setState(() {

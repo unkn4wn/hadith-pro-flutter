@@ -7,10 +7,21 @@ import 'package:hadithpro/components/bottomsheet/copysheet.dart';
 import 'package:hadithpro/components/widget/roundedItem.dart';
 
 class HadithItem extends StatelessWidget {
+  Map<String, TextDirection> languageDirectionMap = {
+    "ara": TextDirection.rtl,
+    "ben": TextDirection.ltr,
+    "eng": TextDirection.ltr,
+    "fra": TextDirection.ltr,
+    "ind": TextDirection.ltr,
+    "tam": TextDirection.ltr,
+    "tur": TextDirection.ltr,
+    "urd": TextDirection.rtl,
+  };
+
   final int bookNumber;
   final Hadith hadithArabic;
   final Hadith hadithTranslation;
-  const HadithItem(
+  HadithItem(
       {Key? key,
       required this.hadithArabic,
       required this.hadithTranslation,
@@ -21,8 +32,14 @@ class HadithItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20), // if you need this
+        side: BorderSide(
+          color: Colors.grey.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -31,6 +48,7 @@ class HadithItem extends StatelessWidget {
             Row(
               children: [
                 Container(
+                  margin: EdgeInsets.all(0),
                   height: 45,
                   width: 45,
                   child: Card(
@@ -91,13 +109,16 @@ class HadithItem extends StatelessWidget {
             SharedPreferencesHelper.getBool("displayTranslation", true)
                 ? HadithText(
                     hadithText: hadithTranslation,
-                    TextDirection: TextDirection.ltr,
+                    TextDirection: languageDirectionMap[
+                            SharedPreferencesHelper.getString(
+                                "hadithLanguage", "eng")] ??
+                        TextDirection.ltr,
                     TextStyle: TextStyle(
                       fontFamily: SharedPreferencesHelper.getString(
                                   "hadithLanguage", "eng") ==
                               ("eng")
-                          ? "Uthman"
-                          : 'poppins-bold',
+                          ? "Roboto-Bold"
+                          : 'Roboto-Bold',
                       fontWeight: FontWeight.bold,
                       fontSize: SharedPreferencesHelper.getDouble(
                           "textSizeTranslation", 20.0),
@@ -106,12 +127,10 @@ class HadithItem extends StatelessWidget {
                 : SizedBox.shrink(),
             const SizedBox(height: 4),
             const Divider(
-              color: Colors.black,
               height: 0,
             ),
             _buildGradesCard(context, hadithTranslation),
             const Divider(
-              color: Colors.black,
               height: 0,
             ),
             SizedBox(height: 8),
@@ -170,10 +189,10 @@ class HadithItem extends StatelessWidget {
   }
 
   Color _getTileColor(String grade) {
-    if (grade.contains("Sahih")) {
-      return Colors.green.shade700;
-    } else if (grade.contains("Hasan")) {
+    if (grade.contains("Hasan")) {
       return Colors.green.shade400;
+    } else if (grade.contains("Sahih")) {
+      return Colors.green.shade700;
     } else {
       return Colors.red.shade400;
     }

@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/screens/bookmarks/bookmarks_screen.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
@@ -10,9 +11,7 @@ import 'package:hadithpro/theme/theme_constants.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesHelper.init();
-
   final isFirstStart = SharedPreferencesHelper.getBool('isFirstStart', true);
-
   if (isFirstStart) {
     await SharedPreferencesHelper.setFirstStart();
     print("FIRST START");
@@ -32,27 +31,40 @@ class MyApp extends StatelessWidget {
         ColorScheme darkColorScheme;
 
         if (lightDynamic != null && darkDynamic != null) {
-          lightColorScheme = lightDynamic.harmonized()..copyWith();
-          lightColorScheme =
-              lightColorScheme.copyWith(secondary: Color(0xFF609D92));
-          darkColorScheme = darkDynamic.harmonized()..copyWith();
-          darkColorScheme =
-              darkColorScheme.copyWith(secondary: Color(0xFF609D92));
+          lightColorScheme = lightDynamic.harmonized();
+
+          darkColorScheme = darkDynamic.harmonized();
         } else {
-          lightColorScheme = lightTheme.colorScheme;
-          darkColorScheme = darkTheme.colorScheme;
+          lightColorScheme = ColorScheme.fromSeed(
+            seedColor: Color(0xFF609D92),
+          );
+          darkColorScheme = ColorScheme.fromSeed(
+            seedColor: Color(0xFF609D92),
+            brightness: Brightness.dark,
+          );
         }
+
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Bottom Nac',
           themeMode: ThemeMode.system,
-          theme:
-              ThemeData.from(colorScheme: lightColorScheme, useMaterial3: true),
+          theme: ThemeData(
+              colorScheme: lightColorScheme,
+              useMaterial3: true,
+              dividerTheme: DividerThemeData(
+                color:
+                    Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+              )),
           darkTheme:
               ThemeData.from(colorScheme: darkColorScheme, useMaterial3: true)
                   .copyWith(
-            brightness: Brightness.dark,
-          ),
+                      brightness: Brightness.dark,
+                      dividerTheme: DividerThemeData(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .outlineVariant
+                            .withOpacity(0.12),
+                      )),
           home: MainPage(),
         );
       },
@@ -92,6 +104,7 @@ class _MainPageState extends State<MainPage> {
         child: _widgetOptions.elementAt(currentPageIndex),
       ),
       bottomNavigationBar: NavigationBar(
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;

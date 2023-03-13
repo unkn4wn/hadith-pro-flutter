@@ -30,21 +30,20 @@ const colorOnSurfaceVariantDark = Colors.white;
 const bottomNavigationDark = Color(0xFF191A1D);
 
 const colorSchemeLight = ColorScheme.light(
-  primary: colorPrimary,
-  onPrimary: colorOnPrimary,
-  primaryContainer: colorPrimaryContainer,
-  onPrimaryContainer: colorOnPrimaryContainer,
-  secondary: colorSecondary,
-  onSecondary: colorOnSecondary,
-  tertiaryContainer: colorTertiaryContainer,
-  onTertiaryContainer: colorOnTertiaryContainer,
-  background: colorBackground,
-  onBackground: colorOnBackground,
-  surfaceVariant: colorSurfaceVariant,
-  onSurfaceVariant: colorOnSurfaceVariant,
-  error: Colors.red,
-  onError: Colors.white,
-);
+    primary: colorPrimary,
+    onPrimary: colorOnPrimary,
+    primaryContainer: colorPrimaryContainer,
+    onPrimaryContainer: colorOnPrimaryContainer,
+    secondary: colorSecondary,
+    onSecondary: colorOnSecondary,
+    tertiaryContainer: colorTertiaryContainer,
+    onTertiaryContainer: colorOnTertiaryContainer,
+    background: colorBackground,
+    onBackground: colorOnBackground,
+    surfaceVariant: colorSurfaceVariant,
+    onSurfaceVariant: colorOnSurfaceVariant,
+    error: Colors.red,
+    onError: Colors.white);
 
 const colorSchemeDark = ColorScheme.dark(
   primary: colorPrimaryDark,

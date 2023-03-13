@@ -65,14 +65,18 @@ class _HadithsScreenState extends State<HadithsScreen> {
                 SliverToBoxAdapter(
                   child: Card(
                     elevation: 4,
-                    surfaceTintColor: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.tertiary,
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
+                        horizontal: 16, vertical: 10),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
+                        borderRadius: BorderRadius.circular(20.0)),
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
-                      child: Text(widget.chapterName),
+                      child: Text(
+                        widget.chapterName,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onTertiary),
+                      ),
                     ),
                   ),
                 ),
