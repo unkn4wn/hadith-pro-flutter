@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hadithpro/components/widget/hadithtext.dart';
+import 'package:hadithpro/helper/databasehelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/components/bottomsheet/copysheet.dart';
-import 'package:hadithpro/components/widget/roundedItem.dart';
 
 class HadithItem extends StatelessWidget {
   Map<String, TextDirection> languageDirectionMap = {
@@ -66,6 +66,15 @@ class HadithItem extends StatelessWidget {
                     InkWell(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       onTap: () {
+                        final MyDatabaseHelper _databaseHelper =
+                            MyDatabaseHelper(context: context);
+                        _databaseHelper.addHadith(
+                            hadithArabic.text,
+                            hadithTranslation.text,
+                            hadithTranslation.arabicNumber,
+                            hadithTranslation.reference.book.toString(),
+                            SharedPreferencesHelper.getString(
+                                "hadithLanguage", "eng"));
                         print("HELLo");
                       },
                       child: Container(

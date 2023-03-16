@@ -87,15 +87,12 @@ Future<HadithsList> loadJson(String assetPath) async {
   return HadithsList.fromJson(jsonMap);
 }
 
-Future<Map<String, HadithsList>> loadJson2(
-    String assetPath, String assetPath2) async {
-  final jsonString = await rootBundle.loadString(assetPath);
-  final jsonString2 = await rootBundle.loadString(assetPath2);
-
-  final jsonMap = json.decode(jsonString);
-  final jsonMap2 = json.decode(jsonString2);
-  return {
-    'fileA': HadithsList.fromJson(jsonMap),
-    'fileB': HadithsList.fromJson(jsonMap2),
-  };
+Future<HadithsList> loadCombinedJson(List<String> assetPaths) async {
+  final combinedSections = <String, String>{};
+  final combinedList = <Hadith>[];
+  for (final assetPath in assetPaths) {
+    final hadithsList = await loadJson(assetPath);
+    combinedList.addAll(hadithsList.hadiths);
+  }
+  return HadithsList(sections: combinedSections, hadiths: combinedList);
 }

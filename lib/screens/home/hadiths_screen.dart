@@ -3,8 +3,6 @@ import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/components/widget/hadithitem.dart';
-import 'package:hadithpro/components/widget/roundedItem.dart';
-import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 
 class HadithsScreen extends StatefulWidget {
   final int bookNumber;

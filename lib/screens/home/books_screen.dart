@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hadithpro/components/widget/roundedItem.dart';
+import 'package:hadithpro/models/hadith.dart';
 import 'chapters_screen.dart';
 
 class BooksScreen extends StatefulWidget {
