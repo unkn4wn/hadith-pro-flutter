@@ -21,11 +21,13 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
   void initState() {
     super.initState();
     bookname = widget.bookNumber;
-    _hadithsList = loadJson('assets/json/' +
-        SharedPreferencesHelper.getString("hadithLanguage", "eng") +
-        "-" +
-        BooksScreen().fileNamesList[widget.bookNumber] +
-        ".min.json");
+    _hadithsList = loadJson(
+        'assets/json/' +
+            SharedPreferencesHelper.getString("hadithLanguage", "eng") +
+            "-" +
+            BooksScreen().fileNamesList[widget.bookNumber] +
+            ".json",
+        widget.bookNumber);
   }
 
   @override

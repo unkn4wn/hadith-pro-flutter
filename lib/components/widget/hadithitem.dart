@@ -19,13 +19,9 @@ class HadithItem extends StatelessWidget {
   };
 
   final int bookNumber;
-  final Hadith hadithArabic;
   final Hadith hadithTranslation;
   HadithItem(
-      {Key? key,
-      required this.hadithArabic,
-      required this.hadithTranslation,
-      required this.bookNumber})
+      {Key? key, required this.hadithTranslation, required this.bookNumber})
       : super(key: key);
 
   @override
@@ -69,7 +65,7 @@ class HadithItem extends StatelessWidget {
                         final MyDatabaseHelper _databaseHelper =
                             MyDatabaseHelper(context: context);
                         _databaseHelper.addHadith(
-                            hadithArabic.text,
+                            hadithTranslation.text_ara,
                             hadithTranslation.text,
                             hadithTranslation.arabicNumber,
                             hadithTranslation.reference.book.toString(),
@@ -86,8 +82,7 @@ class HadithItem extends StatelessWidget {
                     InkWell(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       onTap: () {
-                        CopySheet.show(
-                            context, hadithArabic, hadithTranslation);
+                        CopySheet.show(context, hadithTranslation, bookNumber);
                       },
                       child: Container(
                         height: 40,
@@ -103,10 +98,13 @@ class HadithItem extends StatelessWidget {
               height: 8,
             ),
             SharedPreferencesHelper.getBool("displayArabic", true)
-                ? HadithText(
-                    hadithText: hadithArabic,
-                    TextDirection: TextDirection.rtl,
-                    TextStyle: TextStyle(
+                ? Text(
+                    hadithTranslation.text_ara,
+                    softWrap: true,
+                    maxLines: null,
+                    textDirection: TextDirection.rtl,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
                       fontFamily: 'Uthman',
                       fontWeight: FontWeight.normal,
                       fontSize: SharedPreferencesHelper.getDouble(
@@ -116,13 +114,16 @@ class HadithItem extends StatelessWidget {
                 : SizedBox.shrink(),
             const SizedBox(height: 8),
             SharedPreferencesHelper.getBool("displayTranslation", true)
-                ? HadithText(
-                    hadithText: hadithTranslation,
-                    TextDirection: languageDirectionMap[
+                ? Text(
+                    hadithTranslation.text,
+                    softWrap: true,
+                    maxLines: null,
+                    textDirection: languageDirectionMap[
                             SharedPreferencesHelper.getString(
                                 "hadithLanguage", "eng")] ??
                         TextDirection.ltr,
-                    TextStyle: TextStyle(
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
                       fontFamily: SharedPreferencesHelper.getString(
                                   "hadithLanguage", "eng") ==
                               ("eng")
@@ -178,32 +179,45 @@ class HadithItem extends StatelessWidget {
   Widget _buildGradesCard(BuildContext context, Hadith hadith) {
     return Container(
       child: ExpansionTile(
-          title: Text("Grades"),
-          tilePadding: EdgeInsets.zero,
-          children: List.generate(hadith.grades.length, (index) {
+        title: Text("Grades"),
+        tilePadding: EdgeInsets.zero,
+        children: List.generate(
+          hadith.grades.length,
+          (index) {
             return Container(
               padding: EdgeInsets.symmetric(vertical: 4.0),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                trailing: Text(hadith.grades[index].grade),
-                tileColor: _getTileColor(hadith.grades[index].grade),
-                visualDensity: VisualDensity(vertical: -4),
-                title: Text(hadith.grades[index].name),
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(hadith.grades[index].name),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                      color: _getTileColor(hadith.grades[index].grade, context),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        hadith.grades[index].grade,
+                        style: TextStyle(color: Color(0xFF00390A)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
-          })),
+          },
+        ),
+      ),
     );
   }
 
-  Color _getTileColor(String grade) {
-    if (grade.contains("Hasan")) {
-      return Colors.green.shade400;
-    } else if (grade.contains("Sahih")) {
+  Color _getTileColor(String grade, BuildContext context) {
+    if (grade.contains("Sahih") || grade.contains("Hasan")) {
       return Colors.green.shade700;
     } else {
-      return Colors.red.shade400;
+      return Colors.red.shade700;
     }
   }
 }

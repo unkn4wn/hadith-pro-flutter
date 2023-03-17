@@ -50,6 +50,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   draggable_scrollbar: ^0.1.0
   sqflite: ^2.2.6
+  dartarabic: ^0.1.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

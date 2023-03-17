@@ -70,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: ListTile(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(10.0),
               ),
               title: Text(
                 "Hadith language",
@@ -98,6 +98,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Card(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: SwitchListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 title: Text(
                   "Display Arabic Text",
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -112,6 +115,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Card(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: SwitchListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 value:
                     SharedPreferencesHelper.getBool("displayTranslation", true),
                 title: Text(
@@ -128,6 +134,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Card(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               title: Text(
                 "Arabic Text Size",
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -144,6 +153,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Card(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               title: Text(
                 "Translation Text Size",
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -192,7 +204,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     itemBuilder: (context, index) {
                       return Card(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                         color: shortLanguageList[index].contains(
                                 SharedPreferencesHelper.getString(
@@ -204,7 +216,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         child: ListTile(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
                           title: Text(
                             longLanguageList[index],

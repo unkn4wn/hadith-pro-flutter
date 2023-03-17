@@ -5,7 +5,7 @@ import 'package:hadithpro/screens/home/books_screen.dart';
 
 class CopySheet {
   static void show(
-      BuildContext context, Hadith hadithArabic, Hadith hadithTranslation) {
+      BuildContext context, Hadith hadithTranslation, int booknumber) {
     showModalBottomSheet(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       shape: RoundedRectangleBorder(
@@ -53,10 +53,10 @@ class CopySheet {
                               "\n"; // Add new line except for the last element
                         }
                       });
-                      String reference = BooksScreen()
-                              .longNamesList[hadithTranslation.reference.book] +
-                          " " +
-                          hadithTranslation.arabicNumber.toString();
+                      String reference =
+                          BooksScreen().longNamesList[booknumber] +
+                              " " +
+                              hadithTranslation.arabicNumber.toString();
                       String inBookReference = "Book " +
                           hadithTranslation.reference.book.toString() +
                           ", " +
@@ -104,10 +104,10 @@ class CopySheet {
                               "\n"; // Add new line except for the last element
                         }
                       });
-                      String reference = BooksScreen()
-                              .longNamesList[hadithTranslation.reference.book] +
-                          " " +
-                          hadithTranslation.arabicNumber.toString();
+                      String reference =
+                          BooksScreen().longNamesList[booknumber] +
+                              " " +
+                              hadithTranslation.arabicNumber.toString();
                       String inBookReference = "Book " +
                           hadithTranslation.reference.book.toString() +
                           ", " +
@@ -119,7 +119,7 @@ class CopySheet {
                       await Clipboard.setData(ClipboardData(
                           text: hadithTranslation.text +
                               "\n\n" +
-                              hadithArabic.text +
+                              hadithTranslation.text_ara +
                               "\n\n" +
                               "Grades:" +
                               "\n" +

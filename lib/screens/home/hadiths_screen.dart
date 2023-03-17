@@ -25,40 +25,33 @@ class HadithsScreen extends StatefulWidget {
 class _HadithsScreenState extends State<HadithsScreen> {
   ScrollController controller = ScrollController();
   late Future<HadithsList> _hadithsList;
-  late Future<HadithsList> _hadithsListArabic;
 
   @override
   void initState() {
     super.initState();
-    _hadithsListArabic = loadJson('assets/json/' +
-        "ara-" +
-        BooksScreen().fileNamesList[widget.bookNumber] +
-        ".min.json");
-    _hadithsList = loadJson('assets/json/' +
-        SharedPreferencesHelper.getString("hadithLanguage", "eng") +
-        "-" +
-        BooksScreen().fileNamesList[widget.bookNumber] +
-        ".min.json");
+    _hadithsList = loadJson(
+        'assets/json/' +
+            SharedPreferencesHelper.getString("hadithLanguage", "eng") +
+            "-" +
+            BooksScreen().fileNamesList[widget.bookNumber] +
+            ".json",
+        widget.bookNumber);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<HadithsList>>(
-        future: Future.wait([_hadithsList, _hadithsListArabic]),
+        future: Future.wait([_hadithsList]),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final hadithsOfSection = snapshot.data![0].hadiths.where((hadith) {
               return hadith.reference.book == widget.chapterNumber;
             }).toList();
-            final hadithsOfSectionArabic = snapshot.data![1].hadiths
-                .where(
-                    (hadith) => hadith.reference.book == widget.chapterNumber)
-                .toList();
             return CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar.medium(
-                  title: Text("Chapter " + widget.chapterNumber.toString()),
+                  title: Text("Chapter ${widget.chapterNumber}"),
                 ),
                 SliverToBoxAdapter(
                   child: Card(
@@ -83,7 +76,6 @@ class _HadithsScreenState extends State<HadithsScreen> {
                     (BuildContext context, int index) {
                       return HadithItem(
                         bookNumber: widget.bookNumber,
-                        hadithArabic: hadithsOfSectionArabic[index],
                         hadithTranslation: hadithsOfSection[index],
                       );
                     },

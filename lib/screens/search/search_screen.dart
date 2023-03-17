@@ -13,95 +13,67 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final searchController = TextEditingController();
-  late Future<List<HadithsList>> _hadithsLists;
+  late List<Future<HadithsList>> _hadithsLists = [];
+  List<Hadith> _filteredHadiths = [];
+  final List<Hadith> _allHadiths = [];
+
+  Future<List<HadithsList>>? _hadithsListsFuture;
+  final fileNamesList = BooksScreen().fileNamesList;
+  final hadithLanguage =
+      SharedPreferencesHelper.getString("hadithLanguage", "eng");
 
   @override
   void initState() {
     super.initState();
-    final fileNamesList = BooksScreen().fileNamesList;
-    final hadithLanguage =
-        SharedPreferencesHelper.getString("hadithLanguage", "eng");
-
-    final hadithArabicLanguage = "ara";
-
-    _hadithsLists = Future.wait(
-      List.generate(
-        fileNamesList.length * 2,
-        (index) {
-          if (index < fileNamesList.length) {
-            return loadJson(
-                'assets/json/$hadithLanguage-${fileNamesList[index]}.min.json');
-          } else {
-            return loadJson(
-                'assets/json/ara-${fileNamesList[index % fileNamesList.length]}1.min.json');
-          }
-        },
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<HadithsList>>(
-        future: _hadithsLists,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final allHadiths = <Hadith>[];
-            snapshot.data!.forEach((hadithsList) {
-              allHadiths.addAll(hadithsList.hadiths);
+      appBar: AppBar(
+        title: TextField(
+          controller: searchController,
+          decoration: const InputDecoration(
+            hintText: 'Search Hadith',
+            suffixIcon: Icon(Icons.search),
+          ),
+          onSubmitted: (query) {
+            if (_hadithsListsFuture == null) {
+              _hadithsLists = List.generate(fileNamesList.length, (index) {
+                return loadJson(
+                    'assets/json/$hadithLanguage-${fileNamesList[index]}.json',
+                    index);
+              });
+              _hadithsListsFuture = Future.wait(_hadithsLists);
+            }
+            _hadithsListsFuture!.then((snapshot) {
+              _allHadiths.clear();
+              snapshot.forEach((hadithsList) {
+                _allHadiths.addAll(hadithsList.hadiths);
+              });
+              setState(() {
+                _filteredHadiths = _allHadiths
+                    .where((hadith) =>
+                        hadith.text.toLowerCase().contains(query.toLowerCase()))
+                    .toList();
+              });
+            }).catchError((error) {
+              setState(() {
+                _filteredHadiths.clear();
+              });
             });
-            final filteredHadiths = allHadiths.where((hadith) {
-              final query = searchController.text.toLowerCase();
-              final hadithString = hadith.text.toLowerCase();
-              return hadithString.contains(query);
-            }).toList();
-            return CustomScrollView(
-              slivers: <Widget>[
-                SliverAppBar.large(
-                  title: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Search Hadith',
-                      suffixIcon: Icon(Icons.search),
-                    ),
-                    onSubmitted: (_) {
-                      setState(() {});
-                    },
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      final hadith = filteredHadiths[index];
-                      final bookNumber = snapshot.data!.indexWhere(
-                          (hadithsList) =>
-                              hadithsList.hadiths.contains(hadith));
-                      if (bookNumber <= 6) {
-                        return HadithItem(
-                          bookNumber: bookNumber,
-                          hadithArabic: Hadith(
-                            arabicNumber: hadith.arabicNumber,
-                            text_ara: "ok_ara",
-                            text: "ok",
-                            grades: [Grade(name: "ok", grade: "te")],
-                            reference: Reference(book: 2, hadith: 2),
-                            hadithNumber: null,
-                          ),
-                          hadithTranslation: hadith,
-                        );
-                      }
-                    },
-                    childCount: filteredHadiths.length,
-                  ),
-                ),
-              ],
-            );
-          } else if (snapshot.hasError) {
-            return Text("d");
-          } else {
-            return Text("d");
-          }
+          },
+        ),
+      ),
+      body: ListView.builder(
+        itemCount: _filteredHadiths.length,
+        itemBuilder: (BuildContext context, int index) {
+          final hadith = _filteredHadiths[index];
+          final bookNumber = _filteredHadiths[index].bookNumber;
+          return HadithItem(
+            bookNumber: bookNumber,
+            hadithTranslation: hadith,
+          );
         },
       ),
     );
