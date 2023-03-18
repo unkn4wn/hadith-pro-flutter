@@ -7,17 +7,21 @@ import 'chapters_screen.dart';
 class BooksScreen extends StatefulWidget {
   List<String> fileNamesList = [
     "bukhari",
+    "muslim",
     "nasai",
     "abudawud",
     "tirmidhi",
     "ibnmajah",
+    "malik",
   ];
   List<String> longNamesList = [
     "Sahih Bukhari",
+    "Sahih Muslim",
     "Sunan an-Nasa\'i",
     "Sunan Abi Dawud",
     "Jami` at-Tirmidhi",
     "Sunan Ibn Majah",
+    "Muwatta Malik",
   ];
   BooksScreen({Key? key}) : super(key: key);
 
@@ -28,18 +32,22 @@ class BooksScreen extends StatefulWidget {
 class _BooksScreenState extends State<BooksScreen> {
   List<String> authorNamesList = [
     "Imam al-Bukhari",
+    "Imam Muslim",
     "Imam  an-Nasa\'i",
     "Imam Abu Dawud",
     "Imam at-Tirmidhi",
     "Imam Ibn Majah",
+    "Imam Malik",
   ];
   List<String> shortNamesList = ["B", "M", "N", "D", "T", "M", "M"];
   List<Color> colorNamesList = [
     Colors.blue,
+    Colors.yellow.shade700,
     Colors.deepPurple,
     Colors.lightGreen,
     Colors.green,
     Colors.pink,
+    Colors.lightBlueAccent,
   ];
 
   @override
@@ -59,7 +67,7 @@ class _BooksScreenState extends State<BooksScreen> {
         title: Text('Books'),
       ),
       body: ListView.builder(
-        itemCount: 5,
+        itemCount: 7,
         itemBuilder: (context, index) {
           return Column(
             children: [

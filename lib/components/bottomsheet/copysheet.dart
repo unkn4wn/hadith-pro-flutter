@@ -117,9 +117,9 @@ class CopySheet {
                           "https://play.google.com/store/apps/details?id=com.islamicproapps.hadithpro";
 
                       await Clipboard.setData(ClipboardData(
-                          text: hadithTranslation.text +
+                          text: hadithTranslation.text_ara +
                               "\n\n" +
-                              hadithTranslation.text_ara +
+                              hadithTranslation.text +
                               "\n\n" +
                               "Grades:" +
                               "\n" +

@@ -16,6 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
   late List<Future<HadithsList>> _hadithsLists = [];
   List<Hadith> _filteredHadiths = [];
   final List<Hadith> _allHadiths = [];
+  bool _isFiltering = false;
 
   Future<List<HadithsList>>? _hadithsListsFuture;
   final fileNamesList = BooksScreen().fileNamesList;
@@ -46,6 +47,9 @@ class _SearchScreenState extends State<SearchScreen> {
               });
               _hadithsListsFuture = Future.wait(_hadithsLists);
             }
+            setState(() {
+              _isFiltering = true;
+            });
             _hadithsListsFuture!.then((snapshot) {
               _allHadiths.clear();
               snapshot.forEach((hadithsList) {
@@ -56,25 +60,36 @@ class _SearchScreenState extends State<SearchScreen> {
                     .where((hadith) =>
                         hadith.text.toLowerCase().contains(query.toLowerCase()))
                     .toList();
+                _isFiltering = false;
               });
             }).catchError((error) {
+              print("ERRORSAS " + error.toString());
               setState(() {
                 _filteredHadiths.clear();
+                _isFiltering = false;
               });
             });
           },
         ),
       ),
-      body: ListView.builder(
-        itemCount: _filteredHadiths.length,
-        itemBuilder: (BuildContext context, int index) {
-          final hadith = _filteredHadiths[index];
-          final bookNumber = _filteredHadiths[index].bookNumber;
-          return HadithItem(
-            bookNumber: bookNumber,
-            hadithTranslation: hadith,
-          );
-        },
+      body: Stack(
+        children: [
+          ListView.builder(
+            itemCount: _filteredHadiths.length,
+            itemBuilder: (BuildContext context, int index) {
+              final hadith = _filteredHadiths[index];
+              final bookNumber = _filteredHadiths[index].bookNumber;
+              return HadithItem(
+                bookNumber: bookNumber,
+                hadithTranslation: hadith,
+              );
+            },
+          ),
+          if (_isFiltering)
+            Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
       ),
     );
   }
