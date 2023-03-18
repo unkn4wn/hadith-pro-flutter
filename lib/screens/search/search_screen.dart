@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hadithpro/components/widget/hadithitem.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
+import 'package:dartarabic/dartarabic.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -39,17 +41,29 @@ class _SearchScreenState extends State<SearchScreen> {
             suffixIcon: Icon(Icons.search),
           ),
           onSubmitted: (query) {
-            if (_hadithsListsFuture == null) {
-              _hadithsLists = List.generate(fileNamesList.length, (index) {
-                return loadJson(
-                    'assets/json/$hadithLanguage-${fileNamesList[index]}.json',
-                    index);
-              });
-              _hadithsListsFuture = Future.wait(_hadithsLists);
-            }
             setState(() {
               _isFiltering = true;
             });
+            if (_hadithsListsFuture == null) {
+              _hadithsLists = List.generate(
+                fileNamesList.length,
+                (index) async {
+                  String assetName =
+                      'assets/json/$hadithLanguage-${fileNamesList[index]}.json';
+                  bool exists = await assetExists(assetName);
+                  if (exists) {
+                    return loadJson(assetName, index);
+                  } else {
+                    // handle file not found error
+                    print("File not found: $assetName");
+                    return HadithsList(hadiths: [], sections: {});
+                  }
+                },
+              );
+
+              _hadithsListsFuture = Future.wait(_hadithsLists);
+            }
+
             _hadithsListsFuture!.then((snapshot) {
               _allHadiths.clear();
               snapshot.forEach((hadithsList) {
@@ -58,7 +72,12 @@ class _SearchScreenState extends State<SearchScreen> {
               setState(() {
                 _filteredHadiths = _allHadiths
                     .where((hadith) =>
-                        hadith.text.toLowerCase().contains(query.toLowerCase()))
+                        hadith.text
+                            .toLowerCase()
+                            .contains(query.toLowerCase()) ||
+                        DartArabic.stripTashkeel(hadith.text_ara)
+                            .toLowerCase()
+                            .contains(query.toLowerCase()))
                     .toList();
                 _isFiltering = false;
               });
@@ -68,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 _filteredHadiths.clear();
                 _isFiltering = false;
               });
-            });
+            }).whenComplete(() => _hadithsListsFuture = null);
           },
         ),
       ),
@@ -92,5 +111,14 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
     );
+  }
+
+  Future<bool> assetExists(String assetName) async {
+    try {
+      await rootBundle.load(assetName);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

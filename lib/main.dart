@@ -6,7 +6,6 @@ import 'package:hadithpro/screens/bookmarks/bookmarks_screen.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/screens/search/search_screen.dart';
 import 'package:hadithpro/screens/settings/settings_screen.dart';
-import 'package:hadithpro/theme/theme_constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +17,7 @@ void main() async {
   }
 
   runApp(MyApp());
-} // initiate MyApp as  StatelessWidget
+}
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
