@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.0.18
   dynamic_color: ^1.6.2
+  draggable_scrollbar: ^0.1.0
+  sqflite: ^2.2.6
+  dartarabic: ^0.1.2
 
 dev_dependencies:
   flutter_test:
@@ -48,9 +51,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  draggable_scrollbar: ^0.1.0
-  sqflite: ^2.2.6
-  dartarabic: ^0.1.2
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
