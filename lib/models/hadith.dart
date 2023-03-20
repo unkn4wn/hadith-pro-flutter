@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class Hadith {
@@ -90,6 +91,14 @@ class HadithsList {
 // To load a JSON file:
 Future<HadithsList> loadJson(String assetPath, int booknumber) async {
   final jsonString = await rootBundle.loadString(assetPath);
+  return await compute(
+      parseJson, {'jsonString': jsonString, 'bookNumber': booknumber});
+}
+
+// A function to parse the JSON string in a separate thread
+HadithsList parseJson(Map<String, dynamic> data) {
+  final jsonString = data['jsonString'];
+  final bookNumber = data['bookNumber'];
   final jsonMap = json.decode(jsonString);
-  return HadithsList.fromJson(jsonMap, booknumber);
+  return HadithsList.fromJson(jsonMap, bookNumber);
 }
