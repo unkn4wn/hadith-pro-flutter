@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.islamicproapps.hadithpro">
    <application
-        android:label="hadithpro"
+        android:label="Hadith Pro"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
