@@ -49,7 +49,7 @@ flutter_native_splash:
   web: false
   color: "#FAFDFB"
   color_dark: "#191C1B"
-  image: "assets/icon/logo.png"
+  image: "assets/icon/logo_circle.png"
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +78,7 @@ flutter:
   assets:
     - assets/json/
     - assets/icon/logo.png
+    - assets/icon/logo_circle.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
