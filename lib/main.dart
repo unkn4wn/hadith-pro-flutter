@@ -48,6 +48,8 @@ class MyApp extends StatelessWidget {
           title: 'Bottom Nac',
           themeMode: ThemeMode.system,
           theme: ThemeData(
+              dividerColor:
+                  Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
               colorScheme: lightColorScheme,
               useMaterial3: true,
               dividerTheme: DividerThemeData(
@@ -57,6 +59,10 @@ class MyApp extends StatelessWidget {
           darkTheme:
               ThemeData.from(colorScheme: darkColorScheme, useMaterial3: true)
                   .copyWith(
+                      dividerColor: Theme.of(context)
+                          .colorScheme
+                          .outlineVariant
+                          .withOpacity(0.12),
                       brightness: Brightness.dark,
                       dividerTheme: DividerThemeData(
                         color: Theme.of(context)
