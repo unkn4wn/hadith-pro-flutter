@@ -23,6 +23,16 @@ class BooksScreen extends StatefulWidget {
     "Sunan Ibn Majah",
     "Muwatta Malik",
   ];
+
+  List<int> hadithNumberList = [
+    7563,
+    3033,
+    5758,
+    5274,
+    3956,
+    4341,
+    1858,
+  ];
   BooksScreen({Key? key}) : super(key: key);
 
   @override
@@ -54,7 +64,6 @@ class _BooksScreenState extends State<BooksScreen> {
   void initState() {
     super.initState();
     _initHadithList();
-    print("Init state");
   }
 
   Future<void> _initHadithList() async {
@@ -87,7 +96,9 @@ class _BooksScreenState extends State<BooksScreen> {
                   BooksScreen().longNamesList[index],
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
                 ),
-                subtitle: Text("by " + authorNamesList[index]),
+                subtitle: Text(
+                    BooksScreen().hadithNumberList[index].toString() +
+                        " Hadtih"),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ChaptersScreen(bookNumber: index)));
