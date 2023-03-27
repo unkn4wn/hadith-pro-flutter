@@ -40,7 +40,8 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
           future: _hadithsList,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final sectionsMeta = snapshot.data!.sections;
+              final sectionsMeta = snapshot.data!.metadata.sections;
+              final sectionDetails = snapshot.data!.metadata.sectionDetails;
               return ListView.builder(
                 itemCount: sectionsMeta.length,
                 itemBuilder: (context, index) {
@@ -64,7 +65,8 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                             ),
                           ),
                           title: Text(sectionsMeta.values.elementAt(index)),
-                          subtitle: Text("by Unknown"),
+                          subtitle: Text(
+                              "${sectionDetails.values.elementAt(index).values.elementAt(2)} to ${sectionDetails.values.elementAt(index).values.elementAt(3)}"),
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -96,6 +98,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                 },
               );
             } else if (snapshot.hasError) {
+              print(snapshot.error);
               return const Center(
                 child: Text('This book is not available in this language'),
               );

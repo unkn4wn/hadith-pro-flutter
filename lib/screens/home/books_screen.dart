@@ -54,6 +54,7 @@ class _BooksScreenState extends State<BooksScreen> {
   void initState() {
     super.initState();
     _initHadithList();
+    print("Init state");
   }
 
   Future<void> _initHadithList() async {

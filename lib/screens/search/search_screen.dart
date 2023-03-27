@@ -56,7 +56,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   } else {
                     // handle file not found error
                     print("File not found: $assetName");
-                    return HadithsList(hadiths: [], sections: {});
+                    return HadithsList(
+                      metadata:
+                          Metadata(name: "", sections: {}, sectionDetails: {}),
+                      hadiths: [],
+                    );
                   }
                 },
               );
