@@ -34,6 +34,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   String hadithLanguage = LanguageHelper.getLanguageName(
       SharedPreferencesHelper.getString("hadithLanguage", "eng"));
+
+  bool expandGrades = SharedPreferencesHelper.getBool("expandGrades", false);
   bool isCheckedArabic = SharedPreferencesHelper.getBool("displayArabic", true);
   bool isCheckedTranslation =
       SharedPreferencesHelper.getBool("displayTranslation", true);
@@ -94,6 +96,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
               "Appearance",
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
+          ),
+          Card(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: SwitchListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                title: Text(
+                  "Expand Grades",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                value: SharedPreferencesHelper.getBool("expandGrades", false),
+                onChanged: (bool? value) {
+                  setState(() {
+                    SharedPreferencesHelper.setBool("expandGrades", value!);
+                  });
+                }),
           ),
           Card(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),

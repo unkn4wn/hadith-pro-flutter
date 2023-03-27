@@ -179,6 +179,8 @@ class HadithItem extends StatelessWidget {
   Widget _buildGradesCard(BuildContext context, Hadith hadith) {
     return Container(
       child: ExpansionTile(
+        initiallyExpanded:
+            SharedPreferencesHelper.getBool("expandGrades", false),
         title: Text("Grades"),
         tilePadding: EdgeInsets.zero,
         children: List.generate(
