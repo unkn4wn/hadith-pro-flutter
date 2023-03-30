@@ -1,215 +1,140 @@
-import 'package:flutter/material.dart';
+import 'package:hadithpro/models/hadith.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'dart:async';
 
 class MyDatabaseHelper {
-  final BuildContext context;
-  static final String DATABASE_NAME = "Bookmark.db";
-  static final int DATABASE_VERSION = 1;
-
-  static final String TABLE_NAME_HADITHS = "hadiths";
-  static final String TABLE_NAME_HADITHSGRADES = "hadithsgrades";
-
-  static final String COLUMN_ID = "_id";
-  static final String COLUMN_ARABIC = "hadith_arabic";
-  static final String COLUMN_TRANSLATED = "hadith_translated";
-  static final String COLUMN_REFERENCE = "hadith_reference";
-  static final String COLUMN_BOOKREFERENCE = "hadith_bookreference";
-  static final String COLUMN_LANGUAGE = "hadith_language";
-
-  static final String COLUMN_GRADESCHOLARS = "hadith_scholars";
-  static final String COLUMN_GRADES = "hadith_grades";
-
-  late final Database _db;
-
-  MyDatabaseHelper({required this.context}) {
-    _initDatabase();
+  MyDatabaseHelper._privateConstructor();
+  static final MyDatabaseHelper instance =
+      MyDatabaseHelper._privateConstructor();
+  static Database? _database;
+  static const String DATABASE_NAME = "Bookmark.db";
+  static const int DATABASE_VERSION = 1;
+  static const String TABLE_NAME_HADITHS = "hadiths";
+  static const String COLUMN_ID = "_id";
+  static const String COLUMN_HADITHNUMBER = "hadithnumber";
+  static const String COLUMN_ARABICNUMBER = "arabicnumber";
+  static const String COLUMN_TEXTARABIC = "text_ara";
+  static const String COLUMN_TEXTTRANSLATED = "text";
+  static const String COLUMN_GRADES = "grades";
+  static const String COLUMN_BOOKID = "book_id";
+  static const String COLUMN_BOOKREFERENCE = "book_reference";
+  static const String COLUMN_INBOOKREFERENCE = "inbook_reference";
+  static const String COLUMN_LANGUAGE = "hadith_language";
+  Future<Database?> get database async {
+    if (_database != null) return _database;
+    _database = await _initDatabase();
+    return _database;
   }
 
-  Future<void> _initDatabase() async {
-    _db = await openDatabase(
-      join(await getDatabasesPath(), DATABASE_NAME),
+  _initDatabase() async {
+    String path = join(await getDatabasesPath(), DATABASE_NAME);
+    return await openDatabase(
+      path,
       version: DATABASE_VERSION,
-      onCreate: _createDatabase,
-      onUpgrade: _onUpgradeDatabase,
+      onCreate: _onCreate,
     );
   }
 
-  Future<void> _createDatabase(Database db, int version) async {
-    String queryHadiths = "CREATE TABLE " +
-        TABLE_NAME_HADITHS +
-        " (" +
-        COLUMN_ID +
-        " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-        COLUMN_ARABIC +
-        " TEXT, " +
-        COLUMN_TRANSLATED +
-        " TEXT, " +
-        COLUMN_REFERENCE +
-        " TEXT, " +
-        COLUMN_BOOKREFERENCE +
-        " TEXT, " +
-        COLUMN_LANGUAGE +
-        " TEXT);";
-
-    String queryHadithsGrades = "CREATE TABLE " +
-        TABLE_NAME_HADITHSGRADES +
-        " (" +
-        COLUMN_REFERENCE +
-        " TEXT REFERENCES " +
-        TABLE_NAME_HADITHS +
-        "(" +
-        COLUMN_REFERENCE +
-        ")" +
-        ", " +
-        COLUMN_GRADESCHOLARS +
-        " TEXT, " +
-        COLUMN_GRADES +
-        " TEXT, " +
-        COLUMN_LANGUAGE +
-        " TEXT);";
-
-    await db.execute(queryHadiths);
-    await db.execute(queryHadithsGrades);
+  Future _onCreate(Database db, int version) async {
+    await db.execute('''
+    CREATE TABLE $TABLE_NAME_HADITHS (
+      $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+      $COLUMN_HADITHNUMBER REAL,
+      $COLUMN_ARABICNUMBER REAL,
+      $COLUMN_TEXTARABIC TEXT,
+      $COLUMN_TEXTTRANSLATED TEXT,
+      $COLUMN_GRADES TEXT,
+      $COLUMN_BOOKID INTEGER,
+      $COLUMN_BOOKREFERENCE INTEGER,
+      $COLUMN_INBOOKREFERENCE INTEGER,
+      $COLUMN_LANGUAGE TEXT
+    )
+''');
   }
 
-  Future<void> _onUpgradeDatabase(
-      Database db, int oldVersion, int newVersion) async {
-    await db.execute("DROP TABLE IF EXISTS " + TABLE_NAME_HADITHS);
-    await db.execute("DROP TABLE IF EXISTS " + TABLE_NAME_HADITHSGRADES);
-    _createDatabase(db, newVersion);
-  }
-
-  Future<void> addHadith(String arabicHadithText, String translatedHadithText,
-      String reference, String bookreference, String language) async {
-    final db = await _db;
-    final cv = <String, dynamic>{
-      COLUMN_ARABIC: arabicHadithText,
-      COLUMN_TRANSLATED: translatedHadithText,
-      COLUMN_REFERENCE: reference,
-      COLUMN_BOOKREFERENCE: bookreference,
-      COLUMN_LANGUAGE: language,
-    };
-    print(cv[COLUMN_TRANSLATED]);
-    final result = await db.insert(TABLE_NAME_HADITHS, cv);
-    if (result == -1) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error")));
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Add")));
-    }
-  }
-
-  Future<void> addHadithGrades(String reference, String gradeScholars,
-      String grades, String language) async {
-    Database db = await _db;
-    Map<String, dynamic> cv = {
-      COLUMN_REFERENCE: reference,
-      COLUMN_GRADESCHOLARS: gradeScholars,
-      COLUMN_GRADES: grades,
+  Future<void> addHadith(
+      int bookId,
+      dynamic hadithnumber,
+      dynamic arabicnumber,
+      String arabicHadithText,
+      String translatedHadithText,
+      List<Grade> grades,
+      int inBookReference,
+      int bookReference,
+      String language) async {
+    String allGrades = "";
+    grades.forEach((element) {
+      allGrades += element.name + "::" + element.grade + "&&";
+    });
+    final db = await instance.database;
+    await db!.insert(TABLE_NAME_HADITHS, {
+      COLUMN_BOOKID: bookId,
+      COLUMN_HADITHNUMBER: hadithnumber,
+      COLUMN_ARABICNUMBER: arabicnumber,
+      COLUMN_TEXTARABIC: arabicHadithText,
+      COLUMN_TEXTTRANSLATED: translatedHadithText,
+      COLUMN_GRADES: allGrades,
+      COLUMN_BOOKREFERENCE: bookReference,
+      COLUMN_INBOOKREFERENCE: inBookReference,
       COLUMN_LANGUAGE: language
-    };
-    int result = await db.insert(TABLE_NAME_HADITHSGRADES, cv);
-    if (result == -1) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("AddErrot"), duration: Duration(seconds: 2)));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Add"), duration: Duration(seconds: 2)));
-    }
+    });
   }
 
   Future<List<Map<String, dynamic>>> readHadithData() async {
-    String query = "SELECT * FROM $TABLE_NAME_HADITHS";
-    Database db = await _db;
-    List<Map<String, dynamic>> result = await db.rawQuery(query);
-    return result;
+    final db = await instance.database;
+    return await db!.query(TABLE_NAME_HADITHS);
   }
 
-  Future<List<Map<String, dynamic>>> readHadithGradesData(
-      String reference, String language) async {
-    String query =
-        "SELECT * FROM $TABLE_NAME_HADITHSGRADES WHERE hadith_reference = ? AND hadith_language = ?";
-    List<dynamic> args = [reference, language];
-    Database db = await _db;
-    List<Map<String, dynamic>> result = await db.rawQuery(query, args);
-    return result;
+  Future<int> updateData(
+      {required int rowId,
+      required int bookId,
+      required num hadithNumber,
+      required num arabicNumber,
+      required String arabicHadithText,
+      required String translatedHadithText,
+      required String grades,
+      required int bookReference,
+      required int inBookReference,
+      required String tableName}) async {
+    final db = await instance.database;
+    return await db!.update(
+        tableName,
+        {
+          COLUMN_BOOKID: bookId,
+          COLUMN_HADITHNUMBER: hadithNumber,
+          COLUMN_ARABICNUMBER: arabicNumber,
+          COLUMN_TEXTARABIC: arabicHadithText,
+          COLUMN_TEXTTRANSLATED: translatedHadithText,
+          COLUMN_GRADES: grades,
+          COLUMN_BOOKREFERENCE: bookReference,
+          COLUMN_INBOOKREFERENCE: inBookReference,
+        },
+        where: '_id=?',
+        whereArgs: [rowId]);
   }
 
-  Future<void> updateData(
-      String rowId,
-      String arabicHadithText,
-      String translatedHadithText,
-      String gradeScholars,
-      String grades,
-      String reference,
-      String bookReference,
-      String tableName) async {
-    final db = await _db;
-    final cv = <String, dynamic>{
-      COLUMN_ARABIC: arabicHadithText,
-      COLUMN_TRANSLATED: translatedHadithText,
-      COLUMN_GRADESCHOLARS: gradeScholars,
-      COLUMN_GRADES: grades,
-      COLUMN_REFERENCE: reference,
-      COLUMN_BOOKREFERENCE: bookReference
-    };
-
-    final result = await db.update(
-      tableName,
-      cv,
-      where: '_id=?',
-      whereArgs: [rowId],
-    );
-
-    if (result == -1) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Failed to Update"), duration: Duration(seconds: 2)));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Updated succesfully!"),
-          duration: Duration(seconds: 2)));
-    }
+  Future<int> deleteOneRow(String tableName, int rowId) async {
+    final db = await instance.database;
+    return await db!.delete(tableName, where: '_id=?', whereArgs: [rowId]);
   }
 
-  Future<void> deleteOneRow(String tableName, String row_id) async {
-    final db = await _db;
-    final result =
-        await db.delete(tableName, where: "_id=?", whereArgs: [row_id]);
-    if (result == -1) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Failed to remove')));
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Removed successfully!')));
-    }
+  Future<int> removeHadith(
+      int bookId, num hadithNumber, String hadithLanguage) async {
+    final db = await instance.database;
+    return await db!.delete(TABLE_NAME_HADITHS,
+        where: 'book_id=? AND hadithnumber=? AND hadith_language=?',
+        whereArgs: [bookId, hadithNumber, hadithLanguage]);
   }
 
-  Future<void> deleteOneRowReference(
-      String tableName, String reference, String language) async {
-    final db = await _db;
-    final result = await db.delete(tableName,
-        where: "hadith_reference=? and hadith_language=?",
-        whereArgs: [reference, language]);
-    if (result == -1) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Failed to remove')));
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Removed successfully!')));
-    }
+  Future<int?> countTotal(String tableName) async {
+    final db = await instance.database;
+    var result = await db!.rawQuery("SELECT COUNT(*) FROM $tableName");
+    return Sqflite.firstIntValue(result);
   }
 
-  Future<List<Map<String, dynamic>>> getIdOfLastRow(String tableName) async {
-    String query = "SELECT SUM(\"_id\") FROM $tableName";
-    Database db = await _db;
-    List<Map<String, dynamic>> result = await db.rawQuery(query);
-    return result;
-  }
-
-  void deleteAllData(String tableName) async {
-    Database db = await _db;
-    await db.delete(tableName);
+  Future<void> deleteAllData(String tableName) async {
+    final db = await instance.database;
+    await db!.delete(tableName);
   }
 }

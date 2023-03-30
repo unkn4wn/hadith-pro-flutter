@@ -18,11 +18,13 @@ class HadithBook {
 }
 
 class Metadata {
+  final int bookId;
   final String name;
   final Map<String, String> sections;
   final Map<String, Map<String, num>> sectionDetails;
 
   Metadata({
+    required this.bookId,
     required this.name,
     required this.sections,
     required this.sectionDetails,
@@ -40,6 +42,7 @@ class Metadata {
     }
 
     return Metadata(
+      bookId: json['book_id'],
       name: json['name'],
       sections: sections,
       sectionDetails: sectionDetails,
@@ -107,15 +110,15 @@ class Grade {
 }
 
 class Reference {
-  final int book;
-  final int hadith;
+  final int bookReference;
+  final int inBookReference;
 
-  Reference({required this.book, required this.hadith});
+  Reference({required this.bookReference, required this.inBookReference});
 
   factory Reference.fromJson(Map<String, dynamic> json) {
     return Reference(
-      book: json['book'],
-      hadith: json['hadith'],
+      bookReference: json['book'],
+      inBookReference: json['hadith'],
     );
   }
 }

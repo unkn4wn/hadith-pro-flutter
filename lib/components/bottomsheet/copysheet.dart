@@ -58,10 +58,11 @@ class CopySheet {
                               " " +
                               hadithTranslation.arabicNumber.toString();
                       String inBookReference = "Book " +
-                          hadithTranslation.reference.book.toString() +
+                          hadithTranslation.reference.bookReference.toString() +
                           ", " +
                           "Hadith " +
-                          hadithTranslation.reference.hadith.toString();
+                          hadithTranslation.reference.inBookReference
+                              .toString();
                       String playStoreLink =
                           "https://play.google.com/store/apps/details?id=com.islamicproapps.hadithpro";
 
@@ -109,10 +110,11 @@ class CopySheet {
                               " " +
                               hadithTranslation.arabicNumber.toString();
                       String inBookReference = "Book " +
-                          hadithTranslation.reference.book.toString() +
+                          hadithTranslation.reference.bookReference.toString() +
                           ", " +
                           "Hadith " +
-                          hadithTranslation.reference.hadith.toString();
+                          hadithTranslation.reference.inBookReference
+                              .toString();
                       String playStoreLink =
                           "https://play.google.com/store/apps/details?id=com.islamicproapps.hadithpro";
 

@@ -6,7 +6,19 @@ import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/components/bottomsheet/copysheet.dart';
 
-class HadithItem extends StatelessWidget {
+class HadithItem extends StatefulWidget {
+  final int bookNumber;
+  final Hadith hadithTranslation;
+  HadithItem(
+      {Key? key, required this.hadithTranslation, required this.bookNumber})
+      : super(key: key);
+
+  @override
+  State<HadithItem> createState() => _HadithItemState();
+}
+
+class _HadithItemState extends State<HadithItem> {
+  String isBookmarkedKey = "";
   Map<String, TextDirection> languageDirectionMap = {
     "ara": TextDirection.rtl,
     "ben": TextDirection.ltr,
@@ -18,11 +30,18 @@ class HadithItem extends StatelessWidget {
     "urd": TextDirection.rtl,
   };
 
-  final int bookNumber;
-  final Hadith hadithTranslation;
-  HadithItem(
-      {Key? key, required this.hadithTranslation, required this.bookNumber})
-      : super(key: key);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    isBookmarkedKey = "isBookmarked_" +
+        widget.bookNumber.toString() +
+        "_" +
+        widget.hadithTranslation.hadithNumber.toString() +
+        "_" +
+        SharedPreferencesHelper.getString("hadithLanguage", "key");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +69,8 @@ class HadithItem extends StatelessWidget {
                   child: Card(
                     child: Center(
                       child: Text(
-                        hadithTranslation.reference.hadith.toString(),
+                        widget.hadithTranslation.reference.inBookReference
+                            .toString(),
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
@@ -62,27 +82,51 @@ class HadithItem extends StatelessWidget {
                     InkWell(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       onTap: () {
-                        final MyDatabaseHelper _databaseHelper =
-                            MyDatabaseHelper(context: context);
-                        _databaseHelper.addHadith(
-                            hadithTranslation.text_ara,
-                            hadithTranslation.text,
-                            hadithTranslation.arabicNumber,
-                            hadithTranslation.reference.book.toString(),
-                            SharedPreferencesHelper.getString(
-                                "hadithLanguage", "eng"));
-                        print("HELLo");
+                        if (SharedPreferencesHelper.getBool(
+                            isBookmarkedKey, false)) {
+                          MyDatabaseHelper.instance.removeHadith(
+                              widget.bookNumber,
+                              widget.hadithTranslation.hadithNumber,
+                              SharedPreferencesHelper.getString(
+                                  "hadithLanguage", "eng"));
+                        } else {
+                          MyDatabaseHelper.instance.addHadith(
+                              widget.bookNumber,
+                              widget.hadithTranslation.hadithNumber,
+                              widget.hadithTranslation.arabicNumber,
+                              widget.hadithTranslation.text_ara,
+                              widget.hadithTranslation.text,
+                              widget.hadithTranslation.grades,
+                              widget
+                                  .hadithTranslation.reference.inBookReference,
+                              widget.hadithTranslation.reference.bookReference,
+                              SharedPreferencesHelper.getString(
+                                  "hadithLanguage", "eng"));
+                        }
+
+                        SharedPreferencesHelper.setBool(
+                            isBookmarkedKey,
+                            !SharedPreferencesHelper.getBool(
+                                isBookmarkedKey, false));
+                        setState(() {});
                       },
                       child: Container(
                         height: 40,
                         width: 40,
-                        child: Icon(Icons.bookmark_border),
+                        child: SharedPreferencesHelper.getBool(
+                                isBookmarkedKey, false)
+                            ? Icon(
+                                Icons.bookmark_outlined,
+                                color: Colors.yellow.shade600,
+                              )
+                            : Icon(Icons.bookmark_border),
                       ),
                     ),
                     InkWell(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       onTap: () {
-                        CopySheet.show(context, hadithTranslation, bookNumber);
+                        CopySheet.show(context, widget.hadithTranslation,
+                            widget.bookNumber);
                       },
                       child: Container(
                         height: 40,
@@ -99,7 +143,7 @@ class HadithItem extends StatelessWidget {
             ),
             SharedPreferencesHelper.getBool("displayArabic", true)
                 ? Text(
-                    hadithTranslation.text_ara,
+                    widget.hadithTranslation.text_ara,
                     softWrap: true,
                     maxLines: null,
                     textDirection: TextDirection.rtl,
@@ -115,7 +159,7 @@ class HadithItem extends StatelessWidget {
             const SizedBox(height: 8),
             SharedPreferencesHelper.getBool("displayTranslation", true)
                 ? Text(
-                    hadithTranslation.text,
+                    widget.hadithTranslation.text,
                     softWrap: true,
                     maxLines: null,
                     textDirection: languageDirectionMap[
@@ -139,7 +183,7 @@ class HadithItem extends StatelessWidget {
             const Divider(
               height: 0,
             ),
-            _buildGradesCard(context, hadithTranslation),
+            _buildGradesCard(context, widget.hadithTranslation),
             const Divider(
               height: 0,
             ),
@@ -153,7 +197,7 @@ class HadithItem extends StatelessWidget {
                 const VerticalDivider(width: 1.0),
                 Expanded(
                   child: Text(
-                      "${BooksScreen().longNamesList[bookNumber]} ${hadithTranslation.arabicNumber}"),
+                      "${BooksScreen().longNamesList[widget.bookNumber]} ${widget.hadithTranslation.arabicNumber}"),
                 ),
               ],
             ),
@@ -166,7 +210,7 @@ class HadithItem extends StatelessWidget {
                 const VerticalDivider(width: 1.0),
                 Expanded(
                   child: Text(
-                      "Book ${hadithTranslation.reference.book}, Hadith ${hadithTranslation.reference.hadith}"),
+                      "Book ${widget.hadithTranslation.reference.bookReference}, Hadith ${widget.hadithTranslation.reference.inBookReference}"),
                 ),
               ],
             ),
@@ -182,6 +226,7 @@ class HadithItem extends StatelessWidget {
         initiallyExpanded:
             SharedPreferencesHelper.getBool("expandGrades", false),
         title: Text("Grades"),
+        textColor: Theme.of(context).colorScheme.onSurface,
         tilePadding: EdgeInsets.zero,
         children: List.generate(
           hadith.grades.length,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hadithpro/helper/databasehelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
@@ -46,7 +47,7 @@ class _HadithsScreenState extends State<HadithsScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final hadithsOfSection = snapshot.data![0].hadiths.where((hadith) {
-              return hadith.reference.book == widget.chapterNumber;
+              return hadith.reference.bookReference == widget.chapterNumber;
             }).toList();
             return CustomScrollView(
               slivers: <Widget>[
