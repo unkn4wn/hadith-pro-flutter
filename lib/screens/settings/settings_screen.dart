@@ -283,6 +283,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Arabic Text Size",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
                   Spacer(),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -332,6 +343,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Translation Text Size",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
                   Spacer(),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
