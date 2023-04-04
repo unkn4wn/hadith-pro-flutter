@@ -5,6 +5,7 @@ import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:dartarabic/dartarabic.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -36,8 +37,8 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         title: TextField(
           controller: searchController,
-          decoration: const InputDecoration(
-            hintText: 'Search Hadith',
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.search_title_main,
             suffixIcon: Icon(Icons.search),
           ),
           onSubmitted: (query) {

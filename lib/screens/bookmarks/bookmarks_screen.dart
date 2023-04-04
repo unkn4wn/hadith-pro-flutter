@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hadithpro/components/widget/hadithitem.dart';
 import 'package:hadithpro/helper/databasehelper.dart';
 import 'package:hadithpro/models/hadith.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BookmarksScreen extends StatefulWidget {
   const BookmarksScreen({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bookmarks'),
+        title: Text(AppLocalizations.of(context)!.bookmark_title_main),
       ),
       body: ListView.builder(
         itemCount: hadithList.length,
@@ -54,10 +55,14 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
               arabicNumber.toString().replaceAll(regex, '');
           print(arabicNumberString);
 
+          double hadithNumber = hadith[MyDatabaseHelper.COLUMN_HADITHNUMBER];
+          String hadithNumberString =
+              hadithNumber.toString().replaceAll(regex, '');
+
           return HadithItem(
               hadithTranslation: Hadith(
                   bookNumber: hadith[MyDatabaseHelper.COLUMN_BOOKID],
-                  hadithNumber: hadith[MyDatabaseHelper.COLUMN_HADITHNUMBER],
+                  hadithNumber: hadithNumberString,
                   arabicNumber: arabicNumberString,
                   text_ara: hadith[MyDatabaseHelper.COLUMN_TEXTARABIC],
                   text: hadith[MyDatabaseHelper.COLUMN_TEXTTRANSLATED],

@@ -99,7 +99,7 @@ class _BooksScreenState extends State<BooksScreen> {
                 ),
                 subtitle: Text(
                     BooksScreen().hadithNumberList[index].toString() +
-                        " Hadtih"),
+                        " Hadith"),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ChaptersScreen(bookNumber: index)));

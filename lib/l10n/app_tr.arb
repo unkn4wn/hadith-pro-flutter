@@ -1,4 +1,8 @@
 {
+"bottomnavigation_title_home": "Külliyat",
+"bottomnavigation_title_search": "Ara",
+"bottomnavigation_title_bookmarks": "Yer imi",
+"bottomnavigation_title_settings": "Ayarlar",
 "books_title_main": "Kitaplar",
 "hadiths_title_main": "Bölüm",
 "hadithitem_title_grades": "Sınıflandırmalar",
@@ -9,6 +13,8 @@
 "hadithitem_copy_title": "Kopyalama Seçenekleri",
 "hadithitem_copy_copyonlytranslation": "Sadece Tercüme Kopyala",
 "hadithitem_copy_copyboth": "Her İkisini de Kopyala",
+"search_title_main": "Hadis ara",
+"bookmark_title_main": "Yer imi",
 "settings_title_main": "Ayarlar",
 "settings_title_language": "Dil",
 "settings_subtitle_hadithlanguage": "Hadis Dili",

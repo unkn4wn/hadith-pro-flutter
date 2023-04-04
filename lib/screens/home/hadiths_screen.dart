@@ -4,6 +4,7 @@ import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/components/widget/hadithitem.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HadithsScreen extends StatefulWidget {
   final int bookNumber;
@@ -52,7 +53,8 @@ class _HadithsScreenState extends State<HadithsScreen> {
             return CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar.medium(
-                  title: Text("Chapter ${widget.chapterNumber}"),
+                  title: Text(AppLocalizations.of(context)!.hadiths_title_main +
+                      " ${widget.chapterNumber}"),
                 ),
                 SliverToBoxAdapter(
                   child: Card(

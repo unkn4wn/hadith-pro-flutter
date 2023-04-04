@@ -1,4 +1,8 @@
 {
+"bottomnavigation_title_home": "Home",
+"bottomnavigation_title_search": "Search",
+"bottomnavigation_title_bookmarks": "Bookmarks",
+"bottomnavigation_title_settings": "Settings",
 "books_title_main": "Books",
 "hadiths_title_main": "Chapter",
 "hadithitem_title_grades": "Grades",
@@ -9,6 +13,8 @@
 "hadithitem_copy_title": "Copy options",
 "hadithitem_copy_copyonlytranslation": "Copy Only Translation",
 "hadithitem_copy_copyboth": "Copy Both",
+"search_title_main": "Search Hadith",
+"bookmark_title_main": "Bookmarks",
 "settings_title_main": "Settings",
 "settings_title_language": "Language",
 "settings_subtitle_hadithlanguage": "Hadith Language",

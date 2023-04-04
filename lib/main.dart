@@ -153,25 +153,27 @@ class _MainPageState extends State<MainPage> {
           });
         },
         selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
             selectedIcon: Icon(Icons.home),
             icon: Icon(Icons.home_outlined),
-            label: 'Home',
+            label: AppLocalizations.of(context)!.bottomnavigation_title_home,
           ),
           NavigationDestination(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: AppLocalizations.of(context)!.bottomnavigation_title_search,
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.bookmark),
             icon: Icon(Icons.bookmark_border),
-            label: 'Saved',
+            label:
+                AppLocalizations.of(context)!.bottomnavigation_title_bookmarks,
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.settings),
             icon: Icon(Icons.settings_outlined),
-            label: 'Settings',
+            label:
+                AppLocalizations.of(context)!.bottomnavigation_title_settings,
           ),
         ],
       ),

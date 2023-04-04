@@ -89,8 +89,8 @@ class MyDatabaseHelper {
   Future<int> updateData(
       {required int rowId,
       required int bookId,
-      required num hadithNumber,
-      required num arabicNumber,
+      required dynamic hadithNumber,
+      required dynamic arabicNumber,
       required String arabicHadithText,
       required String translatedHadithText,
       required String grades,
@@ -120,7 +120,7 @@ class MyDatabaseHelper {
   }
 
   Future<int> removeHadith(
-      int bookId, num hadithNumber, String hadithLanguage) async {
+      int bookId, dynamic hadithNumber, String hadithLanguage) async {
     final db = await instance.database;
     return await db!.delete(TABLE_NAME_HADITHS,
         where: 'book_id=? AND hadithnumber=? AND hadith_language=?',
