@@ -21,6 +21,8 @@ class _SearchScreenState extends State<SearchScreen> {
   final List<Hadith> _allHadiths = [];
   bool _isFiltering = false;
 
+  bool searchTranslation = true;
+
   Future<List<HadithsList>>? _hadithsListsFuture;
   final fileNamesList = BooksScreen().fileNamesList;
   final hadithLanguage =
@@ -31,90 +33,102 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextField(
-          controller: searchController,
-          decoration: InputDecoration(
-            hintText: AppLocalizations.of(context)!.search_title_main,
-            suffixIcon: Icon(Icons.search),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            title: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.search_title_main,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.filter_alt),
+                    onPressed: () {
+                      setState(() {
+                        _showBottomSheetFilter();
+                      });
+                    },
+                  ),
+                  icon: Icon(Icons.search)),
+              onSubmitted: (query) {
+                setState(() {
+                  _isFiltering = true;
+                });
+                if (_hadithsListsFuture == null) {
+                  _hadithsLists = List.generate(
+                    fileNamesList.length,
+                    (index) async {
+                      String assetName =
+                          'assets/json/$hadithLanguage-${fileNamesList[index]}.json';
+                      bool exists = await assetExists(assetName);
+                      if (exists) {
+                        return loadJson(assetName, index);
+                      } else {
+                        // handle file not found error
+                        print("File not found: $assetName");
+                        return HadithsList(
+                          metadata: Metadata(
+                              bookId: 0,
+                              name: "",
+                              sections: {},
+                              sectionDetails: {}),
+                          hadiths: [],
+                        );
+                      }
+                    },
+                  );
+
+                  _hadithsListsFuture = Future.wait(_hadithsLists);
+                }
+
+                _hadithsListsFuture!.then((snapshot) {
+                  _allHadiths.clear();
+                  snapshot.forEach((hadithsList) {
+                    _allHadiths.addAll(hadithsList.hadiths);
+                  });
+                  setState(() {
+                    _filteredHadiths = _allHadiths.where((hadith) {
+                      if (searchTranslation) {
+                        return hadith.text
+                            .toLowerCase()
+                            .contains(query.toLowerCase());
+                      } else {
+                        return DartArabic.stripTashkeel(hadith.text_ara)
+                            .toLowerCase()
+                            .contains(query.toLowerCase());
+                      }
+                    }).toList();
+                    _isFiltering = false;
+                  });
+                }).catchError((error) {
+                  print("ERRORSAS " + error.toString());
+                  setState(() {
+                    _filteredHadiths.clear();
+                    _isFiltering = false;
+                  });
+                }).whenComplete(() => _hadithsListsFuture = null);
+              },
+            ),
           ),
-          onSubmitted: (query) {
-            setState(() {
-              _isFiltering = true;
-            });
-            if (_hadithsListsFuture == null) {
-              _hadithsLists = List.generate(
-                fileNamesList.length,
-                (index) async {
-                  String assetName =
-                      'assets/json/$hadithLanguage-${fileNamesList[index]}.json';
-                  bool exists = await assetExists(assetName);
-                  if (exists) {
-                    return loadJson(assetName, index);
-                  } else {
-                    // handle file not found error
-                    print("File not found: $assetName");
-                    return HadithsList(
-                      metadata: Metadata(
-                          bookId: 0,
-                          name: "",
-                          sections: {},
-                          sectionDetails: {}),
-                      hadiths: [],
-                    );
-                  }
-                },
-              );
-
-              _hadithsListsFuture = Future.wait(_hadithsLists);
-            }
-
-            _hadithsListsFuture!.then((snapshot) {
-              _allHadiths.clear();
-              snapshot.forEach((hadithsList) {
-                _allHadiths.addAll(hadithsList.hadiths);
-              });
-              setState(() {
-                _filteredHadiths = _allHadiths
-                    .where((hadith) =>
-                        hadith.text
-                            .toLowerCase()
-                            .contains(query.toLowerCase()) ||
-                        DartArabic.stripTashkeel(hadith.text_ara)
-                            .toLowerCase()
-                            .contains(query.toLowerCase()))
-                    .toList();
-                _isFiltering = false;
-              });
-            }).catchError((error) {
-              print("ERRORSAS " + error.toString());
-              setState(() {
-                _filteredHadiths.clear();
-                _isFiltering = false;
-              });
-            }).whenComplete(() => _hadithsListsFuture = null);
-          },
-        ),
-      ),
-      body: Stack(
-        children: [
-          ListView.builder(
-            itemCount: _filteredHadiths.length,
-            itemBuilder: (BuildContext context, int index) {
-              final hadith = _filteredHadiths[index];
-              final bookNumber = _filteredHadiths[index].bookNumber;
-              return HadithItem(
-                bookNumber: bookNumber,
-                hadithTranslation: hadith,
-              );
-            },
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                final hadith = _filteredHadiths[index];
+                final bookNumber = _filteredHadiths[index].bookNumber;
+                return HadithItem(
+                  bookNumber: bookNumber,
+                  hadithTranslation: hadith,
+                );
+              },
+              childCount: _filteredHadiths.length,
+            ),
           ),
           if (_isFiltering)
-            Center(
-              child: CircularProgressIndicator(),
+            SliverFillRemaining(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
         ],
       ),
@@ -128,5 +142,91 @@ class _SearchScreenState extends State<SearchScreen> {
     } catch (e) {
       return false;
     }
+  }
+
+  void _showBottomSheetFilter() {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    alignment: Alignment.center,
+                    child: Text(
+                      AppLocalizations.of(context)!.search_filter_title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: searchTranslation
+                        ? Theme.of(context).colorScheme.surface
+                        : Theme.of(context).colorScheme.primary,
+                    elevation: 0,
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      title: Text(
+                        AppLocalizations.of(context)!
+                            .search_filter_searcharabic,
+                        style: TextStyle(
+                            color: searchTranslation
+                                ? Theme.of(context).colorScheme.onSurface
+                                : Theme.of(context).colorScheme.onPrimary),
+                      ),
+                      onTap: () {
+                        searchTranslation = false;
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: searchTranslation
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.surface,
+                    elevation: 0,
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      title: Text(
+                          AppLocalizations.of(context)!
+                              .search_filter_searchtranslation,
+                          style: TextStyle(
+                              color: searchTranslation
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onSurface)),
+                      onTap: () {
+                        searchTranslation = true;
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

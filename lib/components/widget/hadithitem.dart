@@ -85,24 +85,51 @@ class _HadithItemState extends State<HadithItem> {
                       onTap: () {
                         if (SharedPreferencesHelper.getBool(
                             isBookmarkedKey, false)) {
-                          MyDatabaseHelper.instance.removeHadith(
-                              widget.bookNumber,
-                              widget.hadithTranslation.hadithNumber,
-                              SharedPreferencesHelper.getString(
-                                  "hadithLanguage", "eng"));
+                          try {
+                            MyDatabaseHelper.instance.removeHadith(
+                                widget.bookNumber,
+                                widget.hadithTranslation.hadithNumber,
+                                SharedPreferencesHelper.getString(
+                                    "hadithLanguage", "eng"));
+                            ScaffoldMessenger.of(context)
+                                .removeCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(AppLocalizations.of(context)!
+                                    .hadithitem_bookmarkremove_snackbar_success)));
+                          } catch (e) {
+                            ScaffoldMessenger.of(context)
+                                .removeCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(AppLocalizations.of(context)!
+                                    .hadithitem_bookmarkremove_snackbar_error)));
+                          }
                         } else {
-                          MyDatabaseHelper.instance.addHadith(
-                              widget.bookNumber,
-                              widget.hadithTranslation.hadithNumber,
-                              widget.hadithTranslation.arabicNumber,
-                              widget.hadithTranslation.text_ara,
-                              widget.hadithTranslation.text,
-                              widget.hadithTranslation.grades,
-                              widget
-                                  .hadithTranslation.reference.inBookReference,
-                              widget.hadithTranslation.reference.bookReference,
-                              SharedPreferencesHelper.getString(
-                                  "hadithLanguage", "eng"));
+                          try {
+                            MyDatabaseHelper.instance.addHadith(
+                                widget.bookNumber,
+                                widget.hadithTranslation.hadithNumber,
+                                widget.hadithTranslation.arabicNumber,
+                                widget.hadithTranslation.text_ara,
+                                widget.hadithTranslation.text,
+                                widget.hadithTranslation.grades,
+                                widget.hadithTranslation.reference
+                                    .inBookReference,
+                                widget
+                                    .hadithTranslation.reference.bookReference,
+                                SharedPreferencesHelper.getString(
+                                    "hadithLanguage", "eng"));
+                            ScaffoldMessenger.of(context)
+                                .removeCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(AppLocalizations.of(context)!
+                                    .hadithitem_bookmarkadd_snackbar_success)));
+                          } catch (e) {
+                            ScaffoldMessenger.of(context)
+                                .removeCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(AppLocalizations.of(context)!
+                                    .hadithitem_bookmarkadd_snackbar_error)));
+                          }
                         }
 
                         SharedPreferencesHelper.setBool(
