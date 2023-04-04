@@ -5,6 +5,7 @@ import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/components/bottomsheet/copysheet.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HadithItem extends StatefulWidget {
   final int bookNumber;
@@ -191,8 +192,9 @@ class _HadithItemState extends State<HadithItem> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Expanded(
-                  child: Text("Reference"),
+                Expanded(
+                  child: Text(
+                      AppLocalizations.of(context)!.hadithitem_title_reference),
                 ),
                 const VerticalDivider(width: 1.0),
                 Expanded(
@@ -204,13 +206,18 @@ class _HadithItemState extends State<HadithItem> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Expanded(
-                  child: Text("In-book reference"),
+                Expanded(
+                  child: Text(AppLocalizations.of(context)!
+                      .hadithitem_title_inbookreference),
                 ),
                 const VerticalDivider(width: 1.0),
                 Expanded(
-                  child: Text(
-                      "Book ${widget.hadithTranslation.reference.bookReference}, Hadith ${widget.hadithTranslation.reference.inBookReference}"),
+                  child: Text(AppLocalizations.of(context)!
+                          .hadithitem_inbookreference_book +
+                      " ${widget.hadithTranslation.reference.bookReference}, " +
+                      AppLocalizations.of(context)!
+                          .hadithitem_inbookreference_hadith +
+                      " ${widget.hadithTranslation.reference.inBookReference}"),
                 ),
               ],
             ),
@@ -225,7 +232,7 @@ class _HadithItemState extends State<HadithItem> {
       child: ExpansionTile(
         initiallyExpanded:
             SharedPreferencesHelper.getBool("expandGrades", false),
-        title: Text("Grades"),
+        title: Text(AppLocalizations.of(context)!.hadithitem_title_grades),
         textColor: Theme.of(context).colorScheme.onSurface,
         tilePadding: EdgeInsets.zero,
         children: List.generate(

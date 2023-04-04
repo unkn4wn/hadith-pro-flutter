@@ -1,11 +1,14 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
+import 'package:hadithpro/l10n/l10n.dart';
 import 'package:hadithpro/screens/bookmarks/bookmarks_screen.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/screens/search/search_screen.dart';
 import 'package:hadithpro/screens/settings/settings_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,8 +22,37 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  final Map<String, Locale> localeMap = {
+    "ara": Locale("ar"),
+    "ben": Locale("bn"),
+    "eng": Locale("en"),
+    "fra": Locale("fr"),
+    "ind": Locale("id"),
+    "tam": Locale("ta"),
+    "tur": Locale("tr"),
+    "urd": Locale("ur")
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +103,11 @@ class MyApp extends StatelessWidget {
                             .withOpacity(0.12),
                       )),
           home: MainPage(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: localeMap[
+                  SharedPreferencesHelper.getString("hadithLanguage", "eng")] ??
+              Locale("en"),
         );
       },
     );

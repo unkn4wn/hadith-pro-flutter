@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hadithpro/helper/languagehelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
+import 'package:hadithpro/main.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -10,6 +13,17 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  List<String> longTranslatedLanguageList = [
+    "العربية",
+    "বাংলা",
+    "English",
+    "Français",
+    "Bahasa Indonesia",
+    "தமிழ்",
+    "Türkçe",
+    "اردو"
+  ];
+
   List<String> longLanguageList = [
     "Arabic",
     "Bengali",
@@ -30,6 +44,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     "tam",
     "tur",
     "urd"
+  ];
+
+  List<Locale> shortestLanguageList = [
+    Locale("ar"),
+    Locale("bn"),
+    Locale("en"),
+    Locale("fr"),
+    Locale("id"),
+    Locale("ta"),
+    Locale("tr"),
+    Locale("ur"),
   ];
 
   String hadithLanguage = LanguageHelper.getLanguageName(
@@ -53,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.settings_title_main),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Container(
             margin: EdgeInsets.only(left: 20, right: 20, top: 10),
             child: Text(
-              "Language",
+              AppLocalizations.of(context)!.settings_title_language,
               style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
             ),
           ),
@@ -75,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               title: Text(
-                "Hadith language",
+                AppLocalizations.of(context)!.settings_subtitle_hadithlanguage,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               trailing: Icon(Icons.arrow_forward_ios),
@@ -93,7 +118,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Container(
             margin: EdgeInsets.only(left: 20, right: 20, top: 20),
             child: Text(
-              "Appearance",
+              AppLocalizations.of(context)!.settings_title_appearance,
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
           ),
@@ -104,7 +129,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 title: Text(
-                  "Expand Grades",
+                  AppLocalizations.of(context)!.settings_subtitle_expandgrades,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 value: SharedPreferencesHelper.getBool("expandGrades", false),
@@ -121,7 +146,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 title: Text(
-                  "Display Arabic Text",
+                  AppLocalizations.of(context)!
+                      .settings_subtitle_displayarabictext,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 value: SharedPreferencesHelper.getBool("displayArabic", true),
@@ -140,7 +166,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 value:
                     SharedPreferencesHelper.getBool("displayTranslation", true),
                 title: Text(
-                  "Display Translation Text",
+                  AppLocalizations.of(context)!
+                      .settings_subtitle_displaytranslationtext,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 onChanged: (bool? value) {
@@ -157,7 +184,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               title: Text(
-                "Arabic Text Size",
+                AppLocalizations.of(context)!
+                    .settings_subtitle_displayarabictextsize,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               trailing: const Icon(Icons.arrow_forward_ios),
@@ -176,7 +204,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               title: Text(
-                "Translation Text Size",
+                AppLocalizations.of(context)!
+                    .settings_subtitle_displaytranslationtextsize,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               trailing: const Icon(Icons.arrow_forward_ios),
@@ -209,7 +238,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   alignment: Alignment.center,
                   child: Text(
-                    "Select Language",
+                    AppLocalizations.of(context)!
+                        .settings_subtitle_hadithlanguage,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -237,6 +267,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
+                          trailing: Text(
+                            longTranslatedLanguageList[index],
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: shortLanguageList[index].contains(
+                                      SharedPreferencesHelper.getString(
+                                          "hadithLanguage", "eng"))
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
                           title: Text(
                             longLanguageList[index],
                             style: TextStyle(
@@ -252,9 +293,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             setState(() {
                               SharedPreferencesHelper.setString(
                                   "hadithLanguage", shortLanguageList[index]);
+                              MyApp.setLocale(
+                                  context, shortestLanguageList[index]);
                             });
+
                             updateSubtitleHadithLanguage(
-                                longLanguageList[index]);
+                                longTranslatedLanguageList[index]);
                             Navigator.pop(context);
                           },
                         ),
@@ -287,7 +331,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     alignment: Alignment.center,
                     child: Text(
-                      "Arabic Text Size",
+                      AppLocalizations.of(context)!
+                          .settings_subtitle_displayarabictextsize,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -347,7 +392,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     alignment: Alignment.center,
                     child: Text(
-                      "Translation Text Size",
+                      AppLocalizations.of(context)!
+                          .settings_subtitle_displaytranslationtextsize,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,

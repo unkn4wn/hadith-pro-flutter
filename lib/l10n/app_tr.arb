@@ -1,0 +1,21 @@
+{
+"books_title_main": "Kitaplar",
+"hadiths_title_main": "Bölüm",
+"hadithitem_title_grades": "Sınıflandırmalar",
+"hadithitem_title_reference": "Referans",
+"hadithitem_title_inbookreference": "Kitap Referansı",
+"hadithitem_inbookreference_book": "Kitap",
+"hadithitem_inbookreference_hadith": "Hadis",
+"hadithitem_copy_title": "Kopyalama Seçenekleri",
+"hadithitem_copy_copyonlytranslation": "Sadece Tercüme Kopyala",
+"hadithitem_copy_copyboth": "Her İkisini de Kopyala",
+"settings_title_main": "Ayarlar",
+"settings_title_language": "Dil",
+"settings_subtitle_hadithlanguage": "Hadis Dili",
+"settings_title_appearance": "Görünüm",
+"settings_subtitle_expandgrades": "Sınıflandırmaları Genişlet",
+"settings_subtitle_displayarabictext": "Arapça Metni Göster",
+"settings_subtitle_displaytranslationtext": "Tercüme Metni Göster",
+"settings_subtitle_displayarabictextsize": "Arapça Metin Boyutu",
+"settings_subtitle_displaytranslationtextsize": "Tercüme Metin Boyutu"
+}

@@ -1,16 +1,19 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class LanguageHelper {
   static Map<String, String> iso639_2Map = {
-    'ara': 'Arabic',
-    'ben': 'Bengali',
+    'ara': 'العربية',
+    'ben': 'বাংলা',
     'eng': 'English',
-    'fra': 'French',
-    'ind': 'Indonesian',
-    'tam': 'Tamil',
-    'tur': 'Turkish',
-    'urd': 'Urdu',
+    'fra': 'Français',
+    'ind': 'Bahasa Indonesia',
+    'tam': 'தமிழ்',
+    'tur': 'Türkçe',
+    'urd': 'اردو',
   };
 
   static String getLanguageName(String iso639_2Code) {
-    return iso639_2Map[iso639_2Code] ?? "eng";
+    return iso639_2Map[iso639_2Code] ?? "English";
   }
 }

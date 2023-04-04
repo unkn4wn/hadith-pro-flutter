@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:hadithpro/components/widget/roundedItem.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'chapters_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BooksScreen extends StatefulWidget {
   List<String> fileNamesList = [
@@ -74,7 +75,7 @@ class _BooksScreenState extends State<BooksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Books'),
+        title: Text(AppLocalizations.of(context)!.books_title_main),
       ),
       body: ListView.builder(
         itemCount: 7,

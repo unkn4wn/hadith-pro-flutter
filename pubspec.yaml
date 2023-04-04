@@ -41,6 +41,9 @@ dependencies:
   sqflite: ^2.2.6
   dartarabic: ^0.1.2
   flutter_native_splash: ^2.2.19
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
 
 
 flutter_native_splash:
@@ -68,6 +71,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

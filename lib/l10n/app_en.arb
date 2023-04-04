@@ -1,0 +1,21 @@
+{
+"books_title_main": "Books",
+"hadiths_title_main": "Chapter",
+"hadithitem_title_grades": "Grades",
+"hadithitem_title_reference": "Reference",
+"hadithitem_title_inbookreference": "In-book reference",
+"hadithitem_inbookreference_book": "Book",
+"hadithitem_inbookreference_hadith": "Hadith",
+"hadithitem_copy_title": "Copy options",
+"hadithitem_copy_copyonlytranslation": "Copy Only Translation",
+"hadithitem_copy_copyboth": "Copy Both",
+"settings_title_main": "Settings",
+"settings_title_language": "Language",
+"settings_subtitle_hadithlanguage": "Hadith Language",
+"settings_title_appearance": "Appearance",
+"settings_subtitle_expandgrades": "Expand Grades",
+"settings_subtitle_displayarabictext": "Display Arabic Text",
+"settings_subtitle_displaytranslationtext": "Display Translation Text",
+"settings_subtitle_displayarabictextsize": "Arabic Text Size",
+"settings_subtitle_displaytranslationtextsize": "Translation Text Size"
+}
