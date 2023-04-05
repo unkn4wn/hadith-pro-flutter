@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CopySheet {
   static void show(
@@ -54,15 +55,9 @@ class CopySheet {
                         }
                       });
                       String reference =
-                          BooksScreen().longNamesList[booknumber] +
-                              " " +
-                              hadithTranslation.arabicNumber.toString();
-                      String inBookReference = "Book " +
-                          hadithTranslation.reference.bookReference.toString() +
-                          ", " +
-                          "Hadith " +
-                          hadithTranslation.reference.inBookReference
-                              .toString();
+                          "${BooksScreen().longNamesList[booknumber]} ${hadithTranslation.arabicNumber}";
+                      String inBookReference =
+                          "${AppLocalizations.of(context)!.hadithitem_inbookreference_book} ${hadithTranslation.reference.bookReference}, ${AppLocalizations.of(context)!.hadithitem_inbookreference_hadith} ${hadithTranslation.reference.inBookReference}";
                       String playStoreLink =
                           "https://play.google.com/store/apps/details?id=com.islamicproapps.hadithpro";
 
@@ -109,12 +104,8 @@ class CopySheet {
                           BooksScreen().longNamesList[booknumber] +
                               " " +
                               hadithTranslation.arabicNumber.toString();
-                      String inBookReference = "Book " +
-                          hadithTranslation.reference.bookReference.toString() +
-                          ", " +
-                          "Hadith " +
-                          hadithTranslation.reference.inBookReference
-                              .toString();
+                      String inBookReference =
+                          "${AppLocalizations.of(context)!.hadithitem_inbookreference_book} ${hadithTranslation.reference.bookReference}, ${AppLocalizations.of(context)!.hadithitem_inbookreference_hadith} ${hadithTranslation.reference.inBookReference}";
                       String playStoreLink =
                           "https://play.google.com/store/apps/details?id=com.islamicproapps.hadithpro";
 

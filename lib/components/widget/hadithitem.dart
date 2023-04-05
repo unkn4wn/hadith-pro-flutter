@@ -94,14 +94,18 @@ class _HadithItemState extends State<HadithItem> {
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(AppLocalizations.of(context)!
-                                    .hadithitem_bookmarkremove_snackbar_success)));
+                              content: Text(AppLocalizations.of(context)!
+                                  .hadithitem_bookmarkremove_snackbar_success),
+                              duration: Duration(seconds: 1),
+                            ));
                           } catch (e) {
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(AppLocalizations.of(context)!
-                                    .hadithitem_bookmarkremove_snackbar_error)));
+                              content: Text(AppLocalizations.of(context)!
+                                  .hadithitem_bookmarkremove_snackbar_error),
+                              duration: Duration(seconds: 1),
+                            ));
                           }
                         } else {
                           try {
@@ -121,14 +125,18 @@ class _HadithItemState extends State<HadithItem> {
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(AppLocalizations.of(context)!
-                                    .hadithitem_bookmarkadd_snackbar_success)));
+                              content: Text(AppLocalizations.of(context)!
+                                  .hadithitem_bookmarkadd_snackbar_success),
+                              duration: Duration(seconds: 1),
+                            ));
                           } catch (e) {
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(AppLocalizations.of(context)!
-                                    .hadithitem_bookmarkadd_snackbar_error)));
+                              content: Text(AppLocalizations.of(context)!
+                                  .hadithitem_bookmarkadd_snackbar_error),
+                              duration: Duration(seconds: 1),
+                            ));
                           }
                         }
 

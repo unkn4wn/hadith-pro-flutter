@@ -80,144 +80,148 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings_title_main),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: Text(
-              AppLocalizations.of(context)!.settings_title_language,
-              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              height: 30,
             ),
-          ),
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+              child: Text(
+                AppLocalizations.of(context)!.settings_title_language,
+                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
               ),
-              title: Text(
-                AppLocalizations.of(context)!.settings_subtitle_hadithlanguage,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios),
-              subtitle: Text(hadithLanguage),
-              onTap: () {
-                setState(() {
-                  _showBottomSheetLanguage();
-                });
-              },
             ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-            child: Text(
-              AppLocalizations.of(context)!.settings_title_appearance,
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            child: SwitchListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                title: Text(
-                  AppLocalizations.of(context)!.settings_subtitle_expandgrades,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                value: SharedPreferencesHelper.getBool("expandGrades", false),
-                onChanged: (bool? value) {
-                  setState(() {
-                    SharedPreferencesHelper.setBool("expandGrades", value!);
-                  });
-                }),
-          ),
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            child: SwitchListTile(
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 title: Text(
                   AppLocalizations.of(context)!
-                      .settings_subtitle_displayarabictext,
+                      .settings_subtitle_hadithlanguage,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                value: SharedPreferencesHelper.getBool("displayArabic", true),
-                onChanged: (bool? value) {
+                trailing: Icon(Icons.arrow_forward_ios),
+                subtitle: Text(hadithLanguage),
+                onTap: () {
                   setState(() {
-                    SharedPreferencesHelper.setBool("displayArabic", value!);
+                    _showBottomSheetLanguage();
                   });
-                }),
-          ),
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            child: SwitchListTile(
+                },
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+              child: Text(
+                AppLocalizations.of(context)!.settings_title_appearance,
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: SwitchListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  title: Text(
+                    AppLocalizations.of(context)!
+                        .settings_subtitle_expandgrades,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  value: SharedPreferencesHelper.getBool("expandGrades", false),
+                  onChanged: (bool? value) {
+                    setState(() {
+                      SharedPreferencesHelper.setBool("expandGrades", value!);
+                    });
+                  }),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: SwitchListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  title: Text(
+                    AppLocalizations.of(context)!
+                        .settings_subtitle_displayarabictext,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  value: SharedPreferencesHelper.getBool("displayArabic", true),
+                  onChanged: (bool? value) {
+                    setState(() {
+                      SharedPreferencesHelper.setBool("displayArabic", value!);
+                    });
+                  }),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: SwitchListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  value: SharedPreferencesHelper.getBool(
+                      "displayTranslation", true),
+                  title: Text(
+                    AppLocalizations.of(context)!
+                        .settings_subtitle_displaytranslationtext,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onChanged: (bool? value) {
+                    setState(() {
+                      SharedPreferencesHelper.setBool(
+                          "displayTranslation", value!);
+                    });
+                  }),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                value:
-                    SharedPreferencesHelper.getBool("displayTranslation", true),
                 title: Text(
                   AppLocalizations.of(context)!
-                      .settings_subtitle_displaytranslationtext,
+                      .settings_subtitle_displayarabictextsize,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                onChanged: (bool? value) {
+                trailing: const Icon(Icons.arrow_forward_ios),
+                subtitle: Text(sliderArabicSize.toString()),
+                onTap: () {
                   setState(() {
-                    SharedPreferencesHelper.setBool(
-                        "displayTranslation", value!);
+                    _showBottomSheetArabic();
                   });
-                }),
-          ),
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            child: ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                },
               ),
-              title: Text(
-                AppLocalizations.of(context)!
-                    .settings_subtitle_displayarabictextsize,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              subtitle: Text(sliderArabicSize.toString()),
-              onTap: () {
-                setState(() {
-                  _showBottomSheetArabic();
-                });
-              },
             ),
-          ),
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            child: ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                title: Text(
+                  AppLocalizations.of(context)!
+                      .settings_subtitle_displaytranslationtextsize,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                subtitle: Text(sliderTranslationSize.toString()),
+                onTap: () {
+                  setState(() {
+                    _showBottomSheetTranslation();
+                  });
+                },
               ),
-              title: Text(
-                AppLocalizations.of(context)!
-                    .settings_subtitle_displaytranslationtextsize,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              subtitle: Text(sliderTranslationSize.toString()),
-              onTap: () {
-                setState(() {
-                  _showBottomSheetTranslation();
-                });
-              },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -69,10 +69,11 @@ class _SearchScreenState extends State<SearchScreen> {
                         print("File not found: $assetName");
                         return HadithsList(
                           metadata: Metadata(
-                              bookId: 0,
-                              name: "",
-                              sections: {},
-                              sectionDetails: {}),
+                            bookId: 0,
+                            name: "",
+                            sections: {},
+                            sectionDetails: {},
+                          ),
                           hadiths: [],
                         );
                       }

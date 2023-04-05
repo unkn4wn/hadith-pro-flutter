@@ -4,6 +4,7 @@ import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/hadiths_screen.dart';
 import 'package:hadithpro/components/widget/roundedItem.dart';
 import 'books_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChaptersScreen extends StatefulWidget {
   final int bookNumber;
@@ -66,7 +67,10 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                           ),
                           title: Text(sectionsMeta.values.elementAt(index)),
                           subtitle: Text(
-                              "${sectionDetails.values.elementAt(index).values.elementAt(2)} to ${sectionDetails.values.elementAt(index).values.elementAt(3)}"),
+                              "${sectionDetails.values.elementAt(index).values.elementAt(2)} " +
+                                  AppLocalizations.of(context)!
+                                      .chapters_subtitle_number +
+                                  " ${sectionDetails.values.elementAt(index).values.elementAt(3)}"),
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
