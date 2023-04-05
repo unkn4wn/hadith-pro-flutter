@@ -60,19 +60,21 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
               hadithNumber.toString().replaceAll(regex, '');
 
           return HadithItem(
-              hadithTranslation: Hadith(
-                  bookNumber: hadith[MyDatabaseHelper.COLUMN_BOOKID],
-                  hadithNumber: hadithNumberString,
-                  arabicNumber: arabicNumberString,
-                  text_ara: hadith[MyDatabaseHelper.COLUMN_TEXTARABIC],
-                  text: hadith[MyDatabaseHelper.COLUMN_TEXTTRANSLATED],
-                  grades: grades,
-                  reference: Reference(
-                      bookReference:
-                          hadith[MyDatabaseHelper.COLUMN_BOOKREFERENCE],
-                      inBookReference:
-                          hadith[MyDatabaseHelper.COLUMN_INBOOKREFERENCE])),
-              bookNumber: hadith[MyDatabaseHelper.COLUMN_BOOKID]);
+            hadithTranslation: Hadith(
+                bookNumber: hadith[MyDatabaseHelper.COLUMN_BOOKID],
+                hadithNumber: hadithNumberString,
+                arabicNumber: arabicNumberString,
+                text_ara: hadith[MyDatabaseHelper.COLUMN_TEXTARABIC],
+                text: hadith[MyDatabaseHelper.COLUMN_TEXTTRANSLATED],
+                grades: grades,
+                reference: Reference(
+                    bookReference:
+                        hadith[MyDatabaseHelper.COLUMN_BOOKREFERENCE],
+                    inBookReference:
+                        hadith[MyDatabaseHelper.COLUMN_INBOOKREFERENCE])),
+            bookNumber: hadith[MyDatabaseHelper.COLUMN_BOOKID],
+            language: hadith[MyDatabaseHelper.COLUMN_LANGUAGE],
+          );
         },
       ),
     );

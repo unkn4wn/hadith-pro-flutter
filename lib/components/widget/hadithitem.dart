@@ -10,8 +10,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class HadithItem extends StatefulWidget {
   final int bookNumber;
   final Hadith hadithTranslation;
+  final String language;
   HadithItem(
-      {Key? key, required this.hadithTranslation, required this.bookNumber})
+      {Key? key,
+      required this.hadithTranslation,
+      required this.bookNumber,
+      required this.language})
       : super(key: key);
 
   @override
@@ -41,7 +45,7 @@ class _HadithItemState extends State<HadithItem> {
         "_" +
         widget.hadithTranslation.hadithNumber.toString() +
         "_" +
-        SharedPreferencesHelper.getString("hadithLanguage", "key");
+        widget.language;
   }
 
   @override
@@ -87,10 +91,10 @@ class _HadithItemState extends State<HadithItem> {
                             isBookmarkedKey, false)) {
                           try {
                             MyDatabaseHelper.instance.removeHadith(
-                                widget.bookNumber,
-                                widget.hadithTranslation.hadithNumber,
-                                SharedPreferencesHelper.getString(
-                                    "hadithLanguage", "eng"));
+                              widget.bookNumber,
+                              widget.hadithTranslation.hadithNumber,
+                              widget.language,
+                            );
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -120,8 +124,7 @@ class _HadithItemState extends State<HadithItem> {
                                     .inBookReference,
                                 widget
                                     .hadithTranslation.reference.bookReference,
-                                SharedPreferencesHelper.getString(
-                                    "hadithLanguage", "eng"));
+                                widget.language);
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -198,15 +201,11 @@ class _HadithItemState extends State<HadithItem> {
                     widget.hadithTranslation.text,
                     softWrap: true,
                     maxLines: null,
-                    textDirection: languageDirectionMap[
-                            SharedPreferencesHelper.getString(
-                                "hadithLanguage", "eng")] ??
+                    textDirection: languageDirectionMap[widget.language] ??
                         TextDirection.ltr,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontFamily: SharedPreferencesHelper.getString(
-                                  "hadithLanguage", "eng") ==
-                              ("eng")
+                      fontFamily: widget.language == ("eng")
                           ? "Roboto-Bold"
                           : 'Roboto-Bold',
                       fontWeight: FontWeight.bold,

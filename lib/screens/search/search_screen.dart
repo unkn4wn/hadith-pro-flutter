@@ -38,6 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
+            pinned: true,
             title: TextField(
               controller: searchController,
               decoration: InputDecoration(
@@ -54,6 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
               onSubmitted: (query) {
                 setState(() {
                   _isFiltering = true;
+                  _filteredHadiths.clear();
                 });
                 if (_hadithsListsFuture == null) {
                   _hadithsLists = List.generate(
@@ -95,9 +97,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             .toLowerCase()
                             .contains(query.toLowerCase());
                       } else {
-                        return DartArabic.stripTashkeel(hadith.text_ara)
+                        return (removeArabicHarakat(hadith.text_ara))
                             .toLowerCase()
-                            .contains(query.toLowerCase());
+                            .contains(removeArabicHarakat(query.toLowerCase()));
                       }
                     }).toList();
                     _isFiltering = false;
@@ -120,6 +122,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 return HadithItem(
                   bookNumber: bookNumber,
                   hadithTranslation: hadith,
+                  language: SharedPreferencesHelper.getString(
+                      "hadithLanguage", "eng"),
                 );
               },
               childCount: _filteredHadiths.length,
@@ -229,5 +233,10 @@ class _SearchScreenState extends State<SearchScreen> {
         );
       },
     );
+  }
+
+  String removeArabicHarakat(String str) {
+    RegExp exp = RegExp(r'[\u064b-\u065f]');
+    return str.replaceAll(exp, '');
   }
 }
