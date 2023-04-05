@@ -4,6 +4,8 @@ import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/main.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -219,6 +221,67 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   });
                 },
               ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+              child: Text(
+                "Information",
+                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                title: Text(
+                  "Website",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                trailing: Icon(Icons.web),
+                onTap: () async {
+                  final uri = Uri.parse("https://www.hadithhub.com/");
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  } else {
+                    throw 'Could not launch $uri';
+                  }
+                  setState(() {
+                    // update the widget state here, if needed
+                  });
+                },
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                title: Text(
+                  "Source code",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                trailing: const Icon(Icons.source),
+                onTap: () async {
+                  final uri = Uri.parse("https://www.example.com/");
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  } else {
+                    throw 'Could not launch $uri';
+                  }
+                  setState(() {
+                    // update the widget state here, if needed
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              height: 5,
             ),
           ],
         ),
