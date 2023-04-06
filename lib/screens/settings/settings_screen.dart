@@ -280,6 +280,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
             ),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                title: Text(
+                  "Still in development!",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                trailing: const Icon(Icons.warning),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          AppLocalizations.of(context)!
+                              .settings_subtitle_development_dialog_title,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        content: Text(AppLocalizations.of(context)!
+                            .settings_subtitle_development_dialog),
+                        actions: [
+                          TextButton(
+                            child: Center(child: Text("I read and understood")),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
             SizedBox(
               height: 5,
             ),

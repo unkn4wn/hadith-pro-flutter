@@ -36,5 +36,8 @@
 "settings_subtitle_displaytranslationtextsize": "Tercüme Metin Boyutu",
 "settings_title_information": "Bilgi",
 "settings_subtitle_website": "Web Sitesi",
-"settings_subtitle_sourcecode": "Kaynak Kodu"
+"settings_subtitle_sourcecode": "Kaynak Kodu",
+"settings_subtitle_development": "Hala Geliştirme Aşamasındadır!",
+"settings_subtitle_development_dialog_title" : "Dikkat",
+"settings_subtitle_development_dialog": "Bu uygulama hala geliştirme aşamasındadır ve hadis çevirileri ve derecelendirmeleri konusunda hatalar içerebilir. Lütfen sağlanan bilgileri genel bir referans olarak kullanın ve önemli detayları güvenilir bir kaynakla teyit edin. Uygulamanın doğruluğunu artırmak için sürekli çalışıyoruz ve sabrınız ve anlayışınız için teşekkür ederiz."
 }

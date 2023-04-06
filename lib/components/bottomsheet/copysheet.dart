@@ -26,7 +26,7 @@ class CopySheet {
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   alignment: Alignment.center,
                   child: Text(
-                    "Copy Options",
+                    AppLocalizations.of(context)!.hadithitem_copy_title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -44,7 +44,8 @@ class CopySheet {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    title: Text("Copy Only Translation"),
+                    title: Text(AppLocalizations.of(context)!
+                        .hadithitem_copy_copyonlytranslation),
                     onTap: () async {
                       String grades = "";
                       hadithTranslation.grades.forEach((element) {
@@ -90,7 +91,8 @@ class CopySheet {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    title: Text("Copy Both"),
+                    title: Text(
+                        AppLocalizations.of(context)!.hadithitem_copy_copyboth),
                     onTap: () async {
                       String grades = "";
                       hadithTranslation.grades.forEach((element) {
