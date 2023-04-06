@@ -205,9 +205,6 @@ class _HadithItemState extends State<HadithItem> {
                         TextDirection.ltr,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontFamily: widget.language == ("eng")
-                          ? "Roboto-Bold"
-                          : 'Roboto-Bold',
                       fontWeight: FontWeight.bold,
                       fontSize: SharedPreferencesHelper.getDouble(
                           "textSizeTranslation", 20.0),

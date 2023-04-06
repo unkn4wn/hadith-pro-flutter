@@ -228,7 +228,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Container(
               margin: EdgeInsets.only(left: 20, right: 20, top: 10),
               child: Text(
-                "Information",
+                AppLocalizations.of(context)!.settings_title_information,
                 style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
               ),
             ),
@@ -239,7 +239,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 title: Text(
-                  "Website",
+                  AppLocalizations.of(context)!.settings_subtitle_website,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 trailing: Icon(Icons.web),
@@ -263,7 +263,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 title: Text(
-                  "Source code",
+                  AppLocalizations.of(context)!.settings_subtitle_sourcecode,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 trailing: const Icon(Icons.source),

@@ -33,5 +33,8 @@
 "settings_subtitle_displayarabictext": "Arapça Metni Göster",
 "settings_subtitle_displaytranslationtext": "Tercüme Metni Göster",
 "settings_subtitle_displayarabictextsize": "Arapça Metin Boyutu",
-"settings_subtitle_displaytranslationtextsize": "Tercüme Metin Boyutu"
+"settings_subtitle_displaytranslationtextsize": "Tercüme Metin Boyutu",
+"settings_title_information": "Bilgi",
+"settings_subtitle_website": "Web Sitesi",
+"settings_subtitle_sourcecode": "Kaynak Kodu"
 }

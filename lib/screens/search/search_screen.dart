@@ -208,7 +208,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ? Theme.of(context).colorScheme.primary
                         : Theme.of(context).colorScheme.surface,
                     elevation: 0,
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     child: ListTile(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),

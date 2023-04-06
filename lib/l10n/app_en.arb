@@ -33,5 +33,8 @@
 "settings_subtitle_displayarabictext": "Display Arabic Text",
 "settings_subtitle_displaytranslationtext": "Display Translation Text",
 "settings_subtitle_displayarabictextsize": "Arabic Text Size",
-"settings_subtitle_displaytranslationtextsize": "Translation Text Size"
+"settings_subtitle_displaytranslationtextsize": "Translation Text Size",
+"settings_title_information": "Information",
+"settings_subtitle_website": "Website",
+"settings_subtitle_sourcecode": "Source Code"
 }

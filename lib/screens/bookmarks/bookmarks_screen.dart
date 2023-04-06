@@ -20,7 +20,6 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
   }
 
   Future<void> _readHadithData() async {
-    final db = await MyDatabaseHelper.instance.database;
     final data = await MyDatabaseHelper.instance.readHadithData();
     setState(() {
       hadithList = List<Map<String, dynamic>>.from(data);
@@ -53,7 +52,6 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
           double arabicNumber = hadith[MyDatabaseHelper.COLUMN_ARABICNUMBER];
           String arabicNumberString =
               arabicNumber.toString().replaceAll(regex, '');
-          print(arabicNumberString);
 
           double hadithNumber = hadith[MyDatabaseHelper.COLUMN_HADITHNUMBER];
           String hadithNumberString =
