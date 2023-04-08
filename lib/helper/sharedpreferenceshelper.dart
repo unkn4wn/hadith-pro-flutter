@@ -50,4 +50,9 @@ class SharedPreferencesHelper {
   static Future<void> setFirstStart() async {
     await setBool('isFirstStart', false);
   }
+
+  static Future<void> resetSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 }

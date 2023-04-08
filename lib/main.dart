@@ -15,7 +15,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesHelper.init();
   final isFirstStart = SharedPreferencesHelper.getBool('isFirstStart', true);
-
+  if (isFirstStart) {
+    SharedPreferencesHelper.resetSharedPreferences();
+    print("RESET SHARE");
+  }
   runApp(MyApp());
 }
 
