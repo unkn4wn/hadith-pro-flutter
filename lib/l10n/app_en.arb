@@ -1,4 +1,9 @@
 {
+"intro_first_title": "Hadith Language",
+"intro_second_title": "Hadith Books",
+"intro_third_title": "Hadith Grades",
+"intro_fourth_title": "Known Issues",
+"intro_fourth_grades": "Some mistakes in grades",
 "bottomnavigation_title_home": "Library",
 "bottomnavigation_title_search": "Search",
 "bottomnavigation_title_bookmarks": "Bookmarks",
@@ -39,5 +44,6 @@
 "settings_subtitle_sourcecode": "Source Code",
 "settings_subtitle_development": "Still in development!",
 "settings_subtitle_development_dialog_title" : "Attention",
-"settings_subtitle_development_dialog": "This app is still in development and may contain errors in regards to hadith translation and grading. Please use the information provided as a general reference only, and double-check any important details with a trusted source. We are constantly working to improve the accuracy of the app, and appreciate your patience and understanding. Thank you for using our app!"
+"settings_subtitle_development_dialog": "This app is still in development and may contain errors in regards to hadith translation and grading. Please use the information provided as a general reference only, and double-check any important details with a trusted source. We are constantly working to improve the accuracy of the app, and appreciate your patience and understanding. Thank you for using our app!",
+"settings_subtitle_development_dialog_accept": "I have read and understood"
 }

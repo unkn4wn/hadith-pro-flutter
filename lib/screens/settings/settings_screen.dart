@@ -8,24 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
-
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  List<String> longTranslatedLanguageList = [
-    "العربية",
-    "বাংলা",
-    "English",
-    "Français",
-    "Bahasa Indonesia",
-    "தமிழ்",
-    "Türkçe",
-    "اردو"
-  ];
-
   List<String> longLanguageList = [
     "Arabic",
     "Bengali",
@@ -59,6 +41,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Locale("ur"),
   ];
 
+  List<String> longTranslatedLanguageList = [
+    "العربية",
+    "বাংলা",
+    "English",
+    "Français",
+    "Bahasa Indonesia",
+    "தமிழ்",
+    "Türkçe",
+    "اردو"
+  ];
+
+  SettingsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   String hadithLanguage = LanguageHelper.getLanguageName(
       SharedPreferencesHelper.getString("hadithLanguage", "eng"));
 
@@ -308,7 +308,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             .settings_subtitle_development_dialog),
                         actions: [
                           TextButton(
-                            child: Center(child: Text("I read and understood")),
+                            child: Center(
+                                child: Text(AppLocalizations.of(context)!
+                                    .settings_subtitle_development_dialog_accept)),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -356,13 +358,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: shortLanguageList.length,
+                    itemCount: widget.shortLanguageList.length,
                     itemBuilder: (context, index) {
                       return Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        color: shortLanguageList[index].contains(
+                        color: widget.shortLanguageList[index].contains(
                                 SharedPreferencesHelper.getString(
                                     "hadithLanguage", "eng"))
                             ? Theme.of(context).colorScheme.primary
@@ -375,10 +377,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           trailing: Text(
-                            longTranslatedLanguageList[index],
+                            widget.longTranslatedLanguageList[index],
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: shortLanguageList[index].contains(
+                              color: widget.shortLanguageList[index].contains(
                                       SharedPreferencesHelper.getString(
                                           "hadithLanguage", "eng"))
                                   ? Theme.of(context).colorScheme.onPrimary
@@ -386,10 +388,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           ),
                           title: Text(
-                            longLanguageList[index],
+                            widget.longLanguageList[index],
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: shortLanguageList[index].contains(
+                              color: widget.shortLanguageList[index].contains(
                                       SharedPreferencesHelper.getString(
                                           "hadithLanguage", "eng"))
                                   ? Theme.of(context).colorScheme.onPrimary
@@ -399,13 +401,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           onTap: () {
                             setState(() {
                               SharedPreferencesHelper.setString(
-                                  "hadithLanguage", shortLanguageList[index]);
+                                  "hadithLanguage",
+                                  widget.shortLanguageList[index]);
                               MyApp.setLocale(
-                                  context, shortestLanguageList[index]);
+                                  context, widget.shortestLanguageList[index]);
                             });
 
                             updateSubtitleHadithLanguage(
-                                longTranslatedLanguageList[index]);
+                                widget.longTranslatedLanguageList[index]);
                             Navigator.pop(context);
                           },
                         ),

@@ -1,4 +1,9 @@
 {
+"intro_first_title": "Hadis Dili",
+"intro_second_title": "Hadis Kitapları",
+"intro_third_title": "Hadis Sıhhati",
+"intro_fourth_title": "Bilinen Sorunlar",
+"intro_fourth_grades": "Bazı hadis sıhhatinde hatalar var",
 "bottomnavigation_title_home": "Külliyat",
 "bottomnavigation_title_search": "Ara",
 "bottomnavigation_title_bookmarks": "Yer imi",
@@ -39,5 +44,6 @@
 "settings_subtitle_sourcecode": "Kaynak Kodu",
 "settings_subtitle_development": "Hala Geliştirme Aşamasındadır!",
 "settings_subtitle_development_dialog_title" : "Dikkat",
-"settings_subtitle_development_dialog": "Bu uygulama hala geliştirme aşamasındadır ve hadis çevirileri ve derecelendirmeleri konusunda hatalar içerebilir. Lütfen sağlanan bilgileri genel bir referans olarak kullanın ve önemli detayları güvenilir bir kaynakla teyit edin. Uygulamanın doğruluğunu artırmak için sürekli çalışıyoruz ve sabrınız ve anlayışınız için teşekkür ederiz."
+"settings_subtitle_development_dialog": "Bu uygulama hala geliştirme aşamasındadır ve hadis çevirileri ve derecelendirmeleri konusunda hatalar içerebilir. Lütfen sağlanan bilgileri genel bir referans olarak kullanın ve önemli detayları güvenilir bir kaynakla teyit edin. Uygulamanın doğruluğunu artırmak için sürekli çalışıyoruz ve sabrınız ve anlayışınız için teşekkür ederiz.",
+"settings_subtitle_development_dialog_accept": "Okudum ve anladım"
 }

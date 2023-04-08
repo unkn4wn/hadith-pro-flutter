@@ -6,6 +6,7 @@ import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/l10n/l10n.dart';
 import 'package:hadithpro/screens/bookmarks/bookmarks_screen.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
+import 'package:hadithpro/screens/intro/onboarding_screen.dart';
 import 'package:hadithpro/screens/search/search_screen.dart';
 import 'package:hadithpro/screens/settings/settings_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,10 +15,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesHelper.init();
   final isFirstStart = SharedPreferencesHelper.getBool('isFirstStart', true);
-  if (isFirstStart) {
-    await SharedPreferencesHelper.setFirstStart();
-    print("FIRST START");
-  }
 
   runApp(MyApp());
 }
@@ -77,7 +74,7 @@ class _MyAppState extends State<MyApp> {
 
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Bottom Nac',
+          title: 'Hadith Pro',
           themeMode: ThemeMode.system,
           theme: ThemeData(
               dividerColor:
@@ -102,7 +99,9 @@ class _MyAppState extends State<MyApp> {
                             .outlineVariant
                             .withOpacity(0.12),
                       )),
-          home: MainPage(),
+          home: SharedPreferencesHelper.getBool('isFirstStart', true)
+              ? OnBoardingScreen()
+              : MainPage(),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: localeMap[
