@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hadithpro/components/widget/roundedItem.dart';
 import 'package:hadithpro/helper/databasehelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
@@ -58,18 +59,17 @@ class _HadithsScreenState extends State<HadithsScreen> {
                 ),
                 SliverToBoxAdapter(
                   child: Card(
-                    elevation: 4,
                     color: Theme.of(context).colorScheme.tertiary,
                     margin: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
                     child: Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Text(
                         widget.chapterName,
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.onTertiary),
+                          color: Theme.of(context).colorScheme.onTertiary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -78,10 +78,11 @@ class _HadithsScreenState extends State<HadithsScreen> {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       return HadithItem(
-                        bookNumber: widget.bookNumber,
-                        hadithTranslation: hadithsOfSection[index],
-                        language: SharedPreferencesHelper.getString(
-                            "hadithLanguage", "eng"),showNumber: true);
+                          bookNumber: widget.bookNumber,
+                          hadithTranslation: hadithsOfSection[index],
+                          language: SharedPreferencesHelper.getString(
+                              "hadithLanguage", "eng"),
+                          showNumber: true);
                     },
                     childCount: hadithsOfSection.length,
                   ),
