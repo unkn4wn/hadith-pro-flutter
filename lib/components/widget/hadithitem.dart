@@ -11,11 +11,13 @@ class HadithItem extends StatefulWidget {
   final int bookNumber;
   final Hadith hadithTranslation;
   final String language;
+  final bool showNumber;
   HadithItem(
       {Key? key,
       required this.hadithTranslation,
       required this.bookNumber,
-      required this.language})
+      required this.language,
+        this.showNumber = false,})
       : super(key: key);
 
   @override
@@ -68,20 +70,20 @@ class _HadithItemState extends State<HadithItem> {
             children: [
               Row(
                 children: [
-                  Container(
-                    margin: EdgeInsets.all(0),
-                    height: 45,
-                    width: 45,
-                    child: Card(
-                      child: Center(
-                        child: Text(
-                          widget.hadithTranslation.reference.inBookReference
-                              .toString(),
-                          style: TextStyle(fontSize: 20),
+                  if(widget.showNumber)
+                    Container(
+                      margin: EdgeInsets.all(0),
+                      height: 45,
+                      width: 45,
+                      child: Card(
+                        child: Center(
+                          child: Text(
+                            widget.hadithTranslation.reference.inBookReference.toString(),
+                            style: TextStyle(fontSize: 20),
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   Spacer(),
                   Row(
                     children: [

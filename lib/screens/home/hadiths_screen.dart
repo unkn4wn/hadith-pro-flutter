@@ -81,8 +81,7 @@ class _HadithsScreenState extends State<HadithsScreen> {
                         bookNumber: widget.bookNumber,
                         hadithTranslation: hadithsOfSection[index],
                         language: SharedPreferencesHelper.getString(
-                            "hadithLanguage", "eng"),
-                      );
+                            "hadithLanguage", "eng"),showNumber: true);
                     },
                     childCount: hadithsOfSection.length,
                   ),
