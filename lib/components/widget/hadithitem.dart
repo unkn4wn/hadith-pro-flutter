@@ -12,13 +12,13 @@ class HadithItem extends StatefulWidget {
   final Hadith hadithTranslation;
   final String language;
   final bool showNumber;
-  HadithItem(
-      {Key? key,
-      required this.hadithTranslation,
-      required this.bookNumber,
-      required this.language,
-        this.showNumber = false,})
-      : super(key: key);
+  HadithItem({
+    Key? key,
+    required this.hadithTranslation,
+    required this.bookNumber,
+    required this.language,
+    this.showNumber = false,
+  }) : super(key: key);
 
   @override
   State<HadithItem> createState() => _HadithItemState();
@@ -54,7 +54,6 @@ class _HadithItemState extends State<HadithItem> {
   Widget build(BuildContext context) {
     if (widget.hadithTranslation.text.isNotEmpty) {
       return Card(
-        elevation: 4,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20), // if you need this
@@ -70,7 +69,7 @@ class _HadithItemState extends State<HadithItem> {
             children: [
               Row(
                 children: [
-                  if(widget.showNumber)
+                  if (widget.showNumber)
                     Container(
                       margin: EdgeInsets.all(0),
                       height: 45,
@@ -78,7 +77,8 @@ class _HadithItemState extends State<HadithItem> {
                       child: Card(
                         child: Center(
                           child: Text(
-                            widget.hadithTranslation.reference.inBookReference.toString(),
+                            widget.hadithTranslation.reference.inBookReference
+                                .toString(),
                             style: TextStyle(fontSize: 20),
                           ),
                         ),

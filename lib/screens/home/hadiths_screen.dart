@@ -54,8 +54,8 @@ class _HadithsScreenState extends State<HadithsScreen> {
             return CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar.medium(
-                  title: Text(AppLocalizations.of(context)!.hadiths_title_main +
-                      " ${widget.chapterNumber}"),
+                  title:
+                      Text("${BooksScreen().longNamesList[widget.bookNumber]}"),
                 ),
                 SliverToBoxAdapter(
                   child: Card(
