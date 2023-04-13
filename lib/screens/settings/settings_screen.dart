@@ -547,54 +547,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _showBottomSheetTextSize() {
-    showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0))),
-      elevation: 20,
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              height: 300,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Spacer(),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      'The most hated person in the sight of Allah is the most quarrelsome person.',
-                      style: TextStyle(
-                          fontSize: sliderTranslationSize,
-                          fontFamily: 'Uthman'),
-                    ),
-                  ),
-                  Spacer(),
-                  Slider(
-                    max: 30,
-                    divisions: 15,
-                    label: sliderTranslationSize.round().toString(),
-                    value: sliderTranslationSize,
-                    onChanged: (double value) {
-                      setState(() {
-                        SharedPreferencesHelper.setDouble(
-                            "textSizeTranslation", value);
-                      });
-                      updateSubtitleTextTranslation(value);
-                    },
-                  ),
-                  SizedBox(height: 16.0), // Add some spacing at the bottom
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
   void updateSubtitleHadithLanguage(String value) {
     setState(() {
       hadithLanguage = value;
