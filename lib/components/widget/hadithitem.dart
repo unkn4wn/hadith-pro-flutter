@@ -58,8 +58,8 @@ class _HadithItemState extends State<HadithItem> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20), // if you need this
           side: BorderSide(
-            color: Colors.grey.withOpacity(0.2),
-            width: 1,
+            color: Theme.of(context).dividerColor,
+            width: 2,
           ),
         ),
         child: Padding(

@@ -61,17 +61,77 @@ class _MyAppState extends State<MyApp> {
         ColorScheme lightColorScheme;
         ColorScheme darkColorScheme;
 
+        AppBarTheme? lightAppBarTheme;
+        AppBarTheme? darkAppBarTheme;
+
+        BottomNavigationBarTheme? lightBottomNavigationBarTheme;
+        BottomNavigationBarTheme? darkBottomNavigationBarTheme;
+
         if (lightDynamic != null && darkDynamic != null) {
           lightColorScheme = lightDynamic.harmonized();
+          lightAppBarTheme = null;
 
           darkColorScheme = darkDynamic.harmonized();
+          darkAppBarTheme = null;
         } else {
-          lightColorScheme = ColorScheme.fromSeed(
-            seedColor: Color(0xFF609D92),
+          lightColorScheme = ColorScheme(
+            primary: Color(0xFF50A89B),
+            secondary: Color(0xFF50A89B),
+            background: Color(0xFFFFFFFF),
+            surface: Color(0xFFf5f6f8),
+            tertiary: Color(0xfff1ebe1),
+            error: Colors.red,
+            onBackground: Color(0xFF48454f),
+            onSurface: Color(0xFF48454f),
+            onTertiary: Color(0xFF48454f),
+            onError: Colors.white,
+            onPrimary: Colors.white,
+            onSecondary: Colors.white,
+            brightness: Brightness.light,
           );
-          darkColorScheme = ColorScheme.fromSeed(
-            seedColor: Color(0xFF609D92),
+          lightAppBarTheme = AppBarTheme(
+            backgroundColor: Color(0xFF50A89B),
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            ),
+            toolbarTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            ),
+            iconTheme: IconThemeData(
+              color: Colors.white,
+            ),
+          );
+
+          darkColorScheme = ColorScheme(
+            primary: Color(0xFF3a7b6d),
+            secondary: Color(0xFF3a7b6d),
+            background: Color(0xFF000000),
+            surface: Color(0xFF1C1B1F),
+            tertiary: Color(0xfff1ebe1),
+            error: Colors.red,
+            onBackground: Color(0xFFCCD1E6),
+            onSurface: Color(0xFFCCD1E6),
+            onTertiary: Color(0xFF49454F),
+            onError: Colors.white,
+            onPrimary: Colors.white,
+            onSecondary: Colors.white,
             brightness: Brightness.dark,
+          );
+          darkAppBarTheme = AppBarTheme(
+            backgroundColor: Color(0xFF3a7b6d),
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            ),
+            toolbarTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            ),
+            iconTheme: IconThemeData(
+              color: Colors.white,
+            ),
           );
         }
 
@@ -91,17 +151,16 @@ class _MyAppState extends State<MyApp> {
           darkTheme:
               ThemeData.from(colorScheme: darkColorScheme, useMaterial3: true)
                   .copyWith(
-                      dividerColor: Theme.of(context)
-                          .colorScheme
-                          .outlineVariant
-                          .withOpacity(0.12),
-                      brightness: Brightness.dark,
-                      dividerTheme: DividerThemeData(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .outlineVariant
-                            .withOpacity(0.12),
-                      )),
+            dividerColor:
+                Theme.of(context).colorScheme.outlineVariant.withOpacity(0.12),
+            brightness: Brightness.dark,
+            dividerTheme: DividerThemeData(
+              color: Theme.of(context)
+                  .colorScheme
+                  .outlineVariant
+                  .withOpacity(0.12),
+            ),
+          ),
           home: SharedPreferencesHelper.getBool('isFirstStart', true)
               ? OnBoardingScreen()
               : MainPage(),

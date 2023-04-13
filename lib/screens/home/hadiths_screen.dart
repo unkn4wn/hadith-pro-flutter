@@ -59,6 +59,7 @@ class _HadithsScreenState extends State<HadithsScreen> {
                 ),
                 SliverToBoxAdapter(
                   child: Card(
+                    elevation: 0,
                     color: Theme.of(context).colorScheme.tertiary,
                     margin: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
