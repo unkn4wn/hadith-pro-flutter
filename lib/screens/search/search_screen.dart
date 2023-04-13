@@ -91,17 +91,32 @@ class _SearchScreenState extends State<SearchScreen> {
                     _allHadiths.addAll(hadithsList.hadiths);
                   });
                   setState(() {
-                    _filteredHadiths = _allHadiths.where((hadith) {
-                      if (searchTranslation) {
+                    if (isNumeric(query)) {
+                      final queryAsInt = int.tryParse(query);
+                      _filteredHadiths = _allHadiths.where((hadith) {
+                        final arabicNumber = hadith.arabicNumber;
+                        if (arabicNumber is num) {
+                          final arabicNumberAsInt = arabicNumber is int
+                              ? arabicNumber
+                              : arabicNumber.toDouble().toInt();
+                          return arabicNumberAsInt == queryAsInt;
+                        } else {
+                          return false;
+                        }
+                      }).toList();
+                    } else if (searchTranslation) {
+                      _filteredHadiths = _allHadiths.where((hadith) {
                         return hadith.text
                             .toLowerCase()
                             .contains(query.toLowerCase());
-                      } else {
-                        return (removeArabicHarakat(hadith.text_ara))
+                      }).toList();
+                    } else {
+                      _filteredHadiths = _allHadiths.where((hadith) {
+                        return removeArabicHarakat(hadith.text_ara)
                             .toLowerCase()
                             .contains(removeArabicHarakat(query.toLowerCase()));
-                      }
-                    }).toList();
+                      }).toList();
+                    }
                     _isFiltering = false;
                   });
                 }).catchError((error) {
@@ -243,5 +258,12 @@ class _SearchScreenState extends State<SearchScreen> {
   String removeArabicHarakat(String str) {
     RegExp exp = RegExp(r'[\u064b-\u065f]');
     return str.replaceAll(exp, '');
+  }
+
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.tryParse(s) != null;
   }
 }
