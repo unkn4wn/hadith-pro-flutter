@@ -144,7 +144,7 @@ class _MainPageState extends State<MainPage> {
   int currentPageIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
-    BooksScreen(),
+    const BooksScreen(),
     const SearchScreen(),
     const BookmarksScreen(),
     SettingsScreen()

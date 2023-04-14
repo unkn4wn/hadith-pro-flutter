@@ -56,8 +56,8 @@ class MyDatabaseHelper {
 
   Future<void> addHadith(
       String bookName,
-      dynamic hadithnumber,
-      dynamic arabicnumber,
+      dynamic hadithNumber,
+      dynamic arabicNumber,
       String arabicHadithText,
       String translatedHadithText,
       List<Grade> grades,
@@ -71,8 +71,8 @@ class MyDatabaseHelper {
     final db = await instance.database;
     await db!.insert(tableNameHadiths, {
       columnBookName: bookName,
-      columnHadithNumber: hadithnumber,
-      columnArabicNumber: arabicnumber,
+      columnHadithNumber: hadithNumber,
+      columnArabicNumber: arabicNumber,
       columnTextArabic: arabicHadithText,
       columnTextTranslated: translatedHadithText,
       columnGrades: allGrades,
@@ -94,11 +94,15 @@ class MyDatabaseHelper {
       required dynamic arabicNumber,
       required String arabicHadithText,
       required String translatedHadithText,
-      required String grades,
+      required List<Grade> grades,
       required int bookReference,
       required int inBookReference,
       required String language,
       required String tableName}) async {
+    String allGrades = "";
+    for (var element in grades) {
+      allGrades += "${element.name}::${element.grade}&&";
+    }
     final db = await instance.database;
     return await db!.update(
         tableName,
@@ -108,7 +112,7 @@ class MyDatabaseHelper {
           columnArabicNumber: arabicNumber,
           columnTextArabic: arabicHadithText,
           columnTextTranslated: translatedHadithText,
-          columnGrades: grades,
+          columnGrades: allGrades,
           columnBookReference: bookReference,
           columnInBookReference: inBookReference,
           columnLanguage: language

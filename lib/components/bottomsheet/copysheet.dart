@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/models/hadith.dart';
-import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CopySheet {
@@ -58,7 +58,7 @@ class CopySheet {
                         }
                       }
                       String reference =
-                          "${BooksScreen().longNamesList[booknumber]} ${hadithTranslation.arabicNumber}";
+                          "${BookHelper.longNamesList(context)[booknumber]} ${hadithTranslation.arabicNumber}";
                       String inBookReference =
                           "${AppLocalizations.of(context)!.hadithitem_inbookreference_book} ${hadithTranslation.reference.bookReference}, ${AppLocalizations.of(context)!.hadithitem_inbookreference_hadith} ${hadithTranslation.reference.inBookReference}";
                       String playStoreLink =
@@ -95,7 +95,7 @@ class CopySheet {
                         }
                       }
                       String reference =
-                          "${BooksScreen().longNamesList[booknumber]} ${hadithTranslation.arabicNumber}";
+                          "${BookHelper.longNamesList(context)[booknumber]} ${hadithTranslation.arabicNumber}";
                       String inBookReference =
                           "${AppLocalizations.of(context)!.hadithitem_inbookreference_book} ${hadithTranslation.reference.bookReference}, ${AppLocalizations.of(context)!.hadithitem_inbookreference_hadith} ${hadithTranslation.reference.inBookReference}";
                       String playStoreLink =

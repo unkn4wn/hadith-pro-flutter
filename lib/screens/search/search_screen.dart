@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hadithpro/components/widget/hadithitem.dart';
+import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
-import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class _SearchScreenState extends State<SearchScreen> {
   bool searchTranslation = true;
 
   Future<List<HadithsList>>? _hadithsListsFuture;
-  final fileNamesList = BooksScreen().fileNamesList;
+  final fileNamesList = BookHelper.fileNamesList;
   final hadithLanguage =
       SharedPreferencesHelper.getString("hadithLanguage", "eng");
 

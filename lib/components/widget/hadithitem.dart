@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hadithpro/components/bottomsheet/copysheet.dart';
+import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/databasehelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
-import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HadithItem extends StatefulWidget {
@@ -90,7 +90,7 @@ class _HadithItemState extends State<HadithItem> {
                               isBookmarkedKey, false)) {
                             try {
                               MyDatabaseHelper.instance.removeHadith(
-                                BooksScreen().fileNamesList[widget.bookNumber],
+                                BookHelper.fileNamesList[widget.bookNumber],
                                 widget.hadithTranslation.hadithNumber,
                                 widget.language,
                               );
@@ -115,8 +115,7 @@ class _HadithItemState extends State<HadithItem> {
                           } else {
                             try {
                               MyDatabaseHelper.instance.addHadith(
-                                  BooksScreen()
-                                      .fileNamesList[widget.bookNumber],
+                                  BookHelper.fileNamesList[widget.bookNumber],
                                   widget.hadithTranslation.hadithNumber,
                                   widget.hadithTranslation.arabicNumber,
                                   widget.hadithTranslation.textAra,
@@ -235,7 +234,7 @@ class _HadithItemState extends State<HadithItem> {
                   const VerticalDivider(width: 1.0),
                   Expanded(
                     child: Text(
-                        "${BooksScreen().longNamesList[widget.bookNumber]} ${widget.hadithTranslation.arabicNumber}"),
+                        "${BookHelper.longNamesList(context)[widget.bookNumber]} ${widget.hadithTranslation.arabicNumber}"),
                   ),
                 ],
               ),
@@ -264,6 +263,7 @@ class _HadithItemState extends State<HadithItem> {
 
   Widget _buildGradesCard(BuildContext context, Hadith hadith) {
     return ExpansionTile(
+      childrenPadding: const EdgeInsets.only(bottom: 15.0),
       initiallyExpanded: SharedPreferencesHelper.getBool("expandGrades", false),
       title: Text(AppLocalizations.of(context)!.hadithitem_title_grades),
       textColor: Theme.of(context).colorScheme.onSurface,

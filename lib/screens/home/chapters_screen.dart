@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/hadiths_screen.dart';
-import 'books_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChaptersScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
     final bookNumber = widget.bookNumber;
     final fileName =
         '${SharedPreferencesHelper.getString("hadithLanguage", "eng")}-'
-        '${BooksScreen().fileNamesList[bookNumber]}.json';
+        '${BookHelper.fileNamesList[bookNumber]}.json';
     bookname = bookNumber;
     _hadithsList = loadJson('assets/json/$fileName', bookNumber);
   }
@@ -32,7 +32,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(BooksScreen().longNamesList[widget.bookNumber]),
+          title: Text(BookHelper.longNamesList(context)[widget.bookNumber]),
         ),
         body: FutureBuilder<HadithsList>(
           future: _hadithsList,

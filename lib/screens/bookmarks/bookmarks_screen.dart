@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hadithpro/components/widget/hadithitem.dart';
+import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/databasehelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hadithpro/screens/home/books_screen.dart';
 
 class BookmarksScreen extends StatefulWidget {
   const BookmarksScreen({Key? key}) : super(key: key);
@@ -59,8 +59,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
               hadithNumber.toString().replaceAll(regex, '');
           return HadithItem(
             hadithTranslation: Hadith(
-                bookNumber: BooksScreen()
-                    .fileNamesList
+                bookNumber: BookHelper.fileNamesList
                     .indexOf(hadith[MyDatabaseHelper.columnBookName]),
                 hadithNumber: hadithNumberString,
                 arabicNumber: arabicNumberString,
@@ -71,8 +70,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                     bookReference: hadith[MyDatabaseHelper.columnBookReference],
                     inBookReference:
                         hadith[MyDatabaseHelper.columnInBookReference])),
-            bookNumber: BooksScreen()
-                .fileNamesList
+            bookNumber: BookHelper.fileNamesList
                 .indexOf(hadith[MyDatabaseHelper.columnBookName]),
             language: hadith[MyDatabaseHelper.columnLanguage],
           );

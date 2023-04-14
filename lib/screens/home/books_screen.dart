@@ -1,38 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'chapters_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BooksScreen extends StatefulWidget {
-  final List<String> fileNamesList = [
-    "bukhari",
-    "muslim",
-    "nasai",
-    "abudawud",
-    "tirmidhi",
-    "ibnmajah",
-    "malik",
-  ];
-  final List<String> longNamesList = [
-    "Sahih Bukhari",
-    "Sahih Muslim",
-    "Sunan an-Nasa'i",
-    "Sunan Abi Dawud",
-    "Jami` at-Tirmidhi",
-    "Sunan Ibn Majah",
-    "Muwatta Malik",
-  ];
-
-  final List<int> hadithNumberList = [
-    7563,
-    3033,
-    5758,
-    5274,
-    3956,
-    4341,
-    1858,
-  ];
-  BooksScreen({Key? key}) : super(key: key);
+  const BooksScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _BooksScreenState();
@@ -149,13 +122,12 @@ class _BooksScreenState extends State<BooksScreen> {
         title: Text(AppLocalizations.of(context)!.books_title_main),
       ),
       body: ListView.builder(
-        itemCount: BooksScreen()
-            .fileNamesList
+        itemCount: BookHelper.fileNamesList
             .where((fileName) => fileTranslatedNamesList.contains(fileName))
             .length,
         itemBuilder: (context, index) {
           final fileName = fileTranslatedNamesList[index];
-          final bookIndex = BooksScreen().fileNamesList.indexOf(fileName);
+          final bookIndex = BookHelper.fileNamesList.indexOf(fileName);
           return Column(
             children: [
               ListTile(
@@ -168,12 +140,12 @@ class _BooksScreenState extends State<BooksScreen> {
                   color: colorNamesList[bookIndex],
                 ),
                 title: Text(
-                  BooksScreen().longNamesList[bookIndex],
+                  BookHelper.longNamesList(context)[bookIndex],
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 19),
                 ),
                 subtitle:
-                    Text("${BooksScreen().hadithNumberList[bookIndex]} Hadith"),
+                    Text("${BookHelper.hadithNumberList[bookIndex]} Hadith"),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>

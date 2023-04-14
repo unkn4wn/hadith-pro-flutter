@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
-import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/components/widget/hadithitem.dart';
 
 class HadithsScreen extends StatefulWidget {
@@ -32,7 +32,7 @@ class _HadithsScreenState extends State<HadithsScreen> {
     final bookNumber = widget.bookNumber;
     final fileName =
         '${SharedPreferencesHelper.getString("hadithLanguage", "eng")}-'
-        '${BooksScreen().fileNamesList[bookNumber]}.json';
+        '${BookHelper.fileNamesList[bookNumber]}.json';
     _hadithsList = loadJson('assets/json/$fileName', bookNumber);
   }
 
@@ -49,7 +49,8 @@ class _HadithsScreenState extends State<HadithsScreen> {
             return CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar.medium(
-                  title: Text(BooksScreen().longNamesList[widget.bookNumber]),
+                  title: Text(
+                      BookHelper.longNamesList(context)[widget.bookNumber]),
                 ),
                 SliverToBoxAdapter(
                   child: Card(

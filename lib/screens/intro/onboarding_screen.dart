@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/main.dart';
-import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/screens/settings/settings_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -38,7 +38,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       Onboard(
         image: "assets/onboarding/books.json",
         title: AppLocalizations.of(context)!.intro_second_title,
-        description: BooksScreen().longNamesList,
+        description: BookHelper.longNamesList(context),
         description2: [],
       ),
       Onboard(
