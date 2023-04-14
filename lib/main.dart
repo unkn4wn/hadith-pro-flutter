@@ -61,18 +61,10 @@ class _MyAppState extends State<MyApp> {
         ColorScheme lightColorScheme;
         ColorScheme darkColorScheme;
 
-        AppBarTheme? lightAppBarTheme;
-        AppBarTheme? darkAppBarTheme;
-
-        BottomNavigationBarTheme? lightBottomNavigationBarTheme;
-        BottomNavigationBarTheme? darkBottomNavigationBarTheme;
-
         if (lightDynamic != null && darkDynamic != null) {
           lightColorScheme = lightDynamic.harmonized();
-          lightAppBarTheme = null;
 
           darkColorScheme = darkDynamic.harmonized();
-          darkAppBarTheme = null;
         } else {
           lightColorScheme = ColorScheme(
             primary: Color(0xFF50A89B),
@@ -89,20 +81,6 @@ class _MyAppState extends State<MyApp> {
             onSecondary: Colors.white,
             brightness: Brightness.light,
           );
-          lightAppBarTheme = AppBarTheme(
-            backgroundColor: Color(0xFF50A89B),
-            titleTextStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-            ),
-            toolbarTextStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-            ),
-            iconTheme: IconThemeData(
-              color: Colors.white,
-            ),
-          );
 
           darkColorScheme = ColorScheme(
             primary: Color(0xFF3a7b6d),
@@ -118,20 +96,6 @@ class _MyAppState extends State<MyApp> {
             onPrimary: Colors.white,
             onSecondary: Colors.white,
             brightness: Brightness.dark,
-          );
-          darkAppBarTheme = AppBarTheme(
-            backgroundColor: Color(0xFF3a7b6d),
-            titleTextStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-            ),
-            toolbarTextStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-            ),
-            iconTheme: IconThemeData(
-              color: Colors.white,
-            ),
           );
         }
 

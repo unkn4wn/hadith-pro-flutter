@@ -269,6 +269,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 trailing: const Icon(Icons.source),
                 onTap: () async {
                   final uri = Uri.parse("https://www.example.com/");
+                  //TODO ADD GITHUB SOURCE
                   if (await canLaunchUrl(uri)) {
                     await launchUrl(uri, mode: LaunchMode.externalApplication);
                   } else {
