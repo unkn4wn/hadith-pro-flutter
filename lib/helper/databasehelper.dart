@@ -8,19 +8,20 @@ class MyDatabaseHelper {
   static final MyDatabaseHelper instance =
       MyDatabaseHelper._privateConstructor();
   static Database? _database;
-  static const String DATABASE_NAME = "Bookmark.db";
-  static const int DATABASE_VERSION = 1;
-  static const String TABLE_NAME_HADITHS = "hadiths";
-  static const String COLUMN_ID = "_id";
-  static const String COLUMN_HADITHNUMBER = "hadithnumber";
-  static const String COLUMN_ARABICNUMBER = "arabicnumber";
-  static const String COLUMN_TEXTARABIC = "text_ara";
-  static const String COLUMN_TEXTTRANSLATED = "text";
-  static const String COLUMN_GRADES = "grades";
-  static const String COLUMN_BOOKID = "book_id";
-  static const String COLUMN_BOOKREFERENCE = "book_reference";
-  static const String COLUMN_INBOOKREFERENCE = "inbook_reference";
-  static const String COLUMN_LANGUAGE = "hadith_language";
+  static const String databaseName = "Bookmark.db";
+  static const int databaseVersion = 1;
+  static const String tableNameHadiths = "hadiths";
+  static const String columnId = "_id";
+  static const String columnHadithNumber = "hadithnumber";
+  static const String columnArabicNumber = "arabicnumber";
+  static const String columnTextArabic = "text_ara";
+  static const String columnTextTranslated = "text";
+  static const String columnGrades = "grades";
+  static const String columnBookName = "book_name";
+  static const String columnBookReference = "book_reference";
+  static const String columnInBookReference = "inbook_reference";
+  static const String columnLanguage = "hadith_language";
+
   Future<Database?> get database async {
     if (_database != null) return _database;
     _database = await _initDatabase();
@@ -28,33 +29,33 @@ class MyDatabaseHelper {
   }
 
   _initDatabase() async {
-    String path = join(await getDatabasesPath(), DATABASE_NAME);
+    String path = join(await getDatabasesPath(), databaseName);
     return await openDatabase(
       path,
-      version: DATABASE_VERSION,
+      version: databaseVersion,
       onCreate: _onCreate,
     );
   }
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-    CREATE TABLE $TABLE_NAME_HADITHS (
-      $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-      $COLUMN_HADITHNUMBER REAL,
-      $COLUMN_ARABICNUMBER REAL,
-      $COLUMN_TEXTARABIC TEXT,
-      $COLUMN_TEXTTRANSLATED TEXT,
-      $COLUMN_GRADES TEXT,
-      $COLUMN_BOOKID INTEGER,
-      $COLUMN_BOOKREFERENCE INTEGER,
-      $COLUMN_INBOOKREFERENCE INTEGER,
-      $COLUMN_LANGUAGE TEXT
+    CREATE TABLE $tableNameHadiths (
+      $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
+      $columnHadithNumber REAL,
+      $columnArabicNumber REAL,
+      $columnTextArabic TEXT,
+      $columnTextTranslated TEXT,
+      $columnGrades TEXT,
+      $columnBookName TEXT,
+      $columnBookReference INTEGER,
+      $columnInBookReference INTEGER,
+      $columnLanguage TEXT
     )
 ''');
   }
 
   Future<void> addHadith(
-      int bookId,
+      String bookName,
       dynamic hadithnumber,
       dynamic arabicnumber,
       String arabicHadithText,
@@ -64,31 +65,31 @@ class MyDatabaseHelper {
       int bookReference,
       String language) async {
     String allGrades = "";
-    grades.forEach((element) {
-      allGrades += element.name + "::" + element.grade + "&&";
-    });
+    for (var element in grades) {
+      allGrades += "${element.name}::${element.grade}&&";
+    }
     final db = await instance.database;
-    await db!.insert(TABLE_NAME_HADITHS, {
-      COLUMN_BOOKID: bookId,
-      COLUMN_HADITHNUMBER: hadithnumber,
-      COLUMN_ARABICNUMBER: arabicnumber,
-      COLUMN_TEXTARABIC: arabicHadithText,
-      COLUMN_TEXTTRANSLATED: translatedHadithText,
-      COLUMN_GRADES: allGrades,
-      COLUMN_BOOKREFERENCE: bookReference,
-      COLUMN_INBOOKREFERENCE: inBookReference,
-      COLUMN_LANGUAGE: language
+    await db!.insert(tableNameHadiths, {
+      columnBookName: bookName,
+      columnHadithNumber: hadithnumber,
+      columnArabicNumber: arabicnumber,
+      columnTextArabic: arabicHadithText,
+      columnTextTranslated: translatedHadithText,
+      columnGrades: allGrades,
+      columnBookReference: bookReference,
+      columnInBookReference: inBookReference,
+      columnLanguage: language
     });
   }
 
   Future<List<Map<String, dynamic>>> readHadithData() async {
     final db = await instance.database;
-    return await db!.query(TABLE_NAME_HADITHS);
+    return await db!.query(tableNameHadiths);
   }
 
   Future<int> updateData(
       {required int rowId,
-      required int bookId,
+      required String bookName,
       required dynamic hadithNumber,
       required dynamic arabicNumber,
       required String arabicHadithText,
@@ -96,19 +97,21 @@ class MyDatabaseHelper {
       required String grades,
       required int bookReference,
       required int inBookReference,
+      required String language,
       required String tableName}) async {
     final db = await instance.database;
     return await db!.update(
         tableName,
         {
-          COLUMN_BOOKID: bookId,
-          COLUMN_HADITHNUMBER: hadithNumber,
-          COLUMN_ARABICNUMBER: arabicNumber,
-          COLUMN_TEXTARABIC: arabicHadithText,
-          COLUMN_TEXTTRANSLATED: translatedHadithText,
-          COLUMN_GRADES: grades,
-          COLUMN_BOOKREFERENCE: bookReference,
-          COLUMN_INBOOKREFERENCE: inBookReference,
+          columnBookName: bookName,
+          columnHadithNumber: hadithNumber,
+          columnArabicNumber: arabicNumber,
+          columnTextArabic: arabicHadithText,
+          columnTextTranslated: translatedHadithText,
+          columnGrades: grades,
+          columnBookReference: bookReference,
+          columnInBookReference: inBookReference,
+          columnLanguage: language
         },
         where: '_id=?',
         whereArgs: [rowId]);
@@ -120,11 +123,11 @@ class MyDatabaseHelper {
   }
 
   Future<int> removeHadith(
-      int bookId, dynamic hadithNumber, String hadithLanguage) async {
+      String bookName, dynamic hadithNumber, String hadithLanguage) async {
     final db = await instance.database;
-    return await db!.delete(TABLE_NAME_HADITHS,
-        where: 'book_id=? AND hadithnumber=? AND hadith_language=?',
-        whereArgs: [bookId, hadithNumber, hadithLanguage]);
+    return await db!.delete(tableNameHadiths,
+        where: 'book_name=? AND hadithnumber=? AND hadith_language=?',
+        whereArgs: [bookName, hadithNumber, hadithLanguage]);
   }
 
   Future<int?> countTotal(String tableName) async {

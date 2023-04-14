@@ -15,7 +15,7 @@ class RoundedItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: size,
       width: size,
       child: Card(
@@ -24,7 +24,7 @@ class RoundedItem extends StatelessWidget {
         child: Center(
           child: Text(
             shortName,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 22,
             ),
           ),

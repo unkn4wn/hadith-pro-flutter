@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hadithpro/components/widget/hadithtext.dart';
+import 'package:hadithpro/components/bottomsheet/copysheet.dart';
 import 'package:hadithpro/helper/databasehelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
-import 'package:hadithpro/components/bottomsheet/copysheet.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HadithItem extends StatefulWidget {
@@ -12,7 +11,7 @@ class HadithItem extends StatefulWidget {
   final Hadith hadithTranslation;
   final String language;
   final bool showNumber;
-  HadithItem({
+  const HadithItem({
     Key? key,
     required this.hadithTranslation,
     required this.bookNumber,
@@ -42,12 +41,8 @@ class _HadithItemState extends State<HadithItem> {
     // TODO: implement initState
     super.initState();
 
-    isBookmarkedKey = "isBookmarked_" +
-        widget.bookNumber.toString() +
-        "_" +
-        widget.hadithTranslation.hadithNumber.toString() +
-        "_" +
-        widget.language;
+    isBookmarkedKey =
+        "isBookmarked_${widget.bookNumber}_${widget.hadithTranslation.hadithNumber}_${widget.language}";
   }
 
   @override
@@ -71,7 +66,7 @@ class _HadithItemState extends State<HadithItem> {
                 children: [
                   if (widget.showNumber)
                     Container(
-                      margin: EdgeInsets.all(0),
+                      margin: const EdgeInsets.all(0),
                       height: 45,
                       width: 45,
                       child: Card(
@@ -79,22 +74,23 @@ class _HadithItemState extends State<HadithItem> {
                           child: Text(
                             widget.hadithTranslation.reference.inBookReference
                                 .toString(),
-                            style: TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 20),
                           ),
                         ),
                       ),
                     ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: [
                       InkWell(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         onTap: () {
                           if (SharedPreferencesHelper.getBool(
                               isBookmarkedKey, false)) {
                             try {
                               MyDatabaseHelper.instance.removeHadith(
-                                widget.bookNumber,
+                                BooksScreen().fileNamesList[widget.bookNumber],
                                 widget.hadithTranslation.hadithNumber,
                                 widget.language,
                               );
@@ -104,7 +100,7 @@ class _HadithItemState extends State<HadithItem> {
                                   .showSnackBar(SnackBar(
                                 content: Text(AppLocalizations.of(context)!
                                     .hadithitem_bookmarkremove_snackbar_success),
-                                duration: Duration(seconds: 1),
+                                duration: const Duration(seconds: 1),
                               ));
                             } catch (e) {
                               ScaffoldMessenger.of(context)
@@ -113,16 +109,17 @@ class _HadithItemState extends State<HadithItem> {
                                   .showSnackBar(SnackBar(
                                 content: Text(AppLocalizations.of(context)!
                                     .hadithitem_bookmarkremove_snackbar_error),
-                                duration: Duration(seconds: 1),
+                                duration: const Duration(seconds: 1),
                               ));
                             }
                           } else {
                             try {
                               MyDatabaseHelper.instance.addHadith(
-                                  widget.bookNumber,
+                                  BooksScreen()
+                                      .fileNamesList[widget.bookNumber],
                                   widget.hadithTranslation.hadithNumber,
                                   widget.hadithTranslation.arabicNumber,
-                                  widget.hadithTranslation.text_ara,
+                                  widget.hadithTranslation.textAra,
                                   widget.hadithTranslation.text,
                                   widget.hadithTranslation.grades,
                                   widget.hadithTranslation.reference
@@ -136,7 +133,7 @@ class _HadithItemState extends State<HadithItem> {
                                   .showSnackBar(SnackBar(
                                 content: Text(AppLocalizations.of(context)!
                                     .hadithitem_bookmarkadd_snackbar_success),
-                                duration: Duration(seconds: 1),
+                                duration: const Duration(seconds: 1),
                               ));
                             } catch (e) {
                               ScaffoldMessenger.of(context)
@@ -145,7 +142,7 @@ class _HadithItemState extends State<HadithItem> {
                                   .showSnackBar(SnackBar(
                                 content: Text(AppLocalizations.of(context)!
                                     .hadithitem_bookmarkadd_snackbar_error),
-                                duration: Duration(seconds: 1),
+                                duration: const Duration(seconds: 1),
                               ));
                             }
                           }
@@ -156,7 +153,7 @@ class _HadithItemState extends State<HadithItem> {
                                   isBookmarkedKey, false));
                           setState(() {});
                         },
-                        child: Container(
+                        child: SizedBox(
                           height: 40,
                           width: 40,
                           child: SharedPreferencesHelper.getBool(
@@ -165,16 +162,17 @@ class _HadithItemState extends State<HadithItem> {
                                   Icons.bookmark_outlined,
                                   color: Colors.yellow.shade600,
                                 )
-                              : Icon(Icons.bookmark_border),
+                              : const Icon(Icons.bookmark_border),
                         ),
                       ),
                       InkWell(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         onTap: () {
                           CopySheet.show(context, widget.hadithTranslation,
                               widget.bookNumber);
                         },
-                        child: Container(
+                        child: const SizedBox(
                           height: 40,
                           width: 40,
                           child: Icon(Icons.copy),
@@ -189,7 +187,7 @@ class _HadithItemState extends State<HadithItem> {
               ),
               SharedPreferencesHelper.getBool("displayArabic", true)
                   ? Text(
-                      widget.hadithTranslation.text_ara,
+                      widget.hadithTranslation.textAra,
                       softWrap: true,
                       maxLines: null,
                       textDirection: TextDirection.rtl,
@@ -201,7 +199,7 @@ class _HadithItemState extends State<HadithItem> {
                             "textSizeArabic", 20.0),
                       ),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               const SizedBox(height: 8),
               SharedPreferencesHelper.getBool("displayTranslation", true)
                   ? Text(
@@ -217,7 +215,7 @@ class _HadithItemState extends State<HadithItem> {
                             "textSizeTranslation", 20.0),
                       ),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               const SizedBox(height: 4),
               const Divider(
                 height: 0,
@@ -226,7 +224,7 @@ class _HadithItemState extends State<HadithItem> {
               const Divider(
                 height: 0,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -250,12 +248,8 @@ class _HadithItemState extends State<HadithItem> {
                   ),
                   const VerticalDivider(width: 1.0),
                   Expanded(
-                    child: Text(AppLocalizations.of(context)!
-                            .hadithitem_inbookreference_book +
-                        " ${widget.hadithTranslation.reference.bookReference}, " +
-                        AppLocalizations.of(context)!
-                            .hadithitem_inbookreference_hadith +
-                        " ${widget.hadithTranslation.reference.inBookReference}"),
+                    child: Text(
+                        "${AppLocalizations.of(context)!.hadithitem_inbookreference_book} ${widget.hadithTranslation.reference.bookReference}, ${AppLocalizations.of(context)!.hadithitem_inbookreference_hadith} ${widget.hadithTranslation.reference.inBookReference}"),
                   ),
                 ],
               ),
@@ -264,46 +258,43 @@ class _HadithItemState extends State<HadithItem> {
         ),
       );
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 
   Widget _buildGradesCard(BuildContext context, Hadith hadith) {
-    return Container(
-      child: ExpansionTile(
-        initiallyExpanded:
-            SharedPreferencesHelper.getBool("expandGrades", false),
-        title: Text(AppLocalizations.of(context)!.hadithitem_title_grades),
-        textColor: Theme.of(context).colorScheme.onSurface,
-        tilePadding: EdgeInsets.zero,
-        children: List.generate(
-          hadith.grades.length,
-          (index) {
-            return Container(
-              padding: EdgeInsets.symmetric(vertical: 4.0),
-              child: Column(
-                children: [
-                  Center(
-                    child: Text(hadith.grades[index].name),
+    return ExpansionTile(
+      initiallyExpanded: SharedPreferencesHelper.getBool("expandGrades", false),
+      title: Text(AppLocalizations.of(context)!.hadithitem_title_grades),
+      textColor: Theme.of(context).colorScheme.onSurface,
+      tilePadding: EdgeInsets.zero,
+      children: List.generate(
+        hadith.grades.length,
+        (index) {
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Column(
+              children: [
+                Center(
+                  child: Text(hadith.grades[index].name),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    color: _getTileColor(hadith.grades[index].grade, context),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                      color: _getTileColor(hadith.grades[index].grade, context),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        hadith.grades[index].grade,
-                        style: TextStyle(color: Color(0xFF00390A)),
-                      ),
+                  child: Center(
+                    child: Text(
+                      hadith.grades[index].grade,
+                      style: const TextStyle(color: Color(0xFF00390A)),
                     ),
                   ),
-                ],
-              ),
-            );
-          },
-        ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

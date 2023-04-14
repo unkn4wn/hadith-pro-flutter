@@ -4,7 +4,6 @@ import 'package:hadithpro/components/widget/hadithitem.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
-import 'package:dartarabic/dartarabic.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -33,6 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
@@ -44,14 +44,14 @@ class _SearchScreenState extends State<SearchScreen> {
               decoration: InputDecoration(
                   hintText: AppLocalizations.of(context)!.search_title_main,
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.filter_alt),
+                    icon: const Icon(Icons.filter_alt),
                     onPressed: () {
                       setState(() {
                         _showBottomSheetFilter();
                       });
                     },
                   ),
-                  icon: Icon(Icons.search)),
+                  icon: const Icon(Icons.search)),
               onSubmitted: (query) {
                 setState(() {
                   _isFiltering = true;
@@ -68,7 +68,6 @@ class _SearchScreenState extends State<SearchScreen> {
                         return loadJson(assetName, index);
                       } else {
                         // handle file not found error
-                        print("File not found: $assetName");
                         return HadithsList(
                           metadata: Metadata(
                             bookId: 0,
@@ -87,9 +86,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
                 _hadithsListsFuture!.then((snapshot) {
                   _allHadiths.clear();
-                  snapshot.forEach((hadithsList) {
+                  for (var hadithsList in snapshot) {
                     _allHadiths.addAll(hadithsList.hadiths);
-                  });
+                  }
                   setState(() {
                     if (isNumeric(query)) {
                       final queryAsInt = int.tryParse(query);
@@ -112,7 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       }).toList();
                     } else {
                       _filteredHadiths = _allHadiths.where((hadith) {
-                        return removeArabicHarakat(hadith.text_ara)
+                        return removeArabicHarakat(hadith.textAra)
                             .toLowerCase()
                             .contains(removeArabicHarakat(query.toLowerCase()));
                       }).toList();
@@ -120,7 +119,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     _isFiltering = false;
                   });
                 }).catchError((error) {
-                  print("ERRORSAS " + error.toString());
                   setState(() {
                     _filteredHadiths.clear();
                     _isFiltering = false;
@@ -145,7 +143,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           if (_isFiltering)
-            SliverFillRemaining(
+            const SliverFillRemaining(
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -166,7 +164,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _showBottomSheetFilter() {
     showModalBottomSheet(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
       ),
       context: context,
@@ -178,11 +176,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
                     alignment: Alignment.center,
                     child: Text(
                       AppLocalizations.of(context)!.search_filter_title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
@@ -196,7 +195,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ? Theme.of(context).colorScheme.surface
                         : Theme.of(context).colorScheme.primary,
                     elevation: 0,
-                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: ListTile(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -223,7 +222,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ? Theme.of(context).colorScheme.primary
                         : Theme.of(context).colorScheme.surface,
                     elevation: 0,
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                       left: 20,
                       right: 20,
                       bottom: 15,
@@ -261,9 +260,6 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   bool isNumeric(String s) {
-    if (s == null) {
-      return false;
-    }
     return double.tryParse(s) != null;
   }
 }

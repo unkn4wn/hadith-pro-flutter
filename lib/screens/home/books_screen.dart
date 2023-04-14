@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:hadithpro/components/widget/roundedItem.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
-import 'package:hadithpro/models/hadith.dart';
 import 'chapters_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BooksScreen extends StatefulWidget {
-  List<String> fileNamesList = [
+  final List<String> fileNamesList = [
     "bukhari",
     "muslim",
     "nasai",
@@ -16,17 +13,17 @@ class BooksScreen extends StatefulWidget {
     "ibnmajah",
     "malik",
   ];
-  List<String> longNamesList = [
+  final List<String> longNamesList = [
     "Sahih Bukhari",
     "Sahih Muslim",
-    "Sunan an-Nasa\'i",
+    "Sunan an-Nasa'i",
     "Sunan Abi Dawud",
     "Jami` at-Tirmidhi",
     "Sunan Ibn Majah",
     "Muwatta Malik",
   ];
 
-  List<int> hadithNumberList = [
+  final List<int> hadithNumberList = [
     7563,
     3033,
     5758,
@@ -38,14 +35,14 @@ class BooksScreen extends StatefulWidget {
   BooksScreen({Key? key}) : super(key: key);
 
   @override
-  _BooksScreenState createState() => _BooksScreenState();
+  State<StatefulWidget> createState() => _BooksScreenState();
 }
 
 class _BooksScreenState extends State<BooksScreen> {
   List<String> authorNamesList = [
     "Imam al-Bukhari",
     "Imam Muslim",
-    "Imam  an-Nasa\'i",
+    "Imam  an-Nasa'i",
     "Imam Abu Dawud",
     "Imam at-Tirmidhi",
     "Imam Ibn Majah",
@@ -69,7 +66,8 @@ class _BooksScreenState extends State<BooksScreen> {
     super.initState();
     _initHadithList();
 
-    String hadithLanguage = SharedPreferencesHelper.getString("hadithLanguage", "eng");
+    String hadithLanguage =
+        SharedPreferencesHelper.getString("hadithLanguage", "eng");
     Map<String, List<String>> languageToFileNamesMap = {
       "ara": [
         "bukhari",
@@ -151,45 +149,46 @@ class _BooksScreenState extends State<BooksScreen> {
         title: Text(AppLocalizations.of(context)!.books_title_main),
       ),
       body: ListView.builder(
-        itemCount: BooksScreen().fileNamesList.where((fileName) => fileTranslatedNamesList.contains(fileName)).length,
+        itemCount: BooksScreen()
+            .fileNamesList
+            .where((fileName) => fileTranslatedNamesList.contains(fileName))
+            .length,
         itemBuilder: (context, index) {
           final fileName = fileTranslatedNamesList[index];
-            final bookIndex = BooksScreen().fileNamesList.indexOf(fileName);
-            return Column(
-              children: [
-                ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  leading: Container(
-                    child: Icon(
-                      Icons.book,
-                      size: 40,
-                      color: colorNamesList[bookIndex],
-                    ),
-                  ),
-                  title: Text(
-                    BooksScreen().longNamesList[bookIndex],
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
-                  ),
-                  subtitle: Text(
-                      BooksScreen().hadithNumberList[bookIndex].toString() +
-                          " Hadith"),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ChaptersScreen(bookNumber: bookIndex)));
-                  },
+          final bookIndex = BooksScreen().fileNamesList.indexOf(fileName);
+          return Column(
+            children: [
+              ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                Divider(
-                  indent: 20.0,
-                  endIndent: 20.0,
-                  height: 0,
+                leading: Icon(
+                  Icons.book,
+                  size: 40,
+                  color: colorNamesList[bookIndex],
                 ),
-              ],
-            );
+                title: Text(
+                  BooksScreen().longNamesList[bookIndex],
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 19),
+                ),
+                subtitle:
+                    Text("${BooksScreen().hadithNumberList[bookIndex]} Hadith"),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ChaptersScreen(bookNumber: bookIndex)));
+                },
+              ),
+              const Divider(
+                indent: 20.0,
+                endIndent: 20.0,
+                height: 0,
+              ),
+            ],
+          );
         },
       ),
-
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:hadithpro/screens/home/hadiths_screen.dart';
-import 'package:hadithpro/components/widget/roundedItem.dart';
 import 'books_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -21,14 +20,12 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
   @override
   void initState() {
     super.initState();
-    bookname = widget.bookNumber;
-    _hadithsList = loadJson(
-        'assets/json/' +
-            SharedPreferencesHelper.getString("hadithLanguage", "eng") +
-            "-" +
-            BooksScreen().fileNamesList[widget.bookNumber] +
-            ".json",
-        widget.bookNumber);
+    final bookNumber = widget.bookNumber;
+    final fileName =
+        '${SharedPreferencesHelper.getString("hadithLanguage", "eng")}-'
+        '${BooksScreen().fileNamesList[bookNumber]}.json';
+    bookname = bookNumber;
+    _hadithsList = loadJson('assets/json/$fileName', bookNumber);
   }
 
   @override
@@ -53,24 +50,21 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.0),
                           ),
-                          leading: Container(
+                          leading: SizedBox(
                             height: 45,
                             width: 45,
                             child: Card(
                               child: Center(
                                 child: Text(
                                   sectionsMeta.keys.elementAt(index),
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(fontSize: 20),
                                 ),
                               ),
                             ),
                           ),
                           title: Text(sectionsMeta.values.elementAt(index)),
                           subtitle: Text(
-                              "${sectionDetails.values.elementAt(index).values.elementAt(2)} " +
-                                  AppLocalizations.of(context)!
-                                      .chapters_subtitle_number +
-                                  " ${sectionDetails.values.elementAt(index).values.elementAt(3)}"),
+                              "${sectionDetails.values.elementAt(index).values.elementAt(2)} ${AppLocalizations.of(context)!.chapters_subtitle_number} ${sectionDetails.values.elementAt(index).values.elementAt(3)}"),
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -89,7 +83,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                             );
                           },
                         ),
-                        Divider(
+                        const Divider(
                           indent: 20.0,
                           endIndent: 20.0,
                           height: 0,
@@ -102,7 +96,6 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                 },
               );
             } else if (snapshot.hasError) {
-              print(snapshot.error);
               return const Center(
                 child: Text('This book is not available in this language'),
               );

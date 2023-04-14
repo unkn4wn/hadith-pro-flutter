@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 class BookItem extends StatelessWidget {
   final String shortName;
   final String bookName;
   final String bookAuthor;
-  final color;
+  final Color color;
   const BookItem(
       {Key? key,
       required this.shortName,
@@ -19,7 +18,7 @@ class BookItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -38,11 +37,12 @@ class BookItem extends StatelessWidget {
                       child: Center(
                         child: Text(
                           shortName,
-                          style: TextStyle(fontSize: 22, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 22, color: Colors.white),
                         ),
                       )),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 12,
                 ),
                 Column(
@@ -50,17 +50,17 @@ class BookItem extends StatelessWidget {
                   children: [
                     Text(
                       bookName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Text(
                       bookAuthor,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
                         fontSize: 14,
@@ -70,7 +70,7 @@ class BookItem extends StatelessWidget {
                 )
               ],
             ),
-            Icon(Icons.more_horiz),
+            const Icon(Icons.more_horiz),
           ],
         ),
       ),

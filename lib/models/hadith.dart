@@ -62,7 +62,7 @@ class Hadith {
   final int bookNumber;
   final dynamic hadithNumber;
   final dynamic arabicNumber;
-  final String text_ara;
+  final String textAra;
   final String text;
   final List<Grade> grades;
   final Reference reference;
@@ -71,7 +71,7 @@ class Hadith {
     required this.bookNumber,
     required this.hadithNumber,
     required this.arabicNumber,
-    required this.text_ara,
+    required this.textAra,
     required this.text,
     required this.grades,
     required this.reference,
@@ -87,7 +87,7 @@ class Hadith {
       bookNumber: bookNumber,
       hadithNumber: json['hadithnumber'],
       arabicNumber: json['arabicnumber'],
-      text_ara: json['text_ara'],
+      textAra: json['text_ara'],
       text: json['text'],
       grades: grades,
       reference: Reference.fromJson(json['reference']),

@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hadithpro/helper/languagehelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/main.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsScreen extends StatefulWidget {
-  List<String> longLanguageList = [
+  final List<String> longLanguageList = [
     "Arabic",
     "Bengali",
     "English",
@@ -19,7 +17,7 @@ class SettingsScreen extends StatefulWidget {
     "Urdu"
   ];
 
-  List<String> shortLanguageList = [
+  final List<String> shortLanguageList = [
     "ara",
     "ben",
     "eng",
@@ -30,18 +28,18 @@ class SettingsScreen extends StatefulWidget {
     "urd"
   ];
 
-  List<Locale> shortestLanguageList = [
-    Locale("ar"),
-    Locale("bn"),
-    Locale("en"),
-    Locale("fr"),
-    Locale("id"),
-    Locale("ta"),
-    Locale("tr"),
-    Locale("ur"),
+  final List<Locale> shortestLanguageList = [
+    const Locale("ar"),
+    const Locale("bn"),
+    const Locale("en"),
+    const Locale("fr"),
+    const Locale("id"),
+    const Locale("ta"),
+    const Locale("tr"),
+    const Locale("ur"),
   ];
 
-  List<String> longTranslatedLanguageList = [
+  final List<String> longTranslatedLanguageList = [
     "العربية",
     "বাংলা",
     "English",
@@ -86,18 +84,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: Text(
                 AppLocalizations.of(context)!.settings_title_language,
-                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 22.0, fontWeight: FontWeight.bold),
               ),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -105,9 +104,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: Text(
                   AppLocalizations.of(context)!
                       .settings_subtitle_hadithlanguage,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios),
+                trailing: const Icon(Icons.arrow_forward_ios),
                 subtitle: Text(hadithLanguage),
                 onTap: () {
                   setState(() {
@@ -116,18 +115,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
               child: Text(
                 AppLocalizations.of(context)!.settings_title_appearance,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: SwitchListTile(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -135,7 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: Text(
                     AppLocalizations.of(context)!
                         .settings_subtitle_expandgrades,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   value: SharedPreferencesHelper.getBool("expandGrades", false),
                   onChanged: (bool? value) {
@@ -145,7 +145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   }),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: SwitchListTile(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -153,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: Text(
                     AppLocalizations.of(context)!
                         .settings_subtitle_displayarabictext,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   value: SharedPreferencesHelper.getBool("displayArabic", true),
                   onChanged: (bool? value) {
@@ -163,7 +163,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   }),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: SwitchListTile(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -173,7 +173,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: Text(
                     AppLocalizations.of(context)!
                         .settings_subtitle_displaytranslationtext,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   onChanged: (bool? value) {
                     setState(() {
@@ -183,7 +183,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   }),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -191,7 +191,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: Text(
                   AppLocalizations.of(context)!
                       .settings_subtitle_displayarabictextsize,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 subtitle: Text(sliderArabicSize.toString()),
@@ -203,7 +203,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -211,7 +211,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: Text(
                   AppLocalizations.of(context)!
                       .settings_subtitle_displaytranslationtextsize,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 subtitle: Text(sliderTranslationSize.toString()),
@@ -222,27 +222,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: Text(
                 AppLocalizations.of(context)!.settings_title_information,
-                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 22.0, fontWeight: FontWeight.bold),
               ),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 title: Text(
                   AppLocalizations.of(context)!.settings_subtitle_website,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                trailing: Icon(Icons.web),
+                trailing: const Icon(Icons.web),
                 onTap: () async {
                   final uri = Uri.parse("https://www.hadithhub.com/");
                   if (await canLaunchUrl(uri)) {
@@ -257,14 +258,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 title: Text(
                   AppLocalizations.of(context)!.settings_subtitle_sourcecode,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 trailing: const Icon(Icons.source),
                 onTap: () async {
@@ -282,12 +283,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                title: Text(
+                title: const Text(
                   "Still in development!",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -323,7 +324,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
           ],
@@ -334,7 +335,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _showBottomSheetLanguage() {
     showModalBottomSheet(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
       ),
       context: context,
@@ -345,12 +346,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   alignment: Alignment.center,
                   child: Text(
                     AppLocalizations.of(context)!
                         .settings_subtitle_hadithlanguage,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
@@ -371,8 +373,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ? Theme.of(context).colorScheme.primary
                             : Theme.of(context).colorScheme.surface,
                         elevation: 0,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
                         child: ListTile(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -417,7 +419,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 )
               ],
@@ -430,39 +432,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _showBottomSheetArabic() {
     showModalBottomSheet(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(30.0))),
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return Container(
+            return SizedBox(
               height: 300,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
                     alignment: Alignment.center,
                     child: Text(
                       AppLocalizations.of(context)!
                           .settings_subtitle_displayarabictextsize,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
                       'إِنَّ أَبْغَضَ الرِّجَالِ إِلَى اللَّهِ الأَلَدُّ الْخَصِمُ',
                       style: TextStyle(
                           fontSize: sliderArabicSize, fontFamily: 'Uthman'),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Slider(
                     max: 30,
                     divisions: 15,
@@ -479,7 +482,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Navigator.pop(context);
                     },
                   ),
-                  SizedBox(height: 16.0), // Add some spacing at the bottom
+                  const SizedBox(
+                      height: 16.0), // Add some spacing at the bottom
                 ],
               ),
             );
@@ -491,32 +495,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _showBottomSheetTranslation() {
     showModalBottomSheet(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(30.0))),
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return Container(
+            return SizedBox(
               height: 300,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
                     alignment: Alignment.center,
                     child: Text(
                       AppLocalizations.of(context)!
                           .settings_subtitle_displaytranslationtextsize,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
                       'The most hated person in the sight of Allah is the most quarrelsome person.',
                       style: TextStyle(
@@ -524,7 +529,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           fontFamily: 'Uthman'),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Slider(
                     max: 30,
                     divisions: 15,
@@ -541,7 +546,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Navigator.pop(context); // close the bottom sheet
                     },
                   ),
-                  SizedBox(height: 16.0), // Add some spacing at the bottom
+                  const SizedBox(
+                      height: 16.0), // Add some spacing at the bottom
                 ],
               ),
             );

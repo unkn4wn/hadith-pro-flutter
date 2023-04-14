@@ -39,6 +39,7 @@ dependencies:
   dynamic_color: ^1.6.2
   draggable_scrollbar: ^0.1.0
   sqflite: ^2.2.6
+  path: ^1.8.0
   dartarabic: ^0.1.2
   flutter_native_splash: ^2.2.19
   flutter_localizations:

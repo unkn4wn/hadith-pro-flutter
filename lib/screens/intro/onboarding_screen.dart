@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/main.dart';
@@ -18,7 +17,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   late PageController _pageController;
 
   int _pageIndex = 0;
-  List<Onboard> demo_data = [];
+  List<Onboard> demoData = [];
 
   @override
   void initState() {
@@ -29,7 +28,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   void didChangeDependencies() {
-    demo_data = [
+    demoData = [
       Onboard(
         image: "assets/onboarding/language.json",
         title: AppLocalizations.of(context)!.intro_first_title,
@@ -82,7 +81,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           children: [
             Expanded(
               child: PageView.builder(
-                itemCount: demo_data.length,
+                itemCount: demoData.length,
                 controller: _pageController,
                 onPageChanged: (index) {
                   setState(() {
@@ -90,10 +89,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   });
                 },
                 itemBuilder: (context, index) => OnboardContent(
-                  image: demo_data[index].image,
-                  title: demo_data[index].title,
-                  description: demo_data[index].description,
-                  description2: demo_data[index].description2,
+                  image: demoData[index].image,
+                  title: demoData[index].title,
+                  description: demoData[index].description,
+                  description2: demoData[index].description2,
                   isLanguageScreen: index == 0 ? true : false,
                 ),
               ),
@@ -101,7 +100,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Row(
               children: [
                 ...List.generate(
-                    demo_data.length,
+                    demoData.length,
                     (index) => Padding(
                           padding: const EdgeInsets.only(right: 4.0),
                           child: DotIndicator(
@@ -116,7 +115,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     onPressed: () {
                       if (_pageController.page!.round() != 3) {
                         _pageController.nextPage(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.ease,
                         );
                       } else {
@@ -146,7 +145,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                         .popUntil((route) => route.isFirst);
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => MainPage()));
+                                            builder: (context) =>
+                                                const MainPage()));
                                   },
                                 ),
                               ],
@@ -155,7 +155,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         );
                       }
                     },
-                    child: Icon(Icons.arrow_forward),
+                    child: const Icon(Icons.arrow_forward),
                   ),
                 ),
               ],
@@ -178,14 +178,14 @@ class DotIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       height: isActive ? 12 : 4,
       width: 4,
       decoration: BoxDecoration(
         color: isActive
             ? Theme.of(context).colorScheme.primary
             : Theme.of(context).colorScheme.primary.withOpacity(0.4),
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
     );
   }

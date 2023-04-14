@@ -3,6 +3,7 @@ import 'package:hadithpro/components/widget/hadithitem.dart';
 import 'package:hadithpro/helper/databasehelper.dart';
 import 'package:hadithpro/models/hadith.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hadithpro/screens/home/books_screen.dart';
 
 class BookmarksScreen extends StatefulWidget {
   const BookmarksScreen({Key? key}) : super(key: key);
@@ -39,39 +40,41 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
           List<Grade> grades = [];
 
           List<String> specificGradeList =
-              hadith[MyDatabaseHelper.COLUMN_GRADES].toString().split("&&");
-          specificGradeList.forEach((element) {
+              hadith[MyDatabaseHelper.columnGrades].toString().split("&&");
+          for (var element in specificGradeList) {
             List<String> parts = element.split("::");
             if (parts.length >= 2) {
               grades.add(Grade(name: parts[0], grade: parts[1]));
             }
-          });
+          }
 
           // Format 20.0 to 20 and 20.03 to 20.03
           RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
-          double arabicNumber = hadith[MyDatabaseHelper.COLUMN_ARABICNUMBER];
+          double arabicNumber = hadith[MyDatabaseHelper.columnArabicNumber];
           String arabicNumberString =
               arabicNumber.toString().replaceAll(regex, '');
 
-          double hadithNumber = hadith[MyDatabaseHelper.COLUMN_HADITHNUMBER];
+          double hadithNumber = hadith[MyDatabaseHelper.columnHadithNumber];
           String hadithNumberString =
               hadithNumber.toString().replaceAll(regex, '');
-
           return HadithItem(
             hadithTranslation: Hadith(
-                bookNumber: hadith[MyDatabaseHelper.COLUMN_BOOKID],
+                bookNumber: BooksScreen()
+                    .fileNamesList
+                    .indexOf(hadith[MyDatabaseHelper.columnBookName]),
                 hadithNumber: hadithNumberString,
                 arabicNumber: arabicNumberString,
-                text_ara: hadith[MyDatabaseHelper.COLUMN_TEXTARABIC],
-                text: hadith[MyDatabaseHelper.COLUMN_TEXTTRANSLATED],
+                textAra: hadith[MyDatabaseHelper.columnTextArabic],
+                text: hadith[MyDatabaseHelper.columnTextTranslated],
                 grades: grades,
                 reference: Reference(
-                    bookReference:
-                        hadith[MyDatabaseHelper.COLUMN_BOOKREFERENCE],
+                    bookReference: hadith[MyDatabaseHelper.columnBookReference],
                     inBookReference:
-                        hadith[MyDatabaseHelper.COLUMN_INBOOKREFERENCE])),
-            bookNumber: hadith[MyDatabaseHelper.COLUMN_BOOKID],
-            language: hadith[MyDatabaseHelper.COLUMN_LANGUAGE],
+                        hadith[MyDatabaseHelper.columnInBookReference])),
+            bookNumber: BooksScreen()
+                .fileNamesList
+                .indexOf(hadith[MyDatabaseHelper.columnBookName]),
+            language: hadith[MyDatabaseHelper.columnLanguage],
           );
         },
       ),

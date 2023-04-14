@@ -3,13 +3,13 @@ import 'package:hadithpro/models/hadith.dart';
 
 class HadithText extends StatelessWidget {
   final Hadith hadithText;
-  final TextDirection;
-  final TextStyle;
+  final TextDirection textDirection;
+  final TextStyle textStyle;
   const HadithText({
     Key? key,
     required this.hadithText,
-    required this.TextDirection,
-    required this.TextStyle,
+    required this.textDirection,
+    required this.textStyle,
   }) : super(key: key);
 
   @override
@@ -18,9 +18,9 @@ class HadithText extends StatelessWidget {
       hadithText.text,
       softWrap: true,
       maxLines: null,
-      textDirection: TextDirection,
+      textDirection: textDirection,
       textAlign: TextAlign.start,
-      style: TextStyle,
+      style: textStyle,
     );
   }
 }

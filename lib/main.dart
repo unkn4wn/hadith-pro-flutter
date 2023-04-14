@@ -1,9 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
-import 'package:hadithpro/l10n/l10n.dart';
 import 'package:hadithpro/screens/bookmarks/bookmarks_screen.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/screens/intro/onboarding_screen.dart';
@@ -17,13 +14,12 @@ void main() async {
   final isFirstStart = SharedPreferencesHelper.getBool('isFirstStart', true);
   if (isFirstStart) {
     SharedPreferencesHelper.resetSharedPreferences();
-    print("RESET SHARE");
   }
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -35,23 +31,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale? _locale;
-
   setLocale(Locale locale) {
-    setState(() {
-      _locale = locale;
-    });
+    setState(() {});
   }
 
   final Map<String, Locale> localeMap = {
-    "ara": Locale("ar"),
-    "ben": Locale("bn"),
-    "eng": Locale("en"),
-    "fra": Locale("fr"),
-    "ind": Locale("id"),
-    "tam": Locale("ta"),
-    "tur": Locale("tr"),
-    "urd": Locale("ur")
+    "ara": const Locale("ar"),
+    "ben": const Locale("bn"),
+    "eng": const Locale("en"),
+    "fra": const Locale("fr"),
+    "ind": const Locale("id"),
+    "tam": const Locale("ta"),
+    "tur": const Locale("tr"),
+    "urd": const Locale("ur")
   };
 
   @override
@@ -66,7 +58,7 @@ class _MyAppState extends State<MyApp> {
 
           darkColorScheme = darkDynamic.harmonized();
         } else {
-          lightColorScheme = ColorScheme(
+          lightColorScheme = const ColorScheme(
             primary: Color(0xFF50A89B),
             secondary: Color(0xFF50A89B),
             background: Color(0xFFFFFFFF),
@@ -82,7 +74,7 @@ class _MyAppState extends State<MyApp> {
             brightness: Brightness.light,
           );
 
-          darkColorScheme = ColorScheme(
+          darkColorScheme = const ColorScheme(
             primary: Color(0xFF3a7b6d),
             secondary: Color(0xFF3a7b6d),
             background: Color(0xFF000000),
@@ -126,13 +118,13 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           home: SharedPreferencesHelper.getBool('isFirstStart', true)
-              ? OnBoardingScreen()
-              : MainPage(),
+              ? const OnBoardingScreen()
+              : const MainPage(),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: localeMap[
                   SharedPreferencesHelper.getString("hadithLanguage", "eng")] ??
-              Locale("en"),
+              const Locale("en"),
         );
       },
     );
@@ -153,16 +145,10 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _widgetOptions = <Widget>[
     BooksScreen(),
-    SearchScreen(),
-    BookmarksScreen(),
+    const SearchScreen(),
+    const BookmarksScreen(),
     SettingsScreen()
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      currentPageIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,23 +166,23 @@ class _MainPageState extends State<MainPage> {
         selectedIndex: currentPageIndex,
         destinations: <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
+            icon: const Icon(Icons.home_outlined),
             label: AppLocalizations.of(context)!.bottomnavigation_title_home,
           ),
           NavigationDestination(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             label: AppLocalizations.of(context)!.bottomnavigation_title_search,
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.bookmark),
-            icon: Icon(Icons.bookmark_border),
+            selectedIcon: const Icon(Icons.bookmark),
+            icon: const Icon(Icons.bookmark_border),
             label:
                 AppLocalizations.of(context)!.bottomnavigation_title_bookmarks,
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.settings),
-            icon: Icon(Icons.settings_outlined),
+            selectedIcon: const Icon(Icons.settings),
+            icon: const Icon(Icons.settings_outlined),
             label:
                 AppLocalizations.of(context)!.bottomnavigation_title_settings,
           ),
