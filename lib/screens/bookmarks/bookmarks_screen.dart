@@ -95,6 +95,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                 bookNumber: BookHelper.fileNamesList
                     .indexOf(hadith[MyDatabaseHelper.columnBookName]),
                 language: hadith[MyDatabaseHelper.columnLanguage],
+                myNumbering: ++index,
               );
             }),
       ),

@@ -185,7 +185,7 @@ class _MainPageState extends State<MainPage> {
           NavigationDestination(
             selectedIcon: const Icon(Icons.question_mark),
             icon: const Icon(Icons.question_mark_outlined),
-            label: "Random",
+            label: AppLocalizations.of(context)!.bottomnavigation_title_random,
           ),
           NavigationDestination(
             selectedIcon: const Icon(Icons.settings),

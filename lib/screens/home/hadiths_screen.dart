@@ -73,12 +73,16 @@ class _HadithsScreenState extends State<HadithsScreen> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
-                      return HadithItem(
+                      if (hadithsOfSection[index].text.isNotEmpty) {
+                        return HadithItem(
                           bookNumber: widget.bookNumber,
                           hadithTranslation: hadithsOfSection[index],
                           language: SharedPreferencesHelper.getString(
                               "hadithLanguage", "eng"),
-                          showNumber: true);
+                        );
+                      } else {
+                        return Container();
+                      }
                     },
                     childCount: hadithsOfSection.length,
                   ),

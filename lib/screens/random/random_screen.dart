@@ -67,7 +67,7 @@ class _RandomScreenState extends State<RandomScreen> {
               hadithTranslation: randomHadith,
               language:
                   SharedPreferencesHelper.getString("hadithLanguage", "eng"),
-              showNumber: false,
+              myNumbering: 1,
             );
           },
         ),

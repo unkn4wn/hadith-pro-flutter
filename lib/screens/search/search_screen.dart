@@ -132,12 +132,17 @@ class _SearchScreenState extends State<SearchScreen> {
               (BuildContext context, int index) {
                 final hadith = _filteredHadiths[index];
                 final bookNumber = _filteredHadiths[index].bookNumber;
-                return HadithItem(
-                  bookNumber: bookNumber,
-                  hadithTranslation: hadith,
-                  language: SharedPreferencesHelper.getString(
-                      "hadithLanguage", "eng"),
-                );
+                if (hadith.text.isNotEmpty) {
+                  return HadithItem(
+                    bookNumber: bookNumber,
+                    hadithTranslation: hadith,
+                    language: SharedPreferencesHelper.getString(
+                        "hadithLanguage", "eng"),
+                    myNumbering: ++index,
+                  );
+                } else {
+                  return Container();
+                }
               },
               childCount: _filteredHadiths.length,
             ),
