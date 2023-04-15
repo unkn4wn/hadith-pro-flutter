@@ -4,6 +4,7 @@ import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/screens/bookmarks/bookmarks_screen.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
 import 'package:hadithpro/screens/intro/onboarding_screen.dart';
+import 'package:hadithpro/screens/random/random_screen.dart';
 import 'package:hadithpro/screens/search/search_screen.dart';
 import 'package:hadithpro/screens/settings/settings_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -147,6 +148,7 @@ class _MainPageState extends State<MainPage> {
     const BooksScreen(),
     const SearchScreen(),
     const BookmarksScreen(),
+    const RandomScreen(),
     SettingsScreen()
   ];
 
@@ -179,6 +181,11 @@ class _MainPageState extends State<MainPage> {
             icon: const Icon(Icons.bookmark_border),
             label:
                 AppLocalizations.of(context)!.bottomnavigation_title_bookmarks,
+          ),
+          NavigationDestination(
+            selectedIcon: const Icon(Icons.question_mark),
+            icon: const Icon(Icons.question_mark_outlined),
+            label: "Random",
           ),
           NavigationDestination(
             selectedIcon: const Icon(Icons.settings),

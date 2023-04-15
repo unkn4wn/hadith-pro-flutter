@@ -81,8 +81,8 @@ class _BooksScreenState extends State<BooksScreen> {
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 19),
                 ),
-                subtitle:
-                    Text("${BookHelper.hadithNumberList[bookIndex]} Hadith"),
+                subtitle: Text(
+                    "${BookHelper.hadithNumberList[bookIndex]} ${AppLocalizations.of(context)!.books_count}"),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
