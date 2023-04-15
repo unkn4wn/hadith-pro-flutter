@@ -33,4 +33,69 @@ class BookHelper {
     4341,
     1858,
   ];
+
+  static Map<String, List<String>> languageToFileNamesMap = {
+    "ara": [
+      "bukhari",
+      "muslim",
+      "nasai",
+      "abudawud",
+      "tirmidhi",
+      "ibnmajah",
+      "malik",
+    ],
+    "ben": [
+      "bukhari",
+      "muslim",
+      "nasai",
+      "abudawud",
+      "tirmidhi",
+      "ibnmajah",
+      "malik",
+    ],
+    "eng": [
+      "bukhari",
+      "muslim",
+      "nasai",
+      "abudawud",
+      "tirmidhi",
+      "ibnmajah",
+      "malik",
+    ],
+    "fra": [
+      "muslim",
+      "malik",
+    ],
+    "ind": [
+      "bukhari",
+      "muslim",
+      "nasai",
+      "abudawud",
+      "tirmidhi",
+      "ibnmajah",
+      "malik",
+    ],
+    "tam": [
+      "bukhari",
+      "muslim",
+    ],
+    "tur": [
+      "bukhari",
+      "muslim",
+      "nasai",
+      "abudawud",
+      "tirmidhi",
+      "ibnmajah",
+      "malik",
+    ],
+    "urd": [
+      "bukhari",
+      "muslim",
+      "nasai",
+      "abudawud",
+      "tirmidhi",
+      "ibnmajah",
+      "malik",
+    ],
+  };
 }

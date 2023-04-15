@@ -41,74 +41,11 @@ class _BooksScreenState extends State<BooksScreen> {
 
     String hadithLanguage =
         SharedPreferencesHelper.getString("hadithLanguage", "eng");
-    Map<String, List<String>> languageToFileNamesMap = {
-      "ara": [
-        "bukhari",
-        "muslim",
-        "nasai",
-        "abudawud",
-        "tirmidhi",
-        "ibnmajah",
-        "malik",
-      ],
-      "ben": [
-        "bukhari",
-        "muslim",
-        "nasai",
-        "abudawud",
-        "tirmidhi",
-        "ibnmajah",
-        "malik",
-      ],
-      "eng": [
-        "bukhari",
-        "muslim",
-        "nasai",
-        "abudawud",
-        "tirmidhi",
-        "ibnmajah",
-        "malik",
-      ],
-      "fra": [
-        "muslim",
-        "malik",
-      ],
-      "ind": [
-        "bukhari",
-        "muslim",
-        "nasai",
-        "abudawud",
-        "tirmidhi",
-        "ibnmajah",
-        "malik",
-      ],
-      "tam": [
-        "bukhari",
-        "muslim",
-      ],
-      "tur": [
-        "bukhari",
-        "muslim",
-        "nasai",
-        "abudawud",
-        "tirmidhi",
-        "ibnmajah",
-        "malik",
-      ],
-      "urd": [
-        "bukhari",
-        "muslim",
-        "nasai",
-        "abudawud",
-        "tirmidhi",
-        "ibnmajah",
-        "malik",
-      ],
-      // add more language options and file names here
-    };
-    fileTranslatedNamesList = languageToFileNamesMap.containsKey(hadithLanguage)
-        ? languageToFileNamesMap[hadithLanguage]!
-        : languageToFileNamesMap["eng"]!;
+
+    fileTranslatedNamesList =
+        BookHelper.languageToFileNamesMap.containsKey(hadithLanguage)
+            ? BookHelper.languageToFileNamesMap[hadithLanguage]!
+            : BookHelper.languageToFileNamesMap["eng"]!;
   }
 
   Future<void> _initHadithList() async {
