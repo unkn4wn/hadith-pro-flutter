@@ -90,18 +90,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     _allHadiths.addAll(hadithsList.hadiths);
                   }
                   setState(() {
-                    if (isNumeric(query)) {
-                      final queryAsInt = int.tryParse(query);
+                    if (isNumeric(query.toString())) {
                       _filteredHadiths = _allHadiths.where((hadith) {
-                        final arabicNumber = hadith.arabicNumber;
-                        if (arabicNumber is num) {
-                          final arabicNumberAsInt = arabicNumber is int
-                              ? arabicNumber
-                              : arabicNumber.toDouble().toInt();
-                          return arabicNumberAsInt == queryAsInt;
-                        } else {
-                          return false;
-                        }
+                        String intQuery = query.toString().split('.')[0];
+                        String intArabicNumber =
+                            hadith.arabicNumber.toString().split(".")[0];
+                        return intArabicNumber == intQuery;
                       }).toList();
                     } else if (searchTranslation) {
                       _filteredHadiths = _allHadiths.where((hadith) {
