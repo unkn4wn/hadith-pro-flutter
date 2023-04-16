@@ -15,7 +15,10 @@ class RandomScreen extends StatefulWidget {
 }
 
 class _RandomScreenState extends State<RandomScreen> {
-  late int randomBookNumber;
+  late int randomBookNumber = Random().nextInt(BookHelper
+      .languageToFileNamesMap[
+          SharedPreferencesHelper.getString("hadithLanguage", "eng")]!
+      .length);
   late String fileName;
 
   List<Map<String, dynamic>> hadithList = [];
@@ -28,11 +31,7 @@ class _RandomScreenState extends State<RandomScreen> {
 
   Future<void> _readRandomNumber() async {
     fileName = '${SharedPreferencesHelper.getString("hadithLanguage", "eng")}-'
-        '${BookHelper.languageToFileNamesMap[SharedPreferencesHelper.getString("hadithLanguage", "eng")]![Random().nextInt(BookHelper.languageToFileNamesMap[SharedPreferencesHelper.getString("hadithLanguage", "eng")]!.length)]}.json';
-    randomBookNumber = Random().nextInt(BookHelper
-        .languageToFileNamesMap[
-            SharedPreferencesHelper.getString("hadithLanguage", "eng")]!
-        .length);
+        '${BookHelper.languageToFileNamesMap[SharedPreferencesHelper.getString("hadithLanguage", "eng")]![randomBookNumber]}.json';
   }
 
   @override
