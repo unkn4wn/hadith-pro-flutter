@@ -65,9 +65,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool isCheckedTranslation =
       SharedPreferencesHelper.getBool("displayTranslation", true);
   double sliderArabicSize =
-      SharedPreferencesHelper.getDouble("textSizeArabic", 20);
+      SharedPreferencesHelper.getDouble("textSizeArabic", 18);
   double sliderTranslationSize =
-      SharedPreferencesHelper.getDouble("textSizeTranslation", 20);
+      SharedPreferencesHelper.getDouble("textSizeTranslation", 18);
 
   @override
   void initState() {
