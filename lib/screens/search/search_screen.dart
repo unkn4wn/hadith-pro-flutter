@@ -38,6 +38,15 @@ class _SearchScreenState extends State<SearchScreen> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
+            systemOverlayStyle: SystemUiOverlayStyle(
+              systemNavigationBarColor:
+                  Theme.of(context).scaffoldBackgroundColor,
+              statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+              statusBarIconBrightness:
+                  Theme.of(context).brightness == Brightness.light
+                      ? Brightness.dark
+                      : Brightness.light,
+            ),
             pinned: true,
             title: TextField(
               controller: searchController,

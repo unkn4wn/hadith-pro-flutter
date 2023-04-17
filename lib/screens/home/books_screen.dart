@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'chapters_screen.dart';
@@ -57,6 +58,14 @@ class _BooksScreenState extends State<BooksScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.books_title_main),
+        systemOverlayStyle: SystemUiOverlayStyle(
+          systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
+          statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+          statusBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
+        ),
       ),
       body: ListView.builder(
         itemCount: BookHelper.fileNamesList

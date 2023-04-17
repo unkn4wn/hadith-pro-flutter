@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/models/hadith.dart';
@@ -33,6 +34,14 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(BookHelper.longNamesList(context)[widget.bookNumber]),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
+            statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+            statusBarIconBrightness:
+                Theme.of(context).brightness == Brightness.light
+                    ? Brightness.dark
+                    : Brightness.light,
+          ),
         ),
         body: FutureBuilder<HadithsList>(
           future: _hadithsList,

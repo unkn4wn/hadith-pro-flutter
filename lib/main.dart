@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/screens/bookmarks/bookmarks_screen.dart';
 import 'package:hadithpro/screens/home/books_screen.dart';
@@ -50,85 +51,80 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
-      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        ColorScheme lightColorScheme;
-        ColorScheme darkColorScheme;
+        builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+      ColorScheme lightColorScheme;
+      ColorScheme darkColorScheme;
 
-        if (lightDynamic != null && darkDynamic != null) {
-          lightColorScheme = lightDynamic.harmonized();
+      if (lightDynamic != null && darkDynamic != null) {
+        lightColorScheme = lightDynamic.harmonized();
 
-          darkColorScheme = darkDynamic.harmonized();
-        } else {
-          lightColorScheme = const ColorScheme(
-            primary: Color(0xFF50A89B),
-            secondary: Color(0xFF50A89B),
-            background: Color(0xFFFFFFFF),
-            surface: Color(0xFFf5f6f8),
-            tertiary: Color(0xfff1ebe1),
-            error: Colors.red,
-            onBackground: Color(0xFF48454f),
-            onSurface: Color(0xFF48454f),
-            onTertiary: Color(0xFF48454f),
-            onError: Colors.white,
-            onPrimary: Colors.white,
-            onSecondary: Colors.white,
-            brightness: Brightness.light,
-          );
-
-          darkColorScheme = const ColorScheme(
-            primary: Color(0xFF3a7b6d),
-            secondary: Color(0xFF3a7b6d),
-            background: Color(0xFF000000),
-            surface: Color(0xFF1C1B1F),
-            tertiary: Color(0xfff1ebe1),
-            error: Colors.red,
-            onBackground: Color(0xFFCCD1E6),
-            onSurface: Color(0xFFCCD1E6),
-            onTertiary: Color(0xFF49454F),
-            onError: Colors.white,
-            onPrimary: Colors.white,
-            onSecondary: Colors.white,
-            brightness: Brightness.dark,
-          );
-        }
-
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Hadith Pro',
-          themeMode: ThemeMode.system,
-          theme: ThemeData(
-              dividerColor:
-                  Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
-              colorScheme: lightColorScheme,
-              useMaterial3: true,
-              dividerTheme: DividerThemeData(
-                color:
-                    Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
-              )),
-          darkTheme:
-              ThemeData.from(colorScheme: darkColorScheme, useMaterial3: true)
-                  .copyWith(
-            dividerColor:
-                Theme.of(context).colorScheme.outlineVariant.withOpacity(0.12),
-            brightness: Brightness.dark,
-            dividerTheme: DividerThemeData(
-              color: Theme.of(context)
-                  .colorScheme
-                  .outlineVariant
-                  .withOpacity(0.12),
-            ),
-          ),
-          home: SharedPreferencesHelper.getBool('isFirstStart', true)
-              ? const OnBoardingScreen()
-              : const MainPage(),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: localeMap[
-                  SharedPreferencesHelper.getString("hadithLanguage", "eng")] ??
-              const Locale("en"),
+        darkColorScheme = darkDynamic.harmonized();
+      } else {
+        lightColorScheme = const ColorScheme(
+          primary: Color(0xFF50A89B),
+          secondary: Color(0xFF50A89B),
+          background: Color(0xFFFFFFFF),
+          surface: Color(0xFFf5f6f8),
+          tertiary: Color(0xfff1ebe1),
+          error: Colors.red,
+          onBackground: Color(0xFF48454f),
+          onSurface: Color(0xFF48454f),
+          onTertiary: Color(0xFF48454f),
+          onError: Colors.white,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          brightness: Brightness.light,
         );
-      },
-    );
+
+        darkColorScheme = const ColorScheme(
+          primary: Color(0xFF3a7b6d),
+          secondary: Color(0xFF3a7b6d),
+          background: Color(0xFF000000),
+          surface: Color(0xFF1C1B1F),
+          tertiary: Color(0xfff1ebe1),
+          error: Colors.red,
+          onBackground: Color(0xFFCCD1E6),
+          onSurface: Color(0xFFCCD1E6),
+          onTertiary: Color(0xFF49454F),
+          onError: Colors.white,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          brightness: Brightness.dark,
+        );
+      }
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Hadith Pro',
+        themeMode: ThemeMode.system,
+        theme: ThemeData(
+            dividerColor:
+                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+            colorScheme: lightColorScheme,
+            useMaterial3: true,
+            dividerTheme: DividerThemeData(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+            )),
+        darkTheme:
+            ThemeData.from(colorScheme: darkColorScheme, useMaterial3: true)
+                .copyWith(
+          dividerColor:
+              Theme.of(context).colorScheme.outlineVariant.withOpacity(0.12),
+          brightness: Brightness.dark,
+          dividerTheme: DividerThemeData(
+            color:
+                Theme.of(context).colorScheme.outlineVariant.withOpacity(0.12),
+          ),
+        ),
+        home: SharedPreferencesHelper.getBool('isFirstStart', true)
+            ? const OnBoardingScreen()
+            : const MainPage(),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: localeMap[
+                SharedPreferencesHelper.getString("hadithLanguage", "eng")] ??
+            const Locale("en"),
+      );
+    });
   }
 }
 

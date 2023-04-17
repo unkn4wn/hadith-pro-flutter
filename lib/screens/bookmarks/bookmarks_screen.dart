@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hadithpro/components/widget/hadithitem.dart';
 import 'package:hadithpro/helper/bookhelper.dart';
 import 'package:hadithpro/helper/databasehelper.dart';
@@ -51,6 +52,14 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.bookmarks_title_main),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
+            statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+            statusBarIconBrightness:
+                Theme.of(context).brightness == Brightness.light
+                    ? Brightness.dark
+                    : Brightness.light,
+          ),
         ),
         body: ListView.builder(
             itemCount: hadithList.length,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hadithpro/helper/languagehelper.dart';
 import 'package:hadithpro/helper/sharedpreferenceshelper.dart';
 import 'package:hadithpro/main.dart';
@@ -79,6 +80,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings_title_main),
+        systemOverlayStyle: SystemUiOverlayStyle(
+          systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
+          statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+          statusBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
