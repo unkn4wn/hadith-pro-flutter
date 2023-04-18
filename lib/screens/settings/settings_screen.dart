@@ -82,7 +82,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: Text(AppLocalizations.of(context)!.settings_title_main),
         systemOverlayStyle: SystemUiOverlayStyle(
           systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-          statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+          statusBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
           statusBarIconBrightness:
               Theme.of(context).brightness == Brightness.light
                   ? Brightness.dark

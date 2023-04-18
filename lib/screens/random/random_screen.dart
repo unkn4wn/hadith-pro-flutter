@@ -16,10 +16,8 @@ class RandomScreen extends StatefulWidget {
 }
 
 class _RandomScreenState extends State<RandomScreen> {
-  late int randomBookNumber = Random().nextInt(BookHelper
-      .languageToFileNamesMap[
-          SharedPreferencesHelper.getString("hadithLanguage", "eng")]!
-      .length);
+  late List<int> correctIndex = [];
+  late int randomBookNumber;
   late String fileName;
 
   List<Map<String, dynamic>> hadithList = [];
@@ -31,8 +29,13 @@ class _RandomScreenState extends State<RandomScreen> {
   }
 
   Future<void> _readRandomNumber() async {
+    randomBookNumber = Random().nextInt(BookHelper
+        .languageToFileNamesMap[
+            SharedPreferencesHelper.getString("hadithLanguage", "eng")]!
+        .length);
     fileName = '${SharedPreferencesHelper.getString("hadithLanguage", "eng")}-'
         '${BookHelper.languageToFileNamesMap[SharedPreferencesHelper.getString("hadithLanguage", "eng")]![randomBookNumber]}.json';
+    hadithsListRandom = loadJson('assets/json/${fileName}', randomBookNumber);
   }
 
   @override
@@ -42,7 +45,11 @@ class _RandomScreenState extends State<RandomScreen> {
         title: Text(AppLocalizations.of(context)!.random_title_main),
         systemOverlayStyle: SystemUiOverlayStyle(
           systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-          statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+          statusBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
           statusBarIconBrightness:
               Theme.of(context).brightness == Brightness.light
                   ? Brightness.dark
@@ -51,7 +58,7 @@ class _RandomScreenState extends State<RandomScreen> {
       ),
       body: SingleChildScrollView(
         child: FutureBuilder<HadithsList>(
-          future: loadJson('assets/json/${fileName}', randomBookNumber),
+          future: hadithsListRandom,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -70,8 +77,12 @@ class _RandomScreenState extends State<RandomScreen> {
               randomHadith =
                   hadithsOfSection[Random().nextInt(hadithsOfSection.length)];
             }
+
+            String bookName = BookHelper.languageToFileNamesMap[
+                SharedPreferencesHelper.getString(
+                    "hadithLanguage", "eng")]![randomBookNumber];
             return HadithItem(
-              bookNumber: randomBookNumber,
+              bookName: bookName,
               hadithTranslation: randomHadith,
               language:
                   SharedPreferencesHelper.getString("hadithLanguage", "eng"),
@@ -83,8 +94,16 @@ class _RandomScreenState extends State<RandomScreen> {
       floatingActionButton: FloatingActionButton.small(
           onPressed: () {
             setState(() {
-              randomBookNumber =
-                  Random().nextInt(BookHelper.fileNamesList.length);
+              randomBookNumber = Random().nextInt(BookHelper
+                  .languageToFileNamesMap[SharedPreferencesHelper.getString(
+                      "hadithLanguage", "eng")]!
+                  .length);
+              fileName =
+                  '${SharedPreferencesHelper.getString("hadithLanguage", "eng")}-'
+                  '${BookHelper.languageToFileNamesMap[SharedPreferencesHelper.getString("hadithLanguage", "eng")]![randomBookNumber]}.json';
+
+              hadithsListRandom =
+                  loadJson('assets/json/${fileName}', randomBookNumber);
             });
           },
           child: const Icon(Icons.refresh)),

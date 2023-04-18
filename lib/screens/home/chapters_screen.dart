@@ -36,7 +36,11 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
           title: Text(BookHelper.longNamesList(context)[widget.bookNumber]),
           systemOverlayStyle: SystemUiOverlayStyle(
             systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-            statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+            statusBarColor: Colors.transparent,
+            systemNavigationBarIconBrightness:
+                Theme.of(context).brightness == Brightness.light
+                    ? Brightness.dark
+                    : Brightness.light,
             statusBarIconBrightness:
                 Theme.of(context).brightness == Brightness.light
                     ? Brightness.dark

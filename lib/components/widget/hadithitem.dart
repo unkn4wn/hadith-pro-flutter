@@ -7,14 +7,14 @@ import 'package:hadithpro/models/hadith.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HadithItem extends StatefulWidget {
-  final int bookNumber;
+  final String bookName;
   final Hadith hadithTranslation;
   final String language;
   final int myNumbering;
   const HadithItem({
     Key? key,
     required this.hadithTranslation,
-    required this.bookNumber,
+    required this.bookName,
     required this.language,
     this.myNumbering = -1,
   }) : super(key: key);
@@ -24,6 +24,8 @@ class HadithItem extends StatefulWidget {
 }
 
 class _HadithItemState extends State<HadithItem> {
+  int bookNumber = -1;
+
   String isBookmarkedKey = "";
   Map<String, TextDirection> languageDirectionMap = {
     "ara": TextDirection.rtl,
@@ -40,9 +42,10 @@ class _HadithItemState extends State<HadithItem> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    bookNumber = BookHelper.fileNamesList.indexOf(widget.bookName);
 
     isBookmarkedKey =
-        "isBookmarked_${widget.bookNumber}_${widget.hadithTranslation.hadithNumber}_${widget.language}";
+        "isBookmarked_${bookNumber}_${widget.hadithTranslation.hadithNumber}_${widget.language}";
   }
 
   @override
@@ -89,7 +92,7 @@ class _HadithItemState extends State<HadithItem> {
                             isBookmarkedKey, false)) {
                           try {
                             MyDatabaseHelper.instance.removeHadith(
-                              BookHelper.fileNamesList[widget.bookNumber],
+                              BookHelper.fileNamesList[bookNumber],
                               widget.hadithTranslation.hadithNumber,
                               widget.language,
                             );
@@ -112,7 +115,7 @@ class _HadithItemState extends State<HadithItem> {
                         } else {
                           try {
                             MyDatabaseHelper.instance.addHadith(
-                                BookHelper.fileNamesList[widget.bookNumber],
+                                BookHelper.fileNamesList[bookNumber],
                                 widget.hadithTranslation.hadithNumber,
                                 widget.hadithTranslation.arabicNumber,
                                 widget.hadithTranslation.textAra,
@@ -162,8 +165,8 @@ class _HadithItemState extends State<HadithItem> {
                     InkWell(
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                       onTap: () {
-                        CopySheet.show(context, widget.hadithTranslation,
-                            widget.bookNumber);
+                        CopySheet.show(
+                            context, widget.hadithTranslation, bookNumber);
                       },
                       child: const SizedBox(
                         height: 40,
@@ -228,7 +231,7 @@ class _HadithItemState extends State<HadithItem> {
                 const VerticalDivider(width: 1.0),
                 Expanded(
                   child: Text(
-                      "${BookHelper.longNamesList(context)[widget.bookNumber]} ${widget.hadithTranslation.arabicNumber}"),
+                      "${BookHelper.longNamesList(context)[bookNumber]} ${widget.hadithTranslation.arabicNumber}"),
                 ),
               ],
             ),

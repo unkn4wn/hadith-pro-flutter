@@ -55,7 +55,11 @@ class _HadithsScreenState extends State<HadithsScreen> {
                   systemOverlayStyle: SystemUiOverlayStyle(
                     systemNavigationBarColor:
                         Theme.of(context).scaffoldBackgroundColor,
-                    statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+                    statusBarColor: Colors.transparent,
+                    systemNavigationBarIconBrightness:
+                        Theme.of(context).brightness == Brightness.light
+                            ? Brightness.dark
+                            : Brightness.light,
                     statusBarIconBrightness:
                         Theme.of(context).brightness == Brightness.light
                             ? Brightness.dark
@@ -85,7 +89,7 @@ class _HadithsScreenState extends State<HadithsScreen> {
                     (BuildContext context, int index) {
                       if (hadithsOfSection[index].text.isNotEmpty) {
                         return HadithItem(
-                          bookNumber: widget.bookNumber,
+                          bookName: BookHelper.fileNamesList[widget.bookNumber],
                           hadithTranslation: hadithsOfSection[index],
                           language: SharedPreferencesHelper.getString(
                               "hadithLanguage", "eng"),

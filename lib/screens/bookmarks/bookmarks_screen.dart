@@ -54,7 +54,11 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
           title: Text(AppLocalizations.of(context)!.bookmarks_title_main),
           systemOverlayStyle: SystemUiOverlayStyle(
             systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-            statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+            statusBarColor: Colors.transparent,
+            systemNavigationBarIconBrightness:
+                Theme.of(context).brightness == Brightness.light
+                    ? Brightness.dark
+                    : Brightness.light,
             statusBarIconBrightness:
                 Theme.of(context).brightness == Brightness.light
                     ? Brightness.dark
@@ -101,8 +105,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                             hadith[MyDatabaseHelper.columnBookReference],
                         inBookReference:
                             hadith[MyDatabaseHelper.columnInBookReference])),
-                bookNumber: BookHelper.fileNamesList
-                    .indexOf(hadith[MyDatabaseHelper.columnBookName]),
+                bookName: hadith[MyDatabaseHelper.columnBookName],
                 language: hadith[MyDatabaseHelper.columnLanguage],
                 myNumbering: ++index,
               );

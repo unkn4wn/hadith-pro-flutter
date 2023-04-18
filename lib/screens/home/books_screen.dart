@@ -60,7 +60,11 @@ class _BooksScreenState extends State<BooksScreen> {
         title: Text(AppLocalizations.of(context)!.books_title_main),
         systemOverlayStyle: SystemUiOverlayStyle(
           systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-          statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+          statusBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
           statusBarIconBrightness:
               Theme.of(context).brightness == Brightness.light
                   ? Brightness.dark
