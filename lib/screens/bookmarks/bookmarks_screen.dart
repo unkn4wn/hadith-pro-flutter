@@ -30,6 +30,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
   }
 
   Future<void> _readHadithData() async {
+    await MyDatabaseHelper.instance.database;
     final data = await MyDatabaseHelper.instance.readHadithData();
     setState(() {
       hadithList = List<Map<String, dynamic>>.from(data);

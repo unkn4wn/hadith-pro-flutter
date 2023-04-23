@@ -9,8 +9,9 @@ class MyDatabaseHelper {
       MyDatabaseHelper._privateConstructor();
   static Database? _database;
   static const String databaseName = "Bookmark.db";
-  static const int databaseVersion = 1;
+  static const int databaseVersion = 2;
   static const String tableNameHadiths = "hadiths";
+  static const String tableNameGrades = "hadithsgrades";
   static const String columnId = "_id";
   static const String columnHadithNumber = "hadithnumber";
   static const String columnArabicNumber = "arabicnumber";
@@ -34,6 +35,15 @@ class MyDatabaseHelper {
       path,
       version: databaseVersion,
       onCreate: _onCreate,
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < newVersion) {
+          await db.execute("DROP TABLE IF EXISTS $tableNameHadiths");
+          await db.execute("DROP TABLE IF EXISTS $tableNameGrades");
+
+          // Recreate the database
+          await _onCreate(db, newVersion);
+        }
+      },
     );
   }
 
