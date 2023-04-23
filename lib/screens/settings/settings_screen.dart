@@ -282,7 +282,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 trailing: const Icon(Icons.source),
                 onTap: () async {
-                  final uri = Uri.parse("https://www.example.com/");
+                  final uri = Uri.parse(
+                      "https://github.com/unkn4wn/hadith-pro-flutter");
                   //TODO ADD GITHUB SOURCE
                   if (await canLaunchUrl(uri)) {
                     await launchUrl(uri, mode: LaunchMode.externalApplication);
