@@ -58,7 +58,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       Onboard(
         image: "assets/onboarding/issues.json",
         title: AppLocalizations.of(context)!.intro_fourth_title,
-        description: [AppLocalizations.of(context)!.intro_fourth_grades],
+        description: [
+          AppLocalizations.of(context)!.intro_fourth_hadith,
+          AppLocalizations.of(context)!.intro_fourth_grades
+        ],
         description2: [],
       ),
     ];
@@ -204,7 +207,7 @@ class Onboard {
   });
 }
 
-class OnboardContent extends StatelessWidget {
+class OnboardContent extends StatefulWidget {
   const OnboardContent({
     super.key,
     required this.image,
@@ -220,79 +223,93 @@ class OnboardContent extends StatelessWidget {
   final List<String> description2;
 
   @override
+  State<OnboardContent> createState() => _OnboardContentState();
+}
+
+class _OnboardContentState extends State<OnboardContent> {
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Lottie.asset(
-          image,
-          height: 200,
-          repeat: false,
-        ),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                fontWeight: FontWeight.w500,
-              ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Expanded(
-            child: ListView.builder(
-                shrinkWrap: false,
-                itemCount: description.length,
-                itemBuilder: (context, index) {
-                  if (isLanguageScreen) {
-                    return Card(
-                      color: SettingsScreen().shortLanguageList[index].contains(
-                              SharedPreferencesHelper.getString(
-                                  "hadithLanguage", "eng"))
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.surface,
-                      child: ListTile(
-                        title: Text(
-                          description[index],
-                          style: TextStyle(
-                            color: SettingsScreen()
-                                    .shortLanguageList[index]
-                                    .contains(SharedPreferencesHelper.getString(
-                                        "hadithLanguage", "eng"))
-                                ? Theme.of(context).colorScheme.onPrimary
-                                : Theme.of(context).colorScheme.onSurface,
+    return Builder(builder: (BuildContext context) {
+      return Column(
+        children: [
+          Lottie.asset(
+            widget.image,
+            height: 200,
+            repeat: false,
+          ),
+          Text(
+            widget.title,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Expanded(
+              child: ListView.builder(
+                  shrinkWrap: false,
+                  itemCount: widget.description.length,
+                  itemBuilder: (context, index) {
+                    if (widget.isLanguageScreen) {
+                      return Card(
+                        color: SettingsScreen()
+                                .shortLanguageList[index]
+                                .contains(SharedPreferencesHelper.getString(
+                                    "hadithLanguage", "eng"))
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.surface,
+                        child: ListTile(
+                          title: Text(
+                            widget.description[index],
+                            style: TextStyle(
+                              color: SettingsScreen()
+                                      .shortLanguageList[index]
+                                      .contains(
+                                          SharedPreferencesHelper.getString(
+                                              "hadithLanguage", "eng"))
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          trailing: Text(
+                            widget.description2[index],
+                            style: TextStyle(
+                              color: SettingsScreen()
+                                      .shortLanguageList[index]
+                                      .contains(
+                                          SharedPreferencesHelper.getString(
+                                              "hadithLanguage", "eng"))
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          onTap: () {
+                            print(index);
+                            SharedPreferencesHelper.setString("hadithLanguage",
+                                SettingsScreen().shortLanguageList[index]);
+                            MyApp.setLocale(context,
+                                SettingsScreen().shortestLanguageList[index]);
+                            print(SharedPreferencesHelper.getString(
+                                "hadithLanguage", "eng"));
+                            setState(() {});
+                          },
+                        ),
+                      );
+                    } else {
+                      return Card(
+                        child: ListTile(
+                          title: Text(
+                            widget.description[index],
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        trailing: Text(
-                          description2[index],
-                          style: TextStyle(
-                            color: SettingsScreen()
-                                    .shortLanguageList[index]
-                                    .contains(SharedPreferencesHelper.getString(
-                                        "hadithLanguage", "eng"))
-                                ? Theme.of(context).colorScheme.onPrimary
-                                : Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                        onTap: () {
-                          SharedPreferencesHelper.setString("hadithLanguage",
-                              SettingsScreen().shortLanguageList[index]);
-                          MyApp.setLocale(context,
-                              SettingsScreen().shortestLanguageList[index]);
-                        },
-                      ),
-                    );
-                  } else {
-                    return Card(
-                      child: ListTile(
-                        title: Text(
-                          description[index],
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
-                  }
-                })),
-      ],
-    );
+                      );
+                    }
+                  })),
+        ],
+      );
+    });
   }
 }
